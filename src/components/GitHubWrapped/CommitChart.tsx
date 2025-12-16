@@ -14,33 +14,39 @@ const CommitChart: React.FC<CommitChartProps> = ({ commitsByDate }) => {
   // Get max commit count for color scaling
   const maxCount = Math.max(...Object.values(commitsByDate), 1);
 
+  // Only show every nth tick to prevent overcrowding
+  const totalDataPoints = commitData.length;
+  const interval = Math.max(1, Math.ceil(totalDataPoints / 5)); // Show max 5 labels
+
   return (
-    <div className="h-64 w-full">
+    <div className="h-24 sm:h-40 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={commitData}>
           <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-          <XAxis 
-            dataKey="date" 
-            tick={{ fontSize: 12 }}
+          <XAxis
+            dataKey="date"
+            tick={{ fontSize: 10 }}
+            interval={interval} // Only show every nth tick
             tickFormatter={(value) => {
               // Show only month and day to keep it readable
               const date = new Date(value);
               return `${date.getMonth() + 1}/${date.getDate()}`;
             }}
           />
-          <YAxis 
-            tick={{ fontSize: 12 }}
-            label={{ value: 'Commits', angle: -90, position: 'insideLeft', offset: -5 }}
+          <YAxis
+            hide={true} // Hide Y axis to save space
+            domain={[0, maxCount]}
           />
-          <Tooltip 
+          <Tooltip
             formatter={(value) => [value, 'Commits']}
             labelFormatter={(value) => `Date: ${value}`}
+            contentStyle={{ fontSize: '12px' }}
           />
           <Bar dataKey="count" name="Commits">
             {commitData.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
-                fill={getCommitColor(entry.count, maxCount)} 
+              <Cell
+                key={`cell-${index}`}
+                fill={getCommitColor(entry.count, maxCount)}
               />
             ))}
           </Bar>

@@ -8,27 +8,26 @@ interface WrappedSlideProps {
 
 const ReposSlide: React.FC<WrappedSlideProps> = ({ data }) => {
   const { repositories, summary } = data;
-  
+
   // Get top repos by stars
-  const topReposByStars = repositories.topByStars.slice(0, 5);
-  
+  const topReposByStars = repositories.topByStars.slice(0, 3); // Reduced to top 3 for space
+
   // Get top repos by forks
-  const topReposByForks = repositories.topByForks.slice(0, 5);
-  
+  const topReposByForks = repositories.topByForks.slice(0, 3); // Reduced to top 3 for space
+
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <h3 className="text-2xl font-bold text-gray-800 text-center mb-6">Your Top Repositories</h3>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-yellow-50 p-4 rounded-lg">
-          <h4 className="font-bold text-lg text-yellow-700 mb-3 text-center">By Stars</h4>
-          <div className="space-y-3">
+    <div className="w-full max-w-md mx-auto">
+      <h3 className="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-4 sm:mb-6">Your Top Repositories</h3>
+
+      <div className="grid grid-cols-1 gap-3 sm:gap-4 mb-4">
+        <div className="bg-yellow-50 p-3 sm:p-4 rounded-lg">
+          <h4 className="font-bold text-sm sm:text-lg text-yellow-700 mb-2 text-center">By Stars</h4>
+          <div className="space-y-2">
             {topReposByStars.length > 0 ? (
               topReposByStars.map((repo, index) => (
-                <div key={repo.id} className="flex justify-between items-center p-2 bg-white rounded">
+                <div key={repo.id} className="flex justify-between items-center p-2 bg-white rounded text-xs sm:text-sm">
                   <div>
                     <div className="font-medium text-gray-800">{repo.name}</div>
-                    <div className="text-sm text-gray-600">{repo.full_name}</div>
                   </div>
                   <div className="flex items-center">
                     <span className="text-yellow-500 mr-1">★</span>
@@ -37,20 +36,19 @@ const ReposSlide: React.FC<WrappedSlideProps> = ({ data }) => {
                 </div>
               ))
             ) : (
-              <p className="text-gray-600 text-center">No repositories with stars</p>
+              <p className="text-xs sm:text-sm text-gray-600 text-center">No repositories with stars</p>
             )}
           </div>
         </div>
-        
-        <div className="bg-blue-50 p-4 rounded-lg">
-          <h4 className="font-bold text-lg text-blue-700 mb-3 text-center">By Forks</h4>
-          <div className="space-y-3">
+
+        <div className="bg-blue-50 p-3 sm:p-4 rounded-lg">
+          <h4 className="font-bold text-sm sm:text-lg text-blue-700 mb-2 text-center">By Forks</h4>
+          <div className="space-y-2">
             {topReposByForks.length > 0 ? (
               topReposByForks.map((repo, index) => (
-                <div key={repo.id} className="flex justify-between items-center p-2 bg-white rounded">
+                <div key={repo.id} className="flex justify-between items-center p-2 bg-white rounded text-xs sm:text-sm">
                   <div>
                     <div className="font-medium text-gray-800">{repo.name}</div>
-                    <div className="text-sm text-gray-600">{repo.full_name}</div>
                   </div>
                   <div className="flex items-center">
                     <span className="text-blue-500 mr-1">⎇</span>
@@ -59,26 +57,26 @@ const ReposSlide: React.FC<WrappedSlideProps> = ({ data }) => {
                 </div>
               ))
             ) : (
-              <p className="text-gray-600 text-center">No repositories with forks</p>
+              <p className="text-xs sm:text-sm text-gray-600 text-center">No repositories with forks</p>
             )}
           </div>
         </div>
       </div>
-      
-      <div className="mt-8 text-center">
-        <h4 className="font-bold text-lg text-gray-800 mb-3">Repository Stats</h4>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="bg-green-50 p-3 rounded-lg">
-            <div className="text-2xl font-bold text-green-600">{formatNumber(summary.totalRepos)}</div>
-            <div className="text-sm text-gray-600">Total Repos</div>
+
+      <div className="mt-4 sm:mt-6">
+        <h4 className="font-bold text-sm sm:text-lg text-gray-800 mb-3 text-center">Repository Stats</h4>
+        <div className="grid grid-cols-3 gap-2 sm:gap-4">
+          <div className="bg-green-50 p-2 sm:p-3 rounded-lg">
+            <div className="text-lg font-bold text-green-600">{formatNumber(summary.totalRepos)}</div>
+            <div className="text-xs sm:text-sm text-gray-600">Repos</div>
           </div>
-          <div className="bg-purple-50 p-3 rounded-lg">
-            <div className="text-2xl font-bold text-purple-600">{formatNumber(summary.totalStars)}</div>
-            <div className="text-sm text-gray-600">Total Stars</div>
+          <div className="bg-purple-50 p-2 sm:p-3 rounded-lg">
+            <div className="text-lg font-bold text-purple-600">{formatNumber(summary.totalStars)}</div>
+            <div className="text-xs sm:text-sm text-gray-600">Stars</div>
           </div>
-          <div className="bg-red-50 p-3 rounded-lg">
-            <div className="text-2xl font-bold text-red-600">{formatNumber(summary.totalForks)}</div>
-            <div className="text-sm text-gray-600">Total Forks</div>
+          <div className="bg-red-50 p-2 sm:p-3 rounded-lg">
+            <div className="text-lg font-bold text-red-600">{formatNumber(summary.totalForks)}</div>
+            <div className="text-xs sm:text-sm text-gray-600">Forks</div>
           </div>
         </div>
       </div>

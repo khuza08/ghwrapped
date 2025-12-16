@@ -22,44 +22,44 @@ const CommitsSlide: React.FC<WrappedSlideProps> = ({ data }) => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto text-center">
+    <div className="w-full max-w-md mx-auto text-center">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h3 className="text-2xl font-bold text-gray-800 mb-6">Your Commit History</h3>
+        <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Your Commit History</h3>
       </motion.div>
 
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
+        className="grid grid-cols-1 gap-3 sm:gap-4 mb-4 sm:mb-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
         <motion.div
-          className="bg-blue-50 p-4 rounded-lg"
+          className="bg-blue-50 p-3 sm:p-4 rounded-lg"
           whileHover={{ scale: 1.03 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
-          <div className="text-3xl font-bold text-blue-600">
+          <div className="text-xl sm:text-2xl font-bold text-blue-600">
             <AnimatedCounter value={formatNumber(Object.keys(commits.commitsByDate).length)} />
           </div>
-          <div className="text-gray-600">Active Days</div>
+          <div className="text-xs sm:text-sm text-gray-600">Active Days</div>
         </motion.div>
         <motion.div
-          className="bg-green-50 p-4 rounded-lg"
+          className="bg-green-50 p-3 sm:p-4 rounded-lg"
           whileHover={{ scale: 1.03 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
-          <div className="text-3xl font-bold text-green-600">
+          <div className="text-xl sm:text-2xl font-bold text-green-600">
             <AnimatedCounter value={
               commits.mostActiveDay
                 ? formatNumber(commits.mostActiveDayCount)
                 : 'N/A'
             } />
           </div>
-          <div className="text-gray-600">
+          <div className="text-xs sm:text-sm text-gray-600">
             {commits.mostActiveDay
               ? `on ${commits.mostActiveDay}`
               : 'Most Commits in a Day'}
@@ -68,45 +68,44 @@ const CommitsSlide: React.FC<WrappedSlideProps> = ({ data }) => {
       </motion.div>
 
       <motion.div
-        className="mb-6"
+        className="mb-4 sm:mb-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
       >
-        <h4 className="text-lg font-semibold text-gray-700 mb-2">Your Coding Schedule</h4>
-        <div className="flex items-center justify-center">
-          <div className="text-xl font-bold text-purple-600">
+        <h4 className="text-sm sm:text-lg font-semibold text-gray-700 mb-2">Your Coding Schedule</h4>
+        <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-2">
+          <div className="text-base sm:text-xl font-bold text-purple-600">
             {commits.mostActiveHour !== null
               ? formatHour(commits.mostActiveHour)
               : 'No data'}
           </div>
-          <span className="mx-2">is your most productive time</span>
-          <div className="text-xl">⏰</div>
+          <span className="text-xs sm:text-sm mx-1">is your most productive time</span>
+          <div className="text-lg">⏰</div>
         </div>
-        <p className="mt-2 text-gray-600">
+        <p className="mt-1 sm:mt-2 text-xs sm:text-sm text-gray-600">
           You're a {personality.codingSchedule} coder
         </p>
       </motion.div>
 
       {commits.longestStreak && (
         <motion.div
-          className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded text-left"
+          className="bg-yellow-50 border-l-4 border-yellow-500 p-3 sm:p-4 rounded text-left text-xs sm:text-sm"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.6 }}
         >
           <h4 className="font-bold text-yellow-700">Longest Streak</h4>
           <p className="text-gray-700">
-            You committed code for <span className="font-bold">{commits.longestStreak.length}</span> days in a row!
-            From <span className="font-semibold">{commits.longestStreak.start}</span> to{' '}
-            <span className="font-semibold">{commits.longestStreak.end}</span>
+            {commits.longestStreak.length} days in a row!
+            {commits.longestStreak.start} to {commits.longestStreak.end}
           </p>
         </motion.div>
       )}
 
       {!commits.longestStreak && (
         <motion.div
-          className="text-gray-600 italic"
+          className="text-xs sm:text-sm text-gray-600 italic"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
@@ -116,13 +115,15 @@ const CommitsSlide: React.FC<WrappedSlideProps> = ({ data }) => {
       )}
 
       <motion.div
-        className="mt-8"
+        className="mt-4 sm:mt-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}
       >
-        <h4 className="text-lg font-semibold text-gray-700 mb-4">Commit Activity Over Time</h4>
-        <CommitChart commitsByDate={commits.commitsByDate} />
+        <h4 className="text-xs sm:text-lg font-semibold text-gray-700 mb-2 sm:mb-4">Commit Activity</h4>
+        <div className="h-24 sm:h-40">
+          <CommitChart commitsByDate={commits.commitsByDate} />
+        </div>
       </motion.div>
     </div>
   );
