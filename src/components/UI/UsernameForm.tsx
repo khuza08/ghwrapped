@@ -47,15 +47,15 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
   };
 
   return (
-    <main className="bg-white/5 border border-white/20 rounded-2xl p-4 sm:p-6">
+    <main className="bg-white/5 border border-white/20 rounded-2xl p-4 sm:p-5">
       <form
         onSubmit={handleFormSubmit}
-        className="w-full max-w-md lg:max-w-lg xl:max-w-xl"
+        className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-md xl:max-w-md"
       >
-        <div className="mb-4 sm:mb-6">
+        <div className="mb-4 sm:mb-5">
           <label
             htmlFor="username"
-            className="block text-sm font-medium text-white mb-1"
+            className="block text-sm sm:text-base md:text-base font-medium text-white mb-1"
           >
             GitHub Username
           </label>
@@ -65,26 +65,26 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
             value={username}
             onChange={handleInputChange}
             placeholder="e.g., huza_lik3s_b4t4g0r"
-            className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-white/25 rounded-lg text-sm sm:text-base focus:outline-none  text-white"
+            className="w-full px-3 py-2 sm:px-4 sm:py-2.5 md:px-4 md:py-2.5 border border-white/25 rounded-lg text-sm sm:text-base focus:outline-none text-white"
             autoComplete="off"
           />
         </div>
 
         {error && (
-          <div className="mb-3 sm:mb-4 p-2 sm:p-3 bg-red-900/30 border border-red-700 text-red-300 rounded-lg text-xs sm:text-sm shadow-[0_0_15px_3px_rgba(239,68,68,0.4)]">
+          <div className="mb-3 sm:mb-4 p-2 sm:p-2.5 bg-red-900/30 border border-red-700 text-red-300 rounded-lg text-xs sm:text-sm shadow-[0_0_15px_3px_rgba(239,68,68,0.4)]">
             {error}
           </div>
         )}
 
         <button
           type="submit"
-          className="w-full px-4 py-2 sm:px-6 sm:py-3 bg-white/10 text-white font-semibold rounded-lg
+          className="w-full px-4 py-2 sm:px-5 sm:py-2.5 md:px-5 md:py-2.5 bg-white/10 text-white font-semibold rounded-lg
            hover:bg-white/15 focus:outline-none transition text-sm sm:text-base"
         >
           Generate My Wrapped
         </button>
 
-        <p className="mt-3 sm:mt-4 text-center text-xs sm:text-sm text-white/80">
+        <p className="mt-3 sm:mt-4 text-center text-xs sm:text-xs text-white/80">
           *your public GitHub data is used to generate these insights. No login
           required
         </p>
