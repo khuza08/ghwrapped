@@ -21,18 +21,20 @@ const GitHubWrappedPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-black text-white py-6 px-4 lg:px-8 xl:px-16">
-      <div className="max-w-full mx-auto w-full">
+      <div className="max-w-full mx-auto w-full grow flex flex-col">
         <GitHubWrappedHeader />
 
         {!showWrapped ? (
-          <div className="flex items-center justify-center">
-            <UsernameForm
-              username={username}
-              error={error}
-              setUsername={setUsername}
-              setError={setError}
-              onSubmit={handleSubmit}
-            />
+          <div className="flex flex-col items-center justify-center grow">
+            <div className="w-full flex justify-center">
+              <UsernameForm
+                username={username}
+                error={error}
+                setUsername={setUsername}
+                setError={setError}
+                onSubmit={handleSubmit}
+              />
+            </div>
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
