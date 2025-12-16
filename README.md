@@ -14,6 +14,7 @@ GitHub Wrapped adalah aplikasi web produksi-ready yang terinspirasi dari Spotify
 - 🖼️ Fungsi download hasil sebagai gambar
 - 📱 Pengalaman story/slide untuk navigasi intuitif
 - 🎨 Tema monokrom elegan dengan skema warna abu-abu yang konsisten
+- 🏗️ Arsitektur modular untuk kemudahan pengembangan dan pemeliharaan
 - 🎨 Desain yang menyesuaikan lebar layar untuk pengalaman optimal di semua perangkat
 
 ## Teknologi
@@ -33,7 +34,7 @@ github-wrapped/
 │   ├── app/
 │   │   ├── api/
 │   │   │   └── github/[username]/route.ts      # API endpoint utama
-│   │   ├── page.tsx                            # Halaman utama
+│   │   ├── page.tsx                            # Halaman utama (modular)
 │   │   └── layout.tsx                          # Layout aplikasi
 │   ├── components/
 │   │   ├── GitHubWrapped/                      # Komponen untuk hasil Wrapped
@@ -45,6 +46,11 @@ github-wrapped/
 │   │   │   ├── CommitChart.tsx
 │   │   │   └── SlideContainer.tsx
 │   │   └── UI/                                 # Komponen UI umum
+│   │       ├── GitHubWrappedHeader.tsx         # Header halaman utama
+│   │       ├── UsernameForm.tsx                # Form input username
+│   │       ├── WrappedSidebar.tsx              # Sidebar saat Wrapped ditampilkan
+│   │       ├── WrappedMainContent.tsx          # Konten utama Wrapped
+│   │       ├── GitHubWrappedFooter.tsx         # Footer halaman utama
 │   │       ├── LoadingSpinner.tsx
 │   │       ├── ErrorDisplay.tsx
 │   │       ├── ShareButton.tsx

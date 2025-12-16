@@ -2,51 +2,40 @@ github-wrapped/
 ├── src/
 │   ├── app/
 │   │   ├── api/
-│   │   │   └── github/
-│   │   │       └── [username]/
-│   │   │           ├── route.ts          # Main API route for GitHub Wrapped data
-│   │   │           └── generate/
-│   │   │               └── route.ts      # Alternative endpoint for generating data
-│   │   ├── (auth)/                     # Optional auth wrapper if needed later
-│   │   ├── globals.css                 # Global styles
-│   │   ├── layout.tsx                  # Root layout
-│   │   ├── page.tsx                    # Main page with username input
-│   │   └── wrapped/
-│   │       └── [username]/
-│   │           └── page.tsx            # Wrapped result page
+│   │   │   └── github/[username]/route.ts      # API endpoint utama
+│   │   ├── page.tsx                            # Halaman utama (modular)
+│   │   └── layout.tsx                          # Layout aplikasi
 │   ├── components/
-│   │   ├── GitHubWrapped/
-│   │   │   ├── WrappedSlide.tsx        # Individual slide component
-│   │   │   ├── SlideContainer.tsx      # Container for slide navigation
-│   │   │   ├── SummarySlide.tsx        # Main summary slide
-│   │   │   ├── CommitsSlide.tsx        # Commits visualization slide
-│   │   │   ├── LanguagesSlide.tsx      # Languages slide
-│   │   │   ├── ReposSlide.tsx          # Repositories slide
-│   │   │   └── PersonalitySlide.tsx    # Personality summary slide
-│   │   ├── UI/
-│   │   │   ├── LoadingSpinner.tsx      # Loading component
-│   │   │   ├── ErrorDisplay.tsx        # Error component
-│   │   │   ├── ShareButton.tsx         # Share functionality
-│   │   │   └── DownloadImage.tsx       # Image download utility
-│   │   └── Layout/
-│   │       └── Header.tsx              # Application header
+│   │   ├── GitHubWrapped/                      # Komponen untuk hasil Wrapped
+│   │   │   ├── SummarySlide.tsx
+│   │   │   ├── CommitsSlide.tsx
+│   │   │   ├── LanguagesSlide.tsx
+│   │   │   ├── ReposSlide.tsx
+│   │   │   ├── PersonalitySlide.tsx
+│   │   │   ├── CommitChart.tsx
+│   │   │   └── SlideContainer.tsx
+│   │   └── UI/                                 # Komponen UI umum
+│   │       ├── GitHubWrappedHeader.tsx         # Header halaman utama
+│   │       ├── UsernameForm.tsx                # Form input username
+│   │       ├── WrappedSidebar.tsx              # Sidebar saat Wrapped ditampilkan
+│   │       ├── WrappedMainContent.tsx          # Konten utama Wrapped
+│   │       ├── GitHubWrappedFooter.tsx         # Footer halaman utama
+│   │       ├── LoadingSpinner.tsx
+│   │       ├── ErrorDisplay.tsx
+│   │       ├── ShareButton.tsx
+│   │       ├── DownloadImage.tsx
+│   │       └── AnimatedCounter.tsx
 │   ├── lib/
-│   │   ├── github.ts                   # GitHub API utilities
-│   │   ├── types.ts                    # TypeScript types
-│   │   ├── utils.ts                    # General utility functions
-│   │   └── constants.ts                # Application constants
+│   │   ├── github.ts                           # Utilitas GitHub API
+│   │   ├── types.ts                            # Definisi tipe TypeScript
+│   │   ├── utils.ts                            # Utilitas umum
+│   │   ├── constants.ts                        # Konstanta aplikasi
+│   │   └── errors.ts                           # Manajemen error
 │   ├── hooks/
-│   │   └── useWrappedData.ts           # Custom hook for fetching wrapped data
+│   │   └── useWrappedData.ts                   # Custom hook untuk data
 │   └── utils/
-│       └── date.ts                     # Date utilities for processing commit history
+│       └── date.ts                             # Utilitas tanggal
 ├── public/
-│   └── favicon.ico
-├── .env.local                          # Environment variables (not committed)
-├── .env.example                        # Example environment variables
-├── .gitignore
-├── next.config.js
+├── .env.local                                  # Token GitHub (tidak disertakan di repo)
 ├── package.json
-├── postcss.config.js
-├── tailwind.config.js
-├── tsconfig.json
 └── README.md
