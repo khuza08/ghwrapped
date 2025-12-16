@@ -64,7 +64,7 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
             id="username"
             value={username}
             onChange={handleInputChange}
-            placeholder="e.g., octocat"
+            placeholder="e.g., huza_lik3s_b4t4g0r"
             className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-white/25 rounded-lg text-sm sm:text-base focus:outline-none  text-white"
             autoComplete="off"
           />
