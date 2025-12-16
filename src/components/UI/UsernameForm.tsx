@@ -1,6 +1,5 @@
 "use client";
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ERROR_MESSAGES } from "@/lib/constants";
 import { isValidUsername } from "@/lib/utils";
 import { FiArrowRight } from "react-icons/fi";
@@ -27,11 +26,11 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
     message: string;
     type: "success" | "error";
   } | null>(null);
+  const [showToast, setShowToast] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setUsername(value);
-
     if (error && value.trim()) {
       setError("");
     }
@@ -39,30 +38,31 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
 
   const showNotification = (message: string, type: "success" | "error") => {
     setNotification({ message, type });
-
+    // add smol delay for dom
     setTimeout(() => {
-      setNotification(null);
+      setShowToast(true);
+    }, 32);
+    setTimeout(() => {
+      setShowToast(false);
+      setTimeout(() => {
+        setNotification(null);
+      }, 800);
     }, 3000);
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!username.trim()) {
       setError(ERROR_MESSAGES.USERNAME_REQUIRED);
       return;
     }
-
     if (!isValidUsername(username)) {
       setError(ERROR_MESSAGES.USERNAME_INVALID);
       return;
     }
-
     setChecking(true);
-
     try {
       const userExists = await onCheckUser(username);
-
       if (userExists) {
         showNotification("User found! Redirecting...", "success");
         setTimeout(() => {
@@ -85,10 +85,10 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
   };
 
   return (
-    <div className="bg-white/5 border border-white/20 rounded-2xl p-6 sm:p-8 w-full max-w-2xl relative">
+    <div className="bg-white/5 border border-white/20 rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-2xl relative">
       {/* Header Section */}
       <div className="mb-6 sm:mb-8">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-b from-white via-white to-white/50 bg-clip-text text-transparent mb-2 mt-4">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-linear-to-b from-white via-white to-white/50 bg-clip-text text-transparent mb-2 mt-4">
           Discover your GitHub year in review!
         </h1>
         <p className="text-white/80 text-sm sm:text-base">
@@ -145,7 +145,6 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
             )}
           </button>
         </div>
-
         {error && (
           <div className="mt-3 p-3 bg-red-900/30 border border-red-700 text-red-300 rounded-lg text-sm shadow-[0_0_15px_3px_rgba(239,68,68,0.4)]">
             {error}
@@ -153,10 +152,12 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
         )}
       </form>
 
-      {/* Notification Toast */}
+      {/* Toast */}
       {notification && (
         <div
-          className={`fixed top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg z-50 ${
+          className={`fixed top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg z-50 transition-opacity duration-500 ease-in-out ${
+            showToast ? "opacity-100" : "opacity-0"
+          } ${
             notification.type === "success"
               ? "bg-green-600/10 border border-green-600 text-white shadow-[0_0_15px_3px_rgba(34,197,94,0.4)]"
               : "bg-red-700/10 border border-red-700 text-white shadow-[0_0_15px_3px_rgba(239,68,68,0.4)]"
