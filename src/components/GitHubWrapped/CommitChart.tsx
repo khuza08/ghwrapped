@@ -1,5 +1,14 @@
-import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import React from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+} from "recharts";
 
 interface CommitChartProps {
   commitsByDate: Record<string, number>;
@@ -19,28 +28,29 @@ const CommitChart: React.FC<CommitChartProps> = ({ commitsByDate }) => {
   const interval = Math.max(1, Math.ceil(totalDataPoints / 5)); // Show max 5 labels
 
   return (
-    <div className="h-24 md:h-64 w-full">
+    <div className="h-24 md:h-64 lg:h-80 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={commitData}>
           <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
           <XAxis
             dataKey="date"
-            tick={{ fontSize: 10 }}
+            tick={{ fontSize: 8, angle: -45, dx: -10, dy: 5 }}
             interval={interval} // Only show every nth tick
             tickFormatter={(value) => {
               // Show only month and day to keep it readable
               const date = new Date(value);
               return `${date.getMonth() + 1}/${date.getDate()}`;
             }}
+            height={60}
           />
           <YAxis
             hide={true} // Hide Y axis to save space
             domain={[0, maxCount]}
           />
           <Tooltip
-            formatter={(value) => [value, 'Commits']}
+            formatter={(value) => [`${value}`, "Commits"]}
             labelFormatter={(value) => `Date: ${value}`}
-            contentStyle={{ fontSize: '12px' }}
+            contentStyle={{ fontSize: "12px" }}
           />
           <Bar dataKey="count" name="Commits">
             {commitData.map((entry, index) => (

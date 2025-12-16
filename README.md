@@ -9,10 +9,11 @@ GitHub Wrapped adalah aplikasi web produksi-ready yang terinspirasi dari Spotify
 - 💻 Profil bahasa pemrograman paling sering digunakan
 - 👤 Profil kepribadian pengembang (tipe jadwal coding, gaya aktivitas)
 - 📈 Visualisasi interaktif dan animasi
-- 📱 Tampilan mobile responsif dan 🖥️ tampilan desktop lebar
+- 📱 Tampilan mobile responsif dan 🖥️ tampilan desktop lebar dengan layout horizontal
 - 🔄 Pembagian hasil yang mudah
 - 🖼️ Fungsi download hasil sebagai gambar
 - 📱 Pengalaman story/slide untuk navigasi intuitif
+- 🎨 Desain yang menyesuaikan lebar layar untuk pengalaman optimal di semua perangkat
 
 ## Teknologi
 

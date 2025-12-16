@@ -38,10 +38,10 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({ username }) =
   const CurrentSlideComponent = slides[currentSlide].component;
 
   return (
-    <div className="w-full max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
-      <div className="p-4 md:p-6">
-        <div className="flex justify-between items-center mb-4 md:mb-6">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-800">
+    <div className="w-full max-w-full mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div className="p-4 lg:p-6">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-4 lg:mb-6 gap-2">
+          <h2 className="text-xl lg:text-2xl font-bold text-gray-800">
             {slides[currentSlide].title}
           </h2>
           <div className="text-sm text-gray-500">
@@ -49,16 +49,16 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({ username }) =
           </div>
         </div>
 
-        <div className="flex items-center justify-center min-h-[400px] md:min-h-[600px] p-2 md:p-6">
+        <div className="flex items-center justify-center min-h-[400px] lg:min-h-[600px] xl:min-h-[700px] p-2 lg:p-6">
           <CurrentSlideComponent data={data} />
         </div>
       </div>
 
-      <div className="bg-gray-50 p-4 md:px-6 md:py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-gray-50 p-4 lg:p-6 flex flex-col lg:flex-row items-center justify-between gap-4">
         <button
           onClick={() => setCurrentSlide(prev => Math.max(0, prev - 1))}
           disabled={currentSlide === 0}
-          className={`px-4 py-2 rounded-lg w-full md:w-auto ${
+          className={`px-3 py-2 lg:px-4 lg:py-2 rounded-lg w-full lg:w-auto ${
             currentSlide === 0
               ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
               : 'bg-blue-500 text-white hover:bg-blue-600'
@@ -67,12 +67,12 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({ username }) =
           Previous
         </button>
 
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 lg:space-x-3">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`w-2 h-2 md:w-3 md:h-3 rounded-full ${
+              className={`w-2 h-2 lg:w-3 lg:h-3 rounded-full ${
                 index === currentSlide ? 'bg-blue-500' : 'bg-gray-300'
               }`}
               aria-label={`Go to slide ${index + 1}`}
@@ -83,7 +83,7 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({ username }) =
         <button
           onClick={() => setCurrentSlide(prev => Math.min(slides.length - 1, prev + 1))}
           disabled={currentSlide === slides.length - 1}
-          className={`px-4 py-2 rounded-lg w-full md:w-auto ${
+          className={`px-3 py-2 lg:px-4 lg:py-2 rounded-lg w-full lg:w-auto ${
             currentSlide === slides.length - 1
               ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
               : 'bg-blue-500 text-white hover:bg-blue-600'

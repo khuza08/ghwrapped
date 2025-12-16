@@ -13,49 +13,60 @@ const LanguagesSlide: React.FC<WrappedSlideProps> = ({ data }) => {
   const topLanguages = repositories.languageBreakdown.slice(0, 5);
 
   return (
-    <div className="w-full max-w-2xl mx-auto text-center">
-      <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6">Your Languages in 2024</h3>
+    <div className="w-full max-w-4xl mx-auto text-center">
+      <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 mb-4 md:mb-6">Your Languages in 2024</h3>
 
-      <div className="space-y-2 mb-4 md:mb-6">
-        {topLanguages.length > 0 ? (
-          topLanguages.map((lang, index) => (
-            <div key={index} className="flex items-center justify-between p-2 md:p-3 bg-gray-50 rounded-lg text-xs md:text-sm">
-              <div className="flex items-center">
-                <div
-                  className="w-3 h-3 md:w-4 md:h-4 rounded-full mr-2 md:mr-3"
-                  style={{ backgroundColor: getLanguageColor(lang.language) }}
-                ></div>
-                <span className="font-medium text-gray-800">{lang.language}</span>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="space-y-2 mb-4 md:mb-6">
+          {topLanguages.length > 0 ? (
+            topLanguages.map((lang, index) => (
+              <div key={index} className="flex items-center justify-between p-2 md:p-3 lg:p-4 bg-gray-50 rounded-lg text-xs md:text-sm lg:text-base">
+                <div className="flex items-center">
+                  <div
+                    className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 rounded-full mr-2 md:mr-3"
+                    style={{ backgroundColor: getLanguageColor(lang.language) }}
+                  ></div>
+                  <span className="font-medium text-gray-800">{lang.language}</span>
+                </div>
+                <div className="text-gray-600">{lang.percentage}%</div>
               </div>
-              <div className="text-gray-600">{lang.percentage}%</div>
+            ))
+          ) : (
+            <p className="text-gray-600 text-sm md:text-base lg:text-lg">No language data available</p>
+          )}
+        </div>
+
+        {topLanguages.length > 0 && (
+          <div>
+            <h4 className="font-semibold text-gray-700 text-xs md:text-sm lg:text-base mb-3 lg:mb-4">Top Language Distribution</h4>
+            <div className="space-y-3 lg:space-y-4">
+              {topLanguages.map((lang, index) => (
+                <div key={index} className="flex items-center">
+                  <div
+                    className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 rounded-full mr-2 lg:mr-3"
+                    style={{ backgroundColor: getLanguageColor(lang.language) }}
+                  ></div>
+                  <div className="flex-1 text-left">
+                    <div className="w-full bg-gray-200 rounded-full h-2 md:h-3 lg:h-4">
+                      <div
+                        className="h-2 md:h-3 lg:h-4 rounded-full"
+                        style={{
+                          width: `${lang.percentage}%`,
+                          backgroundColor: getLanguageColor(lang.language)
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                  <div className="w-12 text-right text-xs md:text-sm lg:text-base font-medium">{lang.percentage}%</div>
+                </div>
+              ))}
             </div>
-          ))
-        ) : (
-          <p className="text-gray-600 text-sm md:text-base">No language data available</p>
+          </div>
         )}
       </div>
 
-      {topLanguages.length > 0 && (
-        <div className="mt-4 md:mt-6">
-          <h4 className="font-semibold text-gray-700 text-xs md:text-sm mb-2">Top Language</h4>
-          <div className="w-full bg-gray-200 rounded-full h-2 md:h-3">
-            <div
-              className="h-2 md:h-3 rounded-full"
-              style={{
-                width: `${topLanguages[0].percentage}%`,
-                backgroundColor: getLanguageColor(topLanguages[0].language)
-              }}
-            ></div>
-          </div>
-          <div className="flex justify-between mt-1 text-xs text-gray-600">
-            <span>{topLanguages[0].language}</span>
-            <span>{topLanguages[0].percentage}%</span>
-          </div>
-        </div>
-      )}
-
-      <div className="mt-4 md:mt-8 text-center">
-        <p className="text-xs md:text-sm text-gray-600">
+      <div className="mt-6 md:mt-8 lg:mt-12 text-center">
+        <p className="text-xs md:text-sm lg:text-base text-gray-600">
           You coded in <span className="font-semibold">{repositories.languageBreakdown.length}</span> different languages
         </p>
       </div>
