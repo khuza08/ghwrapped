@@ -3,6 +3,7 @@
 import React from "react";
 import { ERROR_MESSAGES } from "@/lib/constants";
 import { isValidUsername } from "@/lib/utils";
+import { FiArrowRight } from "react-icons/fi";
 
 interface UsernameFormProps {
   username: string;
@@ -67,7 +68,7 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
               type="text"
               value={username}
               onChange={handleInputChange}
-              placeholder="e.g elza_kentucky"
+              placeholder="e.g elza_batagor"
               className="w-full px-4 py-3 rounded-lg bg-white/5 text-white placeholder-white/50 focus:outline-none text-base border border-white/20 h-14"
               autoComplete="off"
             />
@@ -76,8 +77,9 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
             type="submit"
             className="w-full sm:w-auto min-w-14 h-14 px-4 py-3 rounded-lg bg-white/10 text-white flex items-center justify-center"
           >
-            <span className="hidden sm:inline">Go</span>
-            <span className="sm:hidden">→</span>
+            <span className="hidden sm:inline"></span>
+            <FiArrowRight className="hidden sm:block font-bold text-xl" />
+            <span className="sm:hidden font-bold">Unwrap</span>
           </button>
         </div>
 
