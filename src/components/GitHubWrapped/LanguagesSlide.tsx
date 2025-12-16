@@ -13,16 +13,16 @@ const LanguagesSlide: React.FC<WrappedSlideProps> = ({ data }) => {
   const topLanguages = repositories.languageBreakdown.slice(0, 5);
 
   return (
-    <div className="w-full max-w-md mx-auto text-center">
-      <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Your Languages in 2024</h3>
+    <div className="w-full max-w-2xl mx-auto text-center">
+      <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6">Your Languages in 2024</h3>
 
-      <div className="space-y-2 mb-4 sm:mb-6">
+      <div className="space-y-2 mb-4 md:mb-6">
         {topLanguages.length > 0 ? (
           topLanguages.map((lang, index) => (
-            <div key={index} className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg text-xs sm:text-sm">
+            <div key={index} className="flex items-center justify-between p-2 md:p-3 bg-gray-50 rounded-lg text-xs md:text-sm">
               <div className="flex items-center">
                 <div
-                  className="w-3 h-3 sm:w-4 sm:h-4 rounded-full mr-2 sm:mr-3"
+                  className="w-3 h-3 md:w-4 md:h-4 rounded-full mr-2 md:mr-3"
                   style={{ backgroundColor: getLanguageColor(lang.language) }}
                 ></div>
                 <span className="font-medium text-gray-800">{lang.language}</span>
@@ -31,16 +31,16 @@ const LanguagesSlide: React.FC<WrappedSlideProps> = ({ data }) => {
             </div>
           ))
         ) : (
-          <p className="text-gray-600 text-sm sm:text-base">No language data available</p>
+          <p className="text-gray-600 text-sm md:text-base">No language data available</p>
         )}
       </div>
 
       {topLanguages.length > 0 && (
-        <div className="mt-4 sm:mt-6">
-          <h4 className="font-semibold text-gray-700 text-xs sm:text-sm mb-2">Top Language</h4>
-          <div className="w-full bg-gray-200 rounded-full h-2 sm:h-3">
+        <div className="mt-4 md:mt-6">
+          <h4 className="font-semibold text-gray-700 text-xs md:text-sm mb-2">Top Language</h4>
+          <div className="w-full bg-gray-200 rounded-full h-2 md:h-3">
             <div
-              className="h-2 sm:h-3 rounded-full"
+              className="h-2 md:h-3 rounded-full"
               style={{
                 width: `${topLanguages[0].percentage}%`,
                 backgroundColor: getLanguageColor(topLanguages[0].language)
@@ -54,8 +54,8 @@ const LanguagesSlide: React.FC<WrappedSlideProps> = ({ data }) => {
         </div>
       )}
 
-      <div className="mt-4 sm:mt-8 text-center">
-        <p className="text-xs sm:text-sm text-gray-600">
+      <div className="mt-4 md:mt-8 text-center">
+        <p className="text-xs md:text-sm text-gray-600">
           You coded in <span className="font-semibold">{repositories.languageBreakdown.length}</span> different languages
         </p>
       </div>

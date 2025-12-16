@@ -19,7 +19,7 @@ const CommitChart: React.FC<CommitChartProps> = ({ commitsByDate }) => {
   const interval = Math.max(1, Math.ceil(totalDataPoints / 5)); // Show max 5 labels
 
   return (
-    <div className="h-24 sm:h-40 w-full">
+    <div className="h-24 md:h-64 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={commitData}>
           <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
