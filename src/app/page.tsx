@@ -58,7 +58,7 @@ const GitHubWrappedPage = () => {
                 onSubmit={handleSubmit}
               />
               <div className="mt-4 px-2 flex flex-row justify-between items-center text-white text-sm sm:text-base">
-                <div className="font-bold text-md md:text-lg lg:text-xl xl:text-2xl">
+                <div className="font-bold bg-linear-to-b from-white via-white to white/50 bg-clip-text text-transparent text-md md:text-lg lg:text-xl xl:text-2xl">
                   #GithubUnwrapped
                 </div>
                 <div

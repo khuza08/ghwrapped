@@ -51,7 +51,7 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
     <div className="bg-white/5 border border-white/20 rounded-2xl p-6 sm:p-8 w-full max-w-2xl">
       {/* Header Section */}
       <div className="mb-6 sm:mb-8">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 mt-4">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-linear-to-b from-white via-white to-white/50 bg-clip-text text-transparent mb-2 mt-4">
           Discover your GitHub year in review!
         </h1>
         <p className="text-white/80 text-sm sm:text-base">
