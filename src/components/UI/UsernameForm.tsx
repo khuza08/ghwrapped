@@ -47,13 +47,13 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
   };
 
   return (
-    <div className="bg-white/5 border border-white/20 rounded-2xl px-8 w-full max-w-2xl">
+    <div className="bg-white/5 border border-white/20 rounded-2xl p-6 sm:p-8 w-full max-w-2xl">
       {/* Header Section */}
-      <div className="mb-8">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 mt-4">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 mt-4">
           Discover your GitHub year in review!
         </h1>
-        <p className="text-white/80">
+        <p className="text-white/80 text-sm sm:text-base">
           Enter your username to see your coding stats, top languages,
           contributions, and more.
         </p>
@@ -61,8 +61,8 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
 
       {/* Input Section */}
       <form onSubmit={handleFormSubmit} className="mb-6">
-        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-center">
-          <div className="w-full sm:w-auto grow">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-center w-full">
+          <div className="w-full grow">
             <input
               type="text"
               value={username}
@@ -74,7 +74,7 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
           </div>
           <button
             type="submit"
-            className="px-6 py-3 rounded-lg bg-white/10 text-white flex items-center justify-center min-w-14 h-14"
+            className="w-full sm:w-auto min-w-14 h-14 px-4 py-3 rounded-lg bg-white/10 text-white flex items-center justify-center"
           >
             <span className="hidden sm:inline">Go</span>
             <span className="sm:hidden">→</span>

@@ -48,8 +48,10 @@ const GitHubWrappedPage = () => {
                 setError={setError}
                 onSubmit={handleSubmit}
               />
-              <div className="mt-4 px-2 flex flex-col sm:flex-row justify-between items-center text-white">
-                <div className="font-bold text-xl">#GithubUnwrapped</div>
+              <div className="mt-4 px-2 flex flex-col sm:flex-row justify-between items-center text-white text-sm sm:text-base">
+                <div className="font-bold text-md md:text-lg lg:text-xl xl:text-2xl">
+                  #GithubUnwrapped
+                </div>
                 <div>Source code</div>
               </div>
             </div>
