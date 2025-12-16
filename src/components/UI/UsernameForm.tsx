@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { ERROR_MESSAGES } from '@/lib/constants';
-import { isValidUsername } from '@/lib/utils';
+import React from "react";
+import { ERROR_MESSAGES } from "@/lib/constants";
+import { isValidUsername } from "@/lib/utils";
 
 interface UsernameFormProps {
   username: string;
@@ -17,7 +17,7 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
   error,
   setUsername,
   onSubmit,
-  setError
+  setError,
 }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -25,7 +25,7 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
 
     // Clear error when user starts typing
     if (error && value.trim()) {
-      setError('');
+      setError("");
     }
   };
 
@@ -47,7 +47,7 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
   };
 
   return (
-    <main className="bg-gray-800 rounded-2xl p-4 sm:p-6 flex-grow">
+    <main className="bg-white/5 border border-white/20 rounded-2xl p-4 sm:p-6 grow">
       <form
         onSubmit={handleFormSubmit}
         className="max-w-md lg:max-w-lg xl:max-w-xl mx-auto"
@@ -65,7 +65,7 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
             value={username}
             onChange={handleInputChange}
             placeholder="e.g., octocat"
-            className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-white/20 rounded-lg text-sm sm:text-base bg-gray-900 text-white"
+            className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-white/25 rounded-lg text-sm sm:text-base focus:outline-none  text-white"
             autoComplete="off"
           />
         </div>
@@ -78,14 +78,15 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
 
         <button
           type="submit"
-          className="w-full px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-gray-700 to-gray-900 text-white font-semibold rounded-lg shadow-lg hover:from-gray-600 hover:to-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition text-sm sm:text-base"
+          className="w-full px-4 py-2 sm:px-6 sm:py-3 bg-white/10 text-white font-semibold rounded-lg
+           hover:bg-white/15 focus:outline-none transition text-sm sm:text-base"
         >
           Generate My Wrapped
         </button>
 
-        <p className="mt-3 sm:mt-4 text-center text-xs sm:text-sm text-gray-500">
-          Your public GitHub data is used to generate these insights. No
-          login required.
+        <p className="mt-3 sm:mt-4 text-center text-xs sm:text-sm text-white/80">
+          *your public GitHub data is used to generate these insights. No login
+          required
         </p>
       </form>
     </main>
