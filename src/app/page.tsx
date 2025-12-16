@@ -22,32 +22,32 @@ const GitHubWrappedPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-black text-white py-6 px-4 lg:px-8 xl:px-16">
       <div className="max-w-full mx-auto w-full grow flex flex-col">
-        <GitHubWrappedHeader />
+        {showWrapped ? (
+          <>
+            <GitHubWrappedHeader />
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+              <div className="lg:w-1/4 xl:w-1/5 shrink-0">
+                <WrappedSidebar
+                  username={username}
+                  onBackClick={() => setShowWrapped(false)}
+                />
+              </div>
 
-        {!showWrapped ? (
-          <div className="flex flex-col items-center justify-center grow">
-            <div className="w-full flex justify-center">
-              <UsernameForm
-                username={username}
-                error={error}
-                setUsername={setUsername}
-                setError={setError}
-                onSubmit={handleSubmit}
-              />
+              <div className="lg:w-3/4 xl:w-4/5">
+                <WrappedMainContent username={normalizeUsername(username)} />
+              </div>
             </div>
-          </div>
+          </>
         ) : (
-          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
-            <div className="lg:w-1/4 xl:w-1/5 shrink-0">
-              <WrappedSidebar
-                username={username}
-                onBackClick={() => setShowWrapped(false)}
-              />
-            </div>
-
-            <div className="lg:w-3/4 xl:w-4/5">
-              <WrappedMainContent username={normalizeUsername(username)} />
-            </div>
+          <div className="flex flex-col items-center justify-center grow">
+            <GitHubWrappedHeader className="mb-0" />
+            <UsernameForm
+              username={username}
+              error={error}
+              setUsername={setUsername}
+              setError={setError}
+              onSubmit={handleSubmit}
+            />
           </div>
         )}
       </div>
