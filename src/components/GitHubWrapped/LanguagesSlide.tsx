@@ -15,45 +15,45 @@ const LanguagesSlide: React.FC<WrappedSlideProps> = ({ data }) => {
 
   return (
     <div className="w-full max-w-4xl mx-auto text-center">
-      <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 mb-4 md:mb-6">Your Languages in 2024</h3>
+      <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-100 mb-4 md:mb-6">Your Languages in 2024</h3>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-2 mb-4 md:mb-6">
           {topLanguages.length > 0 ? (
             topLanguages.map((lang, index) => (
-              <div key={index} className="flex items-center justify-between p-2 md:p-3 lg:p-4 bg-gray-50 rounded-lg text-xs md:text-sm lg:text-base">
+              <div key={index} className="flex items-center justify-between p-2 md:p-3 lg:p-4 bg-gray-800 rounded-lg text-xs md:text-sm lg:text-base">
                 <div className="flex items-center">
                   <div
                     className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 rounded-full mr-2 md:mr-3"
-                    style={{ backgroundColor: getGrayColor(index) }}
+                    style={{ backgroundColor: getDarkGrayColor(index) }}
                   ></div>
-                  <span className="font-medium text-gray-800">{lang.language}</span>
+                  <span className="font-medium text-gray-200">{lang.language}</span>
                 </div>
-                <div className="text-gray-600">{lang.percentage}%</div>
+                <div className="text-gray-400">{lang.percentage}%</div>
               </div>
             ))
           ) : (
-            <p className="text-gray-600 text-sm md:text-base lg:text-lg">No language data available</p>
+            <p className="text-gray-400 text-sm md:text-base lg:text-lg">No language data available</p>
           )}
         </div>
 
         {topLanguages.length > 0 && (
           <div>
-            <h4 className="font-semibold text-gray-700 text-xs md:text-sm lg:text-base mb-3 lg:mb-4">Language Distribution</h4>
+            <h4 className="font-semibold text-gray-300 text-xs md:text-sm lg:text-base mb-3 lg:mb-4">Language Distribution</h4>
             <div className="space-y-3 lg:space-y-4">
               {topLanguages.map((lang, index) => (
                 <div key={index} className="flex items-center">
                   <div
                     className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 rounded-full mr-2 lg:mr-3"
-                    style={{ backgroundColor: getGrayColor(index) }}
+                    style={{ backgroundColor: getDarkGrayColor(index) }}
                   ></div>
                   <div className="flex-1 text-left">
-                    <div className="w-full bg-gray-200 rounded-full h-2 md:h-3 lg:h-4">
+                    <div className="w-full bg-gray-700 rounded-full h-2 md:h-3 lg:h-4">
                       <div
                         className="h-2 md:h-3 lg:h-4 rounded-full"
                         style={{
                           width: `${lang.percentage}%`,
-                          backgroundColor: getSubtleGrayColor(index)
+                          backgroundColor: getSubtleDarkGrayColor(index)
                         }}
                       ></div>
                     </div>
@@ -67,7 +67,7 @@ const LanguagesSlide: React.FC<WrappedSlideProps> = ({ data }) => {
       </div>
 
       <div className="mt-6 md:mt-8 lg:mt-12 text-center">
-        <p className="text-xs md:text-sm lg:text-base text-gray-600">
+        <p className="text-xs md:text-sm lg:text-base text-gray-400">
           You coded in <span className="font-semibold">{repositories.languageBreakdown.length}</span> different languages
         </p>
       </div>

@@ -4,28 +4,39 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: 'class', // Enable dark mode using a class
   theme: {
     extend: {
       colors: {
-        // Monochromatic color palette
+        // Monochromatic dark color palette
         gray: {
-          50: '#f9fafb',
-          100: '#f3f4f6',
-          200: '#e5e7eb',
-          300: '#d1d5db',
-          400: '#9ca3af',
-          500: '#6b7280',
-          600: '#4b5563',
-          700: '#374151',
-          800: '#1f2937',
-          900: '#111827',
+          950: '#0a0a0a',
+          900: '#111111',
+          850: '#171717',
+          800: '#1f1f1f',
+          750: '#262626',
+          700: '#2d2d2d',
+          650: '#333333',
+          600: '#3d3d3d',
+          550: '#454545',
+          500: '#555555',
+          450: '#666666',
+          400: '#757575',
+          350: '#888888',
+          300: '#949494',
+          250: '#a3a3a3',
+          200: '#b3b3b3',
+          150: '#c7c7c7',
+          100: '#d6d6d6',
+          50: '#e5e5e5',
         },
-        // Specific grayscale shades for monochromatic theme
-        'mono-dark': '#111111',
-        'mono-darker': '#222222',
-        'mono-medium': '#666666',
-        'mono-light': '#dddddd',
-        'mono-lighter': '#f0f0f0',
+        // Specific dark-themed grayscale shades for monochromatic theme
+        'mono-dark': '#0f0f0f',
+        'mono-darker': '#1a1a1a',
+        'mono-darkest': '#000000',
+        'mono-medium': '#404040',
+        'mono-light': '#a0a0a0',
+        'mono-lighter': '#d0d0d0',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

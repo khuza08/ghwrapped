@@ -66,14 +66,16 @@ const CommitChart: React.FC<CommitChartProps> = ({ commitsByDate }) => {
   );
 };
 
-// Helper function to get color based on commit count
+// Helper function to get color based on commit count for dark theme
 const getCommitColor = (count: number, maxCount: number) => {
-  // Create a gradient from light blue to dark blue based on commit count
+  // Create a gradient from dark gray to lighter gray based on commit count
+  if (maxCount === 0) return '#374151'; // Default gray if no commits
+
   const intensity = count / maxCount;
-  const r = 135 + Math.floor(120 * (1 - intensity));
-  const g = 206 + Math.floor(49 * (1 - intensity));
-  const b = 235 + Math.floor(20 * (1 - intensity));
-  return `rgb(${r}, ${g}, ${b})`;
+  // Use darker base values for dark theme and adjust range accordingly
+  const baseValue = 40 + Math.floor(intensity * 100); // Range from dark to medium-light gray
+  const hexValue = baseValue.toString(16).padStart(2, '0');
+  return `#${hexValue}${hexValue}${hexValue}`;
 };
 
 export default CommitChart;

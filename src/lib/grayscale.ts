@@ -1,64 +1,62 @@
-// Grayscale utility functions for monochromatic theme
+// Grayscale utility functions for monochromatic dark theme
 
-// Get a specific shade of gray based on index
-export const getGrayColor = (index: number): string => {
-  // Creating a range of grays from dark to light
-  const grays = [
-    '#111111', // Very dark gray
+// Get a specific shade of dark gray based on index
+export const getDarkGrayColor = (index: number): string => {
+  // Creating a range of dark grays for dark theme
+  const darkGrays = [
+    '#0a0a0a', // Nearly black
+    '#111111',
+    '#1a1a1a',
     '#222222',
-    '#333333',
-    '#444444',
-    '#555555',
-    '#666666',
-    '#777777',
+    '#2d2d2d',
+    '#3a3a3a',
+    '#474747',
+    '#545454',
+    '#616161',
+    '#6e6e6e',
+    '#7b7b7b',
     '#888888',
-    '#999999',
-    '#AAAAAA',
-    '#BBBBBB',
-    '#CCCCCC',
-    '#DDDDDD',
-    '#EEEEEE',
-    '#F0F0F0'  // Light gray
+    '#959595',
+    '#a2a2a2',
+    '#afafaf'  // Lighter gray for contrast
   ];
 
-  return grays[index % grays.length];
+  return darkGrays[index % darkGrays.length];
 };
 
-// Get a more subtle variation of gray
-export const getSubtleGrayColor = (index: number): string => {
-  // More subtle variations for backgrounds and secondary elements
-  const subtleGrays = [
-    '#232323',
-    '#323232',
-    '#414141',
-    '#505050',
-    '#595959',
-    '#626262',
-    '#6B6B6B',
-    '#747474',
-    '#7D7D7D',
-    '#868686',
-    '#8F8F8F',
+// Get a more subtle variation of dark gray
+export const getSubtleDarkGrayColor = (index: number): string => {
+  // More subtle variations for backgrounds and secondary elements in dark theme
+  const subtleDarkGrays = [
+    '#141414',
+    '#1f1f1f',
+    '#2a2a2a',
+    '#353535',
+    '#404040',
+    '#4b4b4b',
+    '#565656',
+    '#616161',
+    '#6c6c6c',
+    '#777777',
+    '#828282',
+    '#8d8d8d',
     '#989898',
-    '#A1A1A1',
-    '#AAAAAA',
-    '#B3B3B3',
-    '#BCBCBC',
-    '#C5C5C5',
-    '#CECECE',
-    '#D7D7D7',
-    '#E0E0E0',
-    '#E9E9E9',
-    '#F2F2F2' // Very light gray
+    '#a3a3a3',
+    '#aeaeae',
+    '#b9b9b9' // Lighter for contrast
   ];
 
-  return subtleGrays[index % subtleGrays.length];
+  return subtleDarkGrays[index % subtleDarkGrays.length];
 };
 
-// Get a gray based on percentage for gradients
-export const getPercentGray = (percent: number): string => {
-  // Convert percentage (0-100) to a gray value (0-255)
-  const grayValue = Math.round(200 - (percent * 1.5)); // From #C8C8C8 (~light) to #080808 (dark)
+// Get a gray based on percentage for gradients in dark theme
+export const getPercentDarkGray = (percent: number): string => {
+  // Convert percentage (0-100) to a gray value (0-255) suitable for dark theme
+  const grayValue = Math.round(15 + (percent * 1.8)); // From nearly black (#0f0f0f) to lightish gray
   const hexValue = grayValue.toString(16).padStart(2, '0');
   return `#${hexValue}${hexValue}${hexValue}`;
 };
+
+// Alternative functions with different naming convention for compatibility
+export const getGrayColor = getDarkGrayColor;
+export const getSubtleGrayColor = getSubtleDarkGrayColor;
