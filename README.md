@@ -75,7 +75,7 @@ Contributions are welcome! 🚀
 
 ## 📄 License
 
-This project is licensed under the **MIT License**.
-See the `LICENSE` file for more details.
+This project is licensed under the **MIT License**. <br>
+See the [LICENSE](https://github.com/khuza08/ghwrapped/blob/main/LICENSE) file for more details.
 
 ✨ *Thankyou*
