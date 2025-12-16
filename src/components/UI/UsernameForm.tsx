@@ -47,49 +47,47 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
   };
 
   return (
-    <main className="bg-white/5 border border-white/20 rounded-2xl p-4 sm:p-5">
-      <form
-        onSubmit={handleFormSubmit}
-        className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-md xl:max-w-md"
-      >
-        <div className="mb-4 sm:mb-5">
-          <label
-            htmlFor="username"
-            className="block text-sm sm:text-base md:text-base font-medium text-white mb-1"
+    <div className="bg-white/5 border border-white/20 rounded-2xl px-8 w-full max-w-2xl">
+      {/* Header Section */}
+      <div className="mb-8">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 mt-4">
+          Discover your GitHub year in review!
+        </h1>
+        <p className="text-white/80">
+          Enter your username to see your coding stats, top languages,
+          contributions, and more.
+        </p>
+      </div>
+
+      {/* Input Section */}
+      <form onSubmit={handleFormSubmit} className="mb-6">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-center">
+          <div className="w-full sm:w-auto grow">
+            <input
+              type="text"
+              value={username}
+              onChange={handleInputChange}
+              placeholder="e.g elza_kentucky"
+              className="w-full px-4 py-3 rounded-lg bg-white/5 text-white placeholder-white/50 focus:outline-none text-base border border-white/20"
+              autoComplete="off"
+            />
+          </div>
+          <button
+            type="submit"
+            className="px-6 py-3 rounded-lg bg-white/10 text-white flex items-center justify-center min-w-14 h-14"
           >
-            GitHub Username
-          </label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={handleInputChange}
-            placeholder="e.g., huza_lik3s_b4t4g0r"
-            className="w-full px-3 py-2 sm:px-4 sm:py-2.5 md:px-4 md:py-2.5 border border-white/25 rounded-lg text-sm sm:text-base focus:outline-none text-white"
-            autoComplete="off"
-          />
+            <span className="hidden sm:inline">Go</span>
+            <span className="sm:hidden">→</span>
+          </button>
         </div>
 
         {error && (
-          <div className="mb-3 sm:mb-4 p-2 sm:p-2.5 bg-red-900/30 border border-red-700 text-red-300 rounded-lg text-xs sm:text-sm shadow-[0_0_15px_3px_rgba(239,68,68,0.4)]">
+          <div className="mt-3 p-3 bg-red-900/30 border border-red-700 text-red-300 rounded-lg text-sm shadow-[0_0_15px_3px_rgba(239,68,68,0.4)]">
             {error}
           </div>
         )}
-
-        <button
-          type="submit"
-          className="w-full px-4 py-2 sm:px-5 sm:py-2.5 md:px-5 md:py-2.5 bg-white/10 text-white font-semibold rounded-lg
-           hover:bg-white/15 focus:outline-none transition text-sm sm:text-base"
-        >
-          Generate My Wrapped
-        </button>
-
-        <p className="mt-3 sm:mt-4 text-center text-xs sm:text-xs text-white/80">
-          *your public GitHub data is used to generate these insights. No login
-          required
-        </p>
       </form>
-    </main>
+    </div>
   );
 };
 

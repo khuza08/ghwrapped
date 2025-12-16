@@ -40,14 +40,19 @@ const GitHubWrappedPage = () => {
           </>
         ) : (
           <div className="flex flex-col items-center justify-center grow">
-            <GitHubWrappedHeader className="mb-0" />
-            <UsernameForm
-              username={username}
-              error={error}
-              setUsername={setUsername}
-              setError={setError}
-              onSubmit={handleSubmit}
-            />
+            <div className="bg-white/5 border border-white/20 rounded-2xl shadow-lg p-4 w-full max-w-2xl">
+              <UsernameForm
+                username={username}
+                error={error}
+                setUsername={setUsername}
+                setError={setError}
+                onSubmit={handleSubmit}
+              />
+              <div className="mt-4 px-2 flex flex-col sm:flex-row justify-between items-center text-white">
+                <div className="font-bold text-xl">#GithubUnwrapped</div>
+                <div>Source code</div>
+              </div>
+            </div>
           </div>
         )}
       </div>
