@@ -47,10 +47,10 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
   };
 
   return (
-    <main className="bg-white/5 border border-white/20 rounded-2xl p-4 sm:p-6 grow">
+    <main className="bg-white/5 border border-white/20 rounded-2xl p-4 sm:p-6">
       <form
         onSubmit={handleFormSubmit}
-        className="max-w-md lg:max-w-lg xl:max-w-xl mx-auto"
+        className="w-full max-w-md lg:max-w-lg xl:max-w-xl"
       >
         <div className="mb-4 sm:mb-6">
           <label
