@@ -11,7 +11,7 @@ const WrappedSidebar: React.FC<WrappedSidebarProps> = ({
   onBackClick 
 }) => {
   return (
-    <div className="bg-gray-800 rounded-2xl p-4 sm:p-6 sticky top-6 border border-gray-700">
+    <div className="bg-gray-800 rounded-2xl p-4 sm:p-6 sticky top-6 border border-gray-700 flex-shrink-0">
       <div className="flex flex-col justify-between items-center mb-4">
         <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-100 text-center">
           @{normalizeUsername(username)}'s

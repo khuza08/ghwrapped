@@ -47,7 +47,7 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
   };
 
   return (
-    <main className="bg-gray-800 rounded-2xl p-4 sm:p-6">
+    <main className="bg-gray-800 rounded-2xl p-4 sm:p-6 flex-grow">
       <form
         onSubmit={handleFormSubmit}
         className="max-w-md lg:max-w-lg xl:max-w-xl mx-auto"

@@ -5,11 +5,11 @@ interface WrappedMainContentProps {
   username: string;
 }
 
-const WrappedMainContent: React.FC<WrappedMainContentProps> = ({ 
-  username 
+const WrappedMainContent: React.FC<WrappedMainContentProps> = ({
+  username
 }) => {
   return (
-    <main className="bg-gray-800 rounded-2xl p-4 sm:p-6 border border-gray-700">
+    <main className="bg-gray-800 rounded-2xl p-4 sm:p-6 border border-gray-700 flex-grow">
       <GitHubWrappedSlides username={username} />
     </main>
   );

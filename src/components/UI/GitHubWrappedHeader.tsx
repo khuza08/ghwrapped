@@ -10,7 +10,7 @@ const GitHubWrappedHeader: React.FC<GitHubWrappedHeaderProps> = ({
   subtitle = 'Discover your GitHub year in review! Enter your username to see your coding stats, top languages, contributions, and more.' 
 }) => {
   return (
-    <header className="text-center mb-6 md:mb-8 lg:mb-12">
+    <header className="text-center mb-6 md:mb-8 lg:mb-12 flex-shrink-0">
       <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white mb-2 sm:mb-3">
         <span className="text-white">{title}</span>
       </h1>
