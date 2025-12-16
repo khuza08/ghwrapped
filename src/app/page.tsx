@@ -8,6 +8,7 @@ import UsernameForm from "@/components/UI/UsernameForm";
 import WrappedSidebar from "@/components/UI/WrappedSidebar";
 import WrappedMainContent from "@/components/UI/WrappedMainContent";
 import GitHubWrappedFooter from "@/components/UI/GitHubWrappedFooter";
+import { FaGithub } from "react-icons/fa";
 
 const GitHubWrappedPage = () => {
   const [username, setUsername] = useState("");
@@ -17,6 +18,14 @@ const GitHubWrappedPage = () => {
   const handleSubmit = (username: string) => {
     setError("");
     setShowWrapped(true);
+  };
+
+  const handleGithubClick = () => {
+    window.open(
+      "https://github.com/khuza08/ghwrapped",
+      "_blank",
+      "noopener,noreferrer",
+    );
   };
 
   return (
@@ -52,7 +61,13 @@ const GitHubWrappedPage = () => {
                 <div className="font-bold text-md md:text-lg lg:text-xl xl:text-2xl">
                   #GithubUnwrapped
                 </div>
-                <div>Source code</div>
+                <div
+                  className="flex items-center gap-1 cursor-pointer hover:opacity-80 transition-opacity"
+                  onClick={handleGithubClick}
+                >
+                  <FaGithub className="text-xl" />
+                  <span className="hidden sm:inline">Source code</span>
+                </div>
               </div>
             </div>
           </div>
