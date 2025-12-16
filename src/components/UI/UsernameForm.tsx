@@ -71,7 +71,7 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
         </div>
 
         {error && (
-          <div className="mb-3 sm:mb-4 p-2 sm:p-3 bg-red-900/30 border border-red-700 text-red-300 rounded-lg text-xs sm:text-sm">
+          <div className="mb-3 sm:mb-4 p-2 sm:p-3 bg-red-900/30 border border-red-700 text-red-300 rounded-lg text-xs sm:text-sm shadow-[0_0_15px_3px_rgba(239,68,68,0.4)]">
             {error}
           </div>
         )}
