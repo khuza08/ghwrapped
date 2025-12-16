@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { ERROR_MESSAGES } from "@/lib/constants";
 import { isValidUsername } from "@/lib/utils";
 import { FiArrowRight } from "react-icons/fi";
@@ -11,6 +11,7 @@ interface UsernameFormProps {
   setUsername: (username: string) => void;
   onSubmit: (username: string) => void;
   setError: (error: string) => void;
+  onCheckUser: (username: string) => Promise<boolean>;
 }
 
 const UsernameForm: React.FC<UsernameFormProps> = ({
@@ -19,21 +20,34 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
   setUsername,
   onSubmit,
   setError,
+  onCheckUser,
 }) => {
+  const [checking, setChecking] = useState(false);
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setUsername(value);
 
-    // Clear error when user starts typing
     if (error && value.trim()) {
       setError("");
     }
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const showNotification = (message: string, type: "success" | "error") => {
+    setNotification({ message, type });
+
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate username
     if (!username.trim()) {
       setError(ERROR_MESSAGES.USERNAME_REQUIRED);
       return;
@@ -44,14 +58,37 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
       return;
     }
 
-    onSubmit(username);
+    setChecking(true);
+
+    try {
+      const userExists = await onCheckUser(username);
+
+      if (userExists) {
+        showNotification("User found! Redirecting...", "success");
+        setTimeout(() => {
+          onSubmit(username);
+        }, 2000);
+      } else {
+        showNotification("User not found on GitHub", "error");
+        setTimeout(() => {
+          setError("User not found on GitHub");
+        }, 2000);
+      }
+    } catch (err) {
+      showNotification("Error checking user", "error");
+      setTimeout(() => {
+        setError("Error checking user");
+      }, 300);
+    } finally {
+      setChecking(false);
+    }
   };
 
   return (
-    <div className="bg-white/5 border border-white/20 rounded-2xl p-6 sm:p-8 w-full max-w-2xl">
+    <div className="bg-white/5 border border-white/20 rounded-2xl p-6 sm:p-8 w-full max-w-2xl relative">
       {/* Header Section */}
       <div className="mb-6 sm:mb-8">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-linear-to-b from-white via-white to-white/50 bg-clip-text text-transparent mb-2 mt-4">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-b from-white via-white to-white/50 bg-clip-text text-transparent mb-2 mt-4">
           Discover your GitHub year in review!
         </h1>
         <p className="text-white/80 text-sm sm:text-base">
@@ -71,15 +108,41 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
               placeholder="e.g elza_batagor"
               className="w-full px-4 py-3 rounded-lg bg-white/5 text-white placeholder-white/50 focus:outline-none text-base border border-white/20 h-14"
               autoComplete="off"
+              disabled={checking}
             />
           </div>
           <button
             type="submit"
-            className="w-full sm:w-auto min-w-14 h-14 px-4 py-3 rounded-lg bg-white/10 text-white flex items-center justify-center"
+            className="w-full sm:w-auto min-w-14 h-14 px-4 py-3 rounded-lg bg-white/10 text-white flex items-center justify-center disabled:opacity-50"
+            disabled={checking}
           >
-            <span className="hidden sm:inline"></span>
-            <FiArrowRight className="hidden sm:block font-bold text-xl" />
-            <span className="sm:hidden font-bold">Unwrap</span>
+            {checking ? (
+              <svg
+                className="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            ) : (
+              <>
+                <FiArrowRight className="hidden sm:block font-bold text-xl" />
+                <span className="sm:hidden font-bold">Unwrap</span>
+              </>
+            )}
           </button>
         </div>
 
@@ -89,6 +152,19 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
           </div>
         )}
       </form>
+
+      {/* Notification Toast */}
+      {notification && (
+        <div
+          className={`fixed top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg z-50 ${
+            notification.type === "success"
+              ? "bg-green-600/10 border border-green-600 text-white shadow-[0_0_15px_3px_rgba(34,197,94,0.4)]"
+              : "bg-red-700/10 border border-red-700 text-white shadow-[0_0_15px_3px_rgba(239,68,68,0.4)]"
+          }`}
+        >
+          {notification.message}
+        </div>
+      )}
     </div>
   );
 };

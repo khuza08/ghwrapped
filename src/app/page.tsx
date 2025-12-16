@@ -15,6 +15,20 @@ const GitHubWrappedPage = () => {
   const [error, setError] = useState("");
   const [showWrapped, setShowWrapped] = useState(false);
 
+  const checkUserExists = async (username: string): Promise<boolean> => {
+    try {
+      // Call the API route to check if the user exists
+      const response = await fetch(`/api/github/${username}`);
+      
+      // If the user exists, the API should return a successful response
+      // We'll check the response status to determine if the user exists
+      return response.ok;
+    } catch (error) {
+      console.error('Error checking user:', error);
+      return false;
+    }
+  };
+
   const handleSubmit = (username: string) => {
     setError("");
     setShowWrapped(true);
@@ -56,6 +70,7 @@ const GitHubWrappedPage = () => {
                 setUsername={setUsername}
                 setError={setError}
                 onSubmit={handleSubmit}
+                onCheckUser={checkUserExists}
               />
               <div className="mt-4 px-2 flex flex-row justify-between items-center text-white text-sm sm:text-base">
                 <div className="font-bold bg-linear-to-b from-white via-white to white/50 bg-clip-text text-transparent text-md md:text-lg lg:text-xl xl:text-2xl">
