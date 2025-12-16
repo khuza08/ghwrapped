@@ -1,240 +1,35 @@
 'use client';
 
-import { useState } from 'react';
-import GitHubWrappedCard from '@/components/GitHubWrappedCard';
+import React, { useState } from 'react';
+import { isValidUsername, normalizeUsername } from '@/lib/utils';
+import GitHubWrappedSlides from '@/components/GitHubWrapped/SlideContainer';
+import { ERROR_MESSAGES } from '@/lib/constants';
 
-// Define TypeScript interfaces
-interface GitHubUser {
-  login: string;
-  id: number;
-  node_id: string;
-  avatar_url: string;
-  gravatar_id: string;
-  url: string;
-  html_url: string;
-  followers_url: string;
-  following_url: string;
-  gists_url: string;
-  starred_url: string;
-  subscriptions_url: string;
-  organizations_url: string;
-  repos_url: string;
-  events_url: string;
-  received_events_url: string;
-  type: string;
-  site_admin: boolean;
-  name: string;
-  company: string;
-  blog: string;
-  location: string;
-  email: string;
-  hireable: boolean;
-  bio: string;
-  twitter_username: string;
-  public_repos: number;
-  public_gists: number;
-  followers: number;
-  following: number;
-  created_at: string;
-  updated_at: string;
-}
-
-interface GitHubRepo {
-  id: number;
-  node_id: string;
-  name: string;
-  full_name: string;
-  private: boolean;
-  owner: {
-    login: string;
-    id: number;
-    node_id: string;
-    avatar_url: string;
-    gravatar_id: string;
-    url: string;
-    html_url: string;
-    followers_url: string;
-    following_url: string;
-    gists_url: string;
-    starred_url: string;
-    subscriptions_url: string;
-    organizations_url: string;
-    repos_url: string;
-    events_url: string;
-    received_events_url: string;
-    type: string;
-    site_admin: boolean;
-  };
-  html_url: string;
-  description: string;
-  fork: boolean;
-  url: string;
-  forks_url: string;
-  keys_url: string;
-  collaborators_url: string;
-  teams_url: string;
-  hooks_url: string;
-  issue_events_url: string;
-  events_url: string;
-  assignees_url: string;
-  branches_url: string;
-  tags_url: string;
-  blobs_url: string;
-  git_tags_url: string;
-  git_refs_url: string;
-  trees_url: string;
-  statuses_url: string;
-  languages_url: string;
-  stargazers_url: string;
-  contributors_url: string;
-  subscribers_url: string;
-  subscription_url: string;
-  commits_url: string;
-  git_commits_url: string;
-  comments_url: string;
-  issue_comment_url: string;
-  contents_url: string;
-  compare_url: string;
-  merges_url: string;
-  archive_url: string;
-  downloads_url: string;
-  issues_url: string;
-  pulls_url: string;
-  milestones_url: string;
-  notifications_url: string;
-  labels_url: string;
-  releases_url: string;
-  deployments_url: string;
-  created_at: string;
-  updated_at: string;
-  pushed_at: string;
-  git_url: string;
-  ssh_url: string;
-  clone_url: string;
-  svn_url: string;
-  homepage: string;
-  size: number;
-  stargazers_count: number;
-  watchers_count: number;
-  language: string;
-  has_issues: boolean;
-  has_projects: boolean;
-  has_downloads: boolean;
-  has_wiki: boolean;
-  has_pages: boolean;
-  has_discussions: boolean;
-  forks_count: number;
-  mirror_url: string;
-  archived: boolean;
-  disabled: boolean;
-  open_issues_count: number;
-  license: {
-    key: string;
-    name: string;
-    spdx_id: string;
-    url: string;
-    node_id: string;
-  };
-  allow_forking: boolean;
-  is_template: boolean;
-  web_commit_signoff_required: boolean;
-  topics: string[];
-  visibility: string;
-  forks: number;
-  open_issues: number;
-  watchers: number;
-  default_branch: string;
-}
-
-interface GitHubWrappedData {
-  user: GitHubUser;
-  stats: {
-    totalRepos: number;
-    totalStars: number;
-    totalForks: number;
-    totalIssues: number;
-    mostStarredRepo: {
-      name: string;
-      stargazers_count: number;
-    } | null;
-    mostForkedRepo: {
-      name: string;
-      forks_count: number;
-    } | null;
-    primaryLanguage: Record<string, number>;
-    totalCommits: number;
-  };
-  languages: {
-    languages: Array<{
-      language: string;
-      percentage: number;
-    }>;
-  };
-  contributions: {
-    totalCommits: number;
-    mostActiveDay: string;
-    mostCommitsInADay: number;
-    topRepo: string;
-  };
-}
-
-export default function Home() {
+const GitHubWrappedPage = () => {
   const [username, setUsername] = useState('');
-  const [data, setData] = useState<GitHubWrappedData | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchGitHubData = async () => {
-    if (!username.trim()) {
-      setError('Please enter a GitHub username');
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    setData(null);
-
-    try {
-      // Fetch all required data
-      const [userData, languagesData, contributionsData] = await Promise.all([
-        fetch(`/api/github/${username}`).then(res => {
-          if (!res.ok) throw new Error('User not found');
-          return res.json();
-        }),
-        fetch(`/api/github/${username}/languages`).then(res => {
-          if (!res.ok) throw new Error('Could not fetch language data');
-          return res.json();
-        }),
-        fetch(`/api/github/${username}/contributions`).then(res => {
-          if (!res.ok) throw new Error('Could not fetch contribution data');
-          return res.json();
-        })
-      ]);
-
-      // Combine all data into a single object
-      const combinedData: GitHubWrappedData = {
-        user: userData.user,
-        stats: userData.stats,
-        languages: languagesData,
-        contributions: contributionsData
-      };
-
-      setData(combinedData);
-    } catch (err: any) {
-      setError(err.message || 'An error occurred while fetching data');
-      console.error('Error fetching GitHub data:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [error, setError] = useState('');
+  const [showWrapped, setShowWrapped] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    fetchGitHubData();
+    
+    // Validate username
+    if (!username.trim()) {
+      setError(ERROR_MESSAGES.USERNAME_REQUIRED);
+      return;
+    }
+    
+    if (!isValidUsername(username)) {
+      setError(ERROR_MESSAGES.USERNAME_INVALID);
+      return;
+    }
+    
+    setError('');
+    setShowWrapped(true);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-100 py-12 px-4 sm:px-6">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-100 py-12 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
@@ -248,10 +43,10 @@ export default function Home() {
           </p>
         </header>
 
-        <main className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
-          <form onSubmit={handleSubmit} className="mb-8">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex-grow">
+        {!showWrapped ? (
+          <main className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+            <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
+              <div className="mb-6">
                 <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
                   GitHub Username
                 </label>
@@ -262,51 +57,53 @@ export default function Home() {
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="e.g., octocat"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                  disabled={loading}
+                  autoComplete="off"
                 />
               </div>
-              <div className="flex items-end">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition disabled:opacity-50"
-                >
-                  {loading ? (
-                    <span className="flex items-center justify-center">
-                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Loading...
-                    </span>
-                  ) : (
-                    'Generate Wrapped'
-                  )}
-                </button>
-              </div>
+              
+              {error && (
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+                  {error}
+                </div>
+              )}
+              
+              <button
+                type="submit"
+                className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition"
+              >
+                Generate My Wrapped
+              </button>
+              
+              <p className="mt-4 text-center text-sm text-gray-500">
+                Your public GitHub data is used to generate these insights. No login required.
+              </p>
+            </form>
+          </main>
+        ) : (
+          <main className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-800">
+                @{normalizeUsername(username)}'s GitHub Wrapped
+              </h2>
+              <button
+                onClick={() => setShowWrapped(false)}
+                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+              >
+                ← Change User
+              </button>
             </div>
-          </form>
-
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
-              <p>{error}</p>
-            </div>
-          )}
-
-          <div className="flex justify-center">
-            <GitHubWrappedCard 
-              data={data} 
-              isLoading={loading && !data} 
-              username={username}
-            />
-          </div>
-        </main>
+            
+            <GitHubWrappedSlides username={normalizeUsername(username)} />
+          </main>
+        )}
 
         <footer className="mt-12 text-center text-gray-500 text-sm">
           <p>GitHub Wrapped • Made with ❤️ and code</p>
-          <p className="mt-2">This project is open source. Check out the repository on GitHub.</p>
+          <p className="mt-2">This project uses only public GitHub data. No login required.</p>
         </footer>
       </div>
     </div>
   );
-}
+};
+
+export default GitHubWrappedPage;

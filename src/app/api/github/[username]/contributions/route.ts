@@ -24,11 +24,14 @@ export async function GET(
     const { username } = params;
 
     if (!username) {
+      console.log('Username is required for contributions API');
       return NextResponse.json(
         { error: 'Username is required' },
         { status: 400 }
       );
     }
+
+    console.log(`Fetching contribution data for user: ${username}`);
 
     // Fetch user events (includes commit data)
     const events: GitHubEvent[] = await fetch(
@@ -38,13 +41,25 @@ export async function GET(
           'User-Agent': 'github-wrapped-app',
           'Accept': 'application/vnd.github.v3+json',
         },
+        next: { revalidate: 3600 } // Cache for 1 hour
       }
     )
-    .then(res => res.json());
+    .then(async res => {
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error(`GitHub API response error: ${res.status} - ${errorText}`);
+        throw new Error(`GitHub API error: ${res.status} - ${errorText}`);
+      }
+      return res.json();
+    });
+
+    console.log(`Fetched ${events.length} events for user: ${username}`);
 
     // Filter for PushEvent (commits) and calculate stats
     const commitEvents = events.filter(event => event.type === 'PushEvent');
-    
+
+    console.log(`Found ${commitEvents.length} commit events for user: ${username}`);
+
     // Calculate total commits
     let totalCommits = 0;
     commitEvents.forEach(event => {
@@ -79,6 +94,13 @@ export async function GET(
 
     const topRepo = Object.entries(repoCommitCount).sort((a, b) => b[1] - a[1])[0]?.[0] || '';
 
+    console.log(`Calculated contributions stats for user: ${username}`, {
+      totalCommits,
+      mostActiveDay,
+      mostCommitsInADay,
+      topRepo
+    });
+
     return NextResponse.json({
       totalCommits,
       commitsByDate,
@@ -92,14 +114,14 @@ export async function GET(
     });
   } catch (error: any) {
     console.error('Error in GitHub contributions API route:', error);
-    
+
     return NextResponse.json(
-      { 
+      {
         error: error.message || 'Failed to fetch GitHub contribution data',
         ...(error.status && { status: error.status })
       },
-      { 
-        status: error.status || 500 
+      {
+        status: error.status || 500
       }
     );
   }
