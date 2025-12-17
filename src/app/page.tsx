@@ -17,11 +17,8 @@ const GitHubWrappedPage = () => {
 
   const checkUserExists = async (username: string): Promise<boolean> => {
     try {
-      // Call the API route to check if the user exists
       const response = await fetch(`/api/github/${username}`);
 
-      // If the user exists, the API should return a successful response
-      // We'll check the response status to determine if the user exists
       return response.ok;
     } catch (error) {
       console.error("Error checking user:", error);

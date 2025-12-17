@@ -88,7 +88,7 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
     <div className="bg-white/5 border border-white/20 rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-2xl relative">
       {/* Header Section */}
       <div className="mb-6 sm:mb-8">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-linear-to-b from-white via-white to-white/50 bg-clip-text text-transparent mb-2 mt-4">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-b from-white via-white to-white/50 bg-clip-text text-transparent mb-2 mt-4">
           Discover your GitHub year in review!
         </h1>
         <p className="text-white/80 text-sm sm:text-base">
@@ -113,7 +113,7 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
           </div>
           <button
             type="submit"
-            className="w-full sm:w-auto min-w-14 h-14 px-4 py-3 rounded-lg bg-white/10 text-white flex items-center justify-center disabled:opacity-50"
+            className="w-full sm:w-auto min-w-14 h-14 px-4 py-3 rounded-lg bg-white/10 text-white flex items-center justify-center disabled:opacity-50 hover:text-white/50 transition-colors duration-300"
             disabled={checking}
           >
             {checking ? (
