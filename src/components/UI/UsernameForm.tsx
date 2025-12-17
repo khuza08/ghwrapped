@@ -99,7 +99,7 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
 
       {/* Input Section */}
       <form onSubmit={handleFormSubmit} className="mb-6">
-        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-center w-full">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-2 items-center w-full">
           <div className="w-full grow">
             <input
               type="text"
