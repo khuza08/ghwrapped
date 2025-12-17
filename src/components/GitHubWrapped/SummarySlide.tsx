@@ -1,9 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { GitHubWrappedData } from '@/lib/types';
-import { formatReadableDate } from '@/utils/date';
-import { formatNumber } from '@/lib/utils';
-import AnimatedCounter from '@/components/UI/AnimatedCounter';
+import React from "react";
+import { motion } from "framer-motion";
+import { GitHubWrappedData } from "@/lib/types";
+import { formatReadableDate } from "@/utils/date";
+import { formatNumber } from "@/lib/utils";
+import AnimatedCounter from "@/components/UI/AnimatedCounter";
 
 interface WrappedSlideProps {
   data: GitHubWrappedData;
@@ -20,7 +20,9 @@ const SummarySlide: React.FC<WrappedSlideProps> = ({ data }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-100 mb-2">GitHub Wrapped 2024</h3>
+        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-100 mb-2">
+          GitHub Wrapped 2024
+        </h3>
         <div className="flex items-center justify-center mb-4 md:mb-6">
           <motion.img
             src={user.avatar_url}
@@ -31,8 +33,12 @@ const SummarySlide: React.FC<WrappedSlideProps> = ({ data }) => {
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
           />
           <div className="text-left">
-            <h4 className="text-lg md:text-xl lg:text-2xl font-semibold text-gray-100">{user.name || user.login}</h4>
-            <p className="text-sm md:text-base lg:text-lg text-gray-400">@{user.login}</p>
+            <h4 className="text-lg md:text-xl lg:text-2xl font-semibold text-gray-100">
+              {user.name || user.login}
+            </h4>
+            <p className="text-sm md:text-base lg:text-lg text-gray-400">
+              @{user.login}
+            </p>
           </div>
         </div>
       </motion.div>
@@ -44,44 +50,52 @@ const SummarySlide: React.FC<WrappedSlideProps> = ({ data }) => {
         transition={{ delay: 0.4, staggerChildren: 0.1 }}
       >
         <motion.div
-          className="bg-gray-800 p-3 md:p-4 lg:p-6 rounded-lg"
+          className="bg-white/5 p-3 md:p-4 lg:p-6 rounded-lg"
           whileHover={{ scale: 1.03 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
           <div className="text-xl md:text-2xl lg:text-4xl font-bold text-gray-200">
             <AnimatedCounter value={formatNumber(summary.totalCommits)} />
           </div>
-          <div className="text-xs md:text-sm lg:text-base text-gray-400">Commits</div>
+          <div className="text-xs md:text-sm lg:text-base text-gray-400">
+            Commits
+          </div>
         </motion.div>
         <motion.div
-          className="bg-gray-800 p-3 md:p-4 lg:p-6 rounded-lg"
+          className="bg-white/5 p-3 md:p-4 lg:p-6 rounded-lg"
           whileHover={{ scale: 1.03 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
           <div className="text-xl md:text-2xl lg:text-4xl font-bold text-gray-200">
             <AnimatedCounter value={formatNumber(summary.totalRepos)} />
           </div>
-          <div className="text-xs md:text-sm lg:text-base text-gray-400">Repos</div>
+          <div className="text-xs md:text-sm lg:text-base text-gray-400">
+            Repos
+          </div>
         </motion.div>
         <motion.div
-          className="bg-gray-800 p-3 md:p-4 lg:p-6 rounded-lg"
+          className="bg-white/5 p-3 md:p-4 lg:p-6 rounded-lg"
           whileHover={{ scale: 1.03 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
           <div className="text-xl md:text-2xl lg:text-4xl font-bold text-gray-200">
             <AnimatedCounter value={formatNumber(summary.totalStars)} />
           </div>
-          <div className="text-xs md:text-sm lg:text-base text-gray-400">Stars</div>
+          <div className="text-xs md:text-sm lg:text-base text-gray-400">
+            Stars
+          </div>
         </motion.div>
         <motion.div
-          className="bg-gray-800 p-3 md:p-4 lg:p-6 rounded-lg"
+          className="bg-white/5 p-3 md:p-4 lg:p-6 rounded-lg"
           whileHover={{ scale: 1.03 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
           <div className="text-xl md:text-2xl lg:text-4xl font-bold text-gray-200">
             <AnimatedCounter value={summary.yearsOnGitHub} suffix="y" />
           </div>
-          <div className="text-xs md:text-sm lg:text-base text-gray-400">On GitHub</div>
+          <div className="text-xs md:text-sm lg:text-base text-gray-400">
+            On GitHub
+          </div>
         </motion.div>
       </motion.div>
 
