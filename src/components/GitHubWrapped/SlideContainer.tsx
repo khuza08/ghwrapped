@@ -7,6 +7,7 @@ import CommitsSlide from "@/components/GitHubWrapped/CommitsSlide";
 import LanguagesSlide from "@/components/GitHubWrapped/LanguagesSlide";
 import ReposSlide from "@/components/GitHubWrapped/ReposSlide";
 import PersonalitySlide from "@/components/GitHubWrapped/PersonalitySlide";
+import ImageExportSlide from "@/components/GitHubWrapped/ImageExportSlide";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import ErrorDisplay from "@/components/UI/ErrorDisplay";
 import { useWrappedData } from "@/hooks/useWrappedData";
@@ -30,6 +31,11 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
       id: "personality",
       component: PersonalitySlide,
       title: "Your Coding Style",
+    },
+    {
+      id: "image-export",
+      component: ImageExportSlide,
+      title: "Export Image",
     },
   ];
 
