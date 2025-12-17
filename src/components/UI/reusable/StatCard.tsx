@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import AnimatedCounter from "./AnimatedCounter";
+import AnimatedCounter from "../AnimatedCounter";
 import { formatNumber } from "@/lib/utils";
 
 interface StatCardProps {
