@@ -1,8 +1,8 @@
 import React from 'react';
 import { GitHubWrappedData } from '@/lib/types';
 import { PERSONALITY_TYPES, ACTIVITY_TYPES } from '@/lib/constants';
-import PersonalityCard from '@/components/UI/PersonalityCard';
-import Badge from '@/components/UI/Badge';
+import PersonalityCard from '@/components/UI/reusable/PersonalityCard';
+import Badge from '@/components/UI/reusable/Badge';
 
 interface WrappedSlideProps {
   data: GitHubWrappedData;

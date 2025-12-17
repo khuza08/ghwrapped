@@ -4,7 +4,7 @@ import { GitHubWrappedData } from "@/lib/types";
 import { formatReadableDate } from "@/utils/date";
 import { formatNumber } from "@/lib/utils";
 import AnimatedCounter from "@/components/UI/AnimatedCounter";
-import StatCard from "@/components/UI/StatCard";
+import StatCard from "@/components/UI/reusable/StatCard";
 
 interface WrappedSlideProps {
   data: GitHubWrappedData;

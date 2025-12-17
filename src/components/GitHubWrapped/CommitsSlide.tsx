@@ -5,9 +5,9 @@ import { formatReadableDate } from "@/utils/date";
 import { formatNumber } from "@/lib/utils";
 import AnimatedCounter from "@/components/UI/AnimatedCounter";
 import CommitChart from "@/components/GitHubWrapped/CommitChart";
-import StatCard from "@/components/UI/StatCard";
-import StreakCard from "@/components/UI/StreakCard";
-import ScheduleCard from "@/components/UI/ScheduleCard";
+import StatCard from "@/components/UI/reusable/StatCard";
+import StreakCard from "@/components/UI/reusable/StreakCard";
+import ScheduleCard from "@/components/UI/reusable/ScheduleCard";
 
 interface WrappedSlideProps {
   data: GitHubWrappedData;

@@ -1,8 +1,8 @@
 import React from "react";
 import { GitHubWrappedData } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
-import LanguageItem from "@/components/UI/LanguageItem";
-import LanguageBar from "@/components/UI/LanguageBar";
+import LanguageItem from "@/components/UI/reusable/LanguageItem";
+import LanguageBar from "@/components/UI/reusable/LanguageBar";
 
 interface WrappedSlideProps {
   data: GitHubWrappedData;

@@ -1,8 +1,8 @@
 import React from "react";
 import { GitHubWrappedData } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
-import RepoItem from "@/components/UI/RepoItem";
-import RepoStat from "@/components/UI/RepoStat";
+import RepoItem from "@/components/UI/reusable/RepoItem";
+import RepoStat from "@/components/UI/reusable/RepoStat";
 
 interface WrappedSlideProps {
   data: GitHubWrappedData;
