@@ -1,7 +1,8 @@
 import React from 'react';
 import { GitHubWrappedData } from '@/lib/types';
 import { PERSONALITY_TYPES, ACTIVITY_TYPES } from '@/lib/constants';
-import { getDarkGrayColor, getSubtleDarkGrayColor } from '@/lib/grayscale';
+import PersonalityCard from '@/components/UI/PersonalityCard';
+import Badge from '@/components/UI/Badge';
 
 interface WrappedSlideProps {
   data: GitHubWrappedData;
@@ -20,17 +21,16 @@ const PersonalitySlide: React.FC<WrappedSlideProps> = ({ data }) => {
       <p className="text-xs md:text-sm lg:text-base text-gray-400 mb-4 md:mb-6">Based on your GitHub activity in 2024</p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-6">
-        <div className="bg-gray-800 p-3 md:p-4 lg:p-6 rounded-xl">
-          <div className="text-2xl md:text-3xl lg:text-4xl mb-1 md:mb-2 text-gray-200">{scheduleDetails.emoji}</div>
-          <h4 className="text-base md:text-lg lg:text-xl font-bold text-gray-100">{scheduleDetails.title}</h4>
-          <p className="text-xs md:text-sm lg:text-base text-gray-400 mt-1">{scheduleDetails.description}</p>
-        </div>
-
-        <div className="bg-gray-800 p-3 md:p-4 lg:p-6 rounded-xl">
-          <div className="text-2xl md:text-3xl lg:text-4xl mb-1 md:mb-2 text-gray-200">{activityDetails.emoji}</div>
-          <h4 className="text-base md:text-lg lg:text-xl font-bold text-gray-100">{activityDetails.title}</h4>
-          <p className="text-xs md:text-sm lg:text-base text-gray-400 mt-1">{activityDetails.description}</p>
-        </div>
+        <PersonalityCard
+          emoji={scheduleDetails.emoji}
+          title={scheduleDetails.title}
+          description={scheduleDetails.description}
+        />
+        <PersonalityCard
+          emoji={activityDetails.emoji}
+          title={activityDetails.title}
+          description={activityDetails.description}
+        />
       </div>
 
       {personality.badges.length > 0 && (
@@ -38,12 +38,10 @@ const PersonalitySlide: React.FC<WrappedSlideProps> = ({ data }) => {
           <h4 className="text-sm md:text-lg lg:text-xl font-semibold text-gray-300 mb-3">Your Badges</h4>
           <div className="flex flex-wrap justify-center gap-1 md:gap-2 lg:gap-3">
             {personality.badges.map((badge, index) => (
-              <span
+              <Badge
                 key={index}
-                className="px-2 py-1 md:px-3 md:py-1.5 bg-gray-700 text-gray-200 rounded-full text-xs md:text-sm lg:text-base font-medium"
-              >
-                {badge}
-              </span>
+                text={badge}
+              />
             ))}
           </div>
         </div>

@@ -4,6 +4,7 @@ import { GitHubWrappedData } from "@/lib/types";
 import { formatReadableDate } from "@/utils/date";
 import { formatNumber } from "@/lib/utils";
 import AnimatedCounter from "@/components/UI/AnimatedCounter";
+import StatCard from "@/components/UI/StatCard";
 
 interface WrappedSlideProps {
   data: GitHubWrappedData;
@@ -49,54 +50,22 @@ const SummarySlide: React.FC<WrappedSlideProps> = ({ data }) => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, staggerChildren: 0.1 }}
       >
-        <motion.div
-          className="bg-white/5 border border-white/20 p-3 md:p-4 lg:p-6 rounded-lg"
-          whileHover={{ scale: 1.03 }}
-          transition={{ type: "spring", stiffness: 400, damping: 10 }}
-        >
-          <div className="text-xl md:text-2xl lg:text-4xl font-bold text-white/80">
-            <AnimatedCounter value={formatNumber(summary.totalCommits)} />
-          </div>
-          <div className="text-xs md:text-sm lg:text-base text-white/50">
-            Commits
-          </div>
-        </motion.div>
-        <motion.div
-          className="bg-white/5 border border-white/20 p-3 md:p-4 lg:p-6 rounded-lg"
-          whileHover={{ scale: 1.03 }}
-          transition={{ type: "spring", stiffness: 400, damping: 10 }}
-        >
-          <div className="text-xl md:text-2xl lg:text-4xl font-bold text-white/80">
-            <AnimatedCounter value={formatNumber(summary.totalRepos)} />
-          </div>
-          <div className="text-xs md:text-sm lg:text-base text-white/50">
-            Repos
-          </div>
-        </motion.div>
-        <motion.div
-          className="bg-white/5 border border-white/20 p-3 md:p-4 lg:p-6 rounded-lg"
-          whileHover={{ scale: 1.03 }}
-          transition={{ type: "spring", stiffness: 400, damping: 10 }}
-        >
-          <div className="text-xl md:text-2xl lg:text-4xl font-bold text-white/80">
-            <AnimatedCounter value={formatNumber(summary.totalStars)} />
-          </div>
-          <div className="text-xs md:text-sm lg:text-base text-white/50">
-            Stars
-          </div>
-        </motion.div>
-        <motion.div
-          className="bg-white/5 border border-white/20 p-3 md:p-4 lg:p-6 rounded-lg"
-          whileHover={{ scale: 1.03 }}
-          transition={{ type: "spring", stiffness: 400, damping: 10 }}
-        >
-          <div className="text-xl md:text-2xl lg:text-4xl font-bold text-white/80">
-            <AnimatedCounter value={summary.yearsOnGitHub} suffix="y" />
-          </div>
-          <div className="text-xs md:text-sm lg:text-base text-white/50">
-            On GitHub
-          </div>
-        </motion.div>
+        <StatCard
+          value={summary.totalCommits}
+          label="Commits"
+        />
+        <StatCard
+          value={summary.totalRepos}
+          label="Repos"
+        />
+        <StatCard
+          value={summary.totalStars}
+          label="Stars"
+        />
+        <StatCard
+          value={`${summary.yearsOnGitHub}y`}
+          label="On GitHub"
+        />
       </motion.div>
 
       <motion.div
