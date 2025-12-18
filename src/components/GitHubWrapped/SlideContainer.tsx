@@ -52,7 +52,7 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
           </div>
         </div>
 
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 flex items-center overflow-hidden">
           <div className="w-full h-full flex items-center justify-center">
             <CurrentSlideComponent data={data} />
           </div>

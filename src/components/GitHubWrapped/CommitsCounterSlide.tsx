@@ -33,41 +33,43 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
   }, [totalCommits]);
 
   return (
-    <div className="w-full flex flex-col items-center text-center">
-      <div className="mb-2 font-bold text-sm md:text-base text-white/80">
-        @{data.user?.login || "elza the great"}
-      </div>
+    <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
+      <div className="flex flex-col items-center text-center pointer-events-auto">
+        <div className="mb-2 font-bold text-sm md:text-base text-white/80">
+          @{data.user?.login || "elza the great"}
+        </div>
 
-      <div className="text-base md:text-lg text-white/50">
-        IN {new Date().getFullYear()}, YOU MADE...
-      </div>
+        <div className="text-base md:text-lg text-white/50">
+          IN {new Date().getFullYear()}, YOU MADE...
+        </div>
 
-      <div
-        className="font-bold bg-gradient-to-r from-white/40 via-white/80 to-white/40 bg-clip-text text-transparent"
-        style={{
-          fontSize: "clamp(48px, 18vw, 12rem)",
-          lineHeight: 1,
-          marginBottom: "16px",
-        }}
-      >
-        {count.toLocaleString()}
-      </div>
+        <div
+          className="font-bold bg-gradient-to-r from-white/40 via-white/80 to-white/40 bg-clip-text text-transparent"
+          style={{
+            fontSize: "clamp(48px, 18vw, 12rem)",
+            lineHeight: 1,
+            marginBottom: "16px",
+          }}
+        >
+          {count.toLocaleString()}
+        </div>
 
-      <div className="text-xl md:text-2xl text-white/90 font-bold">
-        CONTRIBUTIONS
-      </div>
+        <div className="text-xl md:text-2xl text-white/90 font-bold">
+          CONTRIBUTIONS
+        </div>
 
-      <style jsx>{`
-        @keyframes bounce {
-          0%,
-          100% {
-            transform: translateY(0);
+        <style jsx>{`
+          @keyframes bounce {
+            0%,
+            100% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(-5px);
+            }
           }
-          50% {
-            transform: translateY(-5px);
-          }
-        }
-      `}</style>
+        `}</style>
+      </div>
     </div>
   );
 };
