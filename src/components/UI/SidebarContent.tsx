@@ -1,17 +1,17 @@
 import React from "react";
 import { normalizeUsername } from "@/lib/utils";
 
-interface FixedSidebarProps {
+interface SidebarContentProps {
   username: string;
   onBackClick: () => void;
 }
 
-const FixedSidebar: React.FC<FixedSidebarProps> = ({
+const SidebarContent: React.FC<SidebarContentProps> = ({
   username,
   onBackClick,
 }) => {
   return (
-    <div className="fixed left-4 top-4 z-50 bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/20 w-64 shadow-lg max-w-xs">
+    <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/20 w-64 shadow-lg max-w-xs">
       <div className="flex flex-col space-y-3">
         <div>
           <h3 className="text-md font-semibold text-white/90">
@@ -34,4 +34,4 @@ const FixedSidebar: React.FC<FixedSidebarProps> = ({
   );
 };
 
-export default FixedSidebar;
+export default SidebarContent;
