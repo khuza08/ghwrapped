@@ -1,11 +1,10 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { GitHubWrappedData } from '@/lib/types';
 import { formatReadableDate } from '@/utils/date';
 import { formatNumber } from '@/lib/utils';
 import AnimatedCounter from '@/components/UI/AnimatedCounter';
 import { PERSONALITY_TYPES, ACTIVITY_TYPES } from '@/lib/constants';
 import languageColors from '@/lib/languageColors.json';
-import { toPng } from 'html-to-image';
 
 // Function to get language color based on GitHub's language colors from linguist
 const getLanguageColor = (language: string): string => {
@@ -37,43 +36,13 @@ const ImageExportSlide: React.FC<ImageExportSlideProps> = ({ data }) => {
   // Get the personality details
   const scheduleDetails = PERSONALITY_TYPES[personality.codingSchedule];
   const activityDetails = ACTIVITY_TYPES[personality.activityType];
-  
-  const exportRef = useRef<HTMLDivElement>(null);
-
-  const handleExport = async () => {
-    if (exportRef.current) {
-      try {
-        // Generate PNG from the element
-        const dataUrl = await toPng(exportRef.current, {
-          skipFonts: true, // Skip font processing to avoid font-related errors
-        });
-
-        // Create a temporary link to download the image
-        const link = document.createElement('a');
-        link.download = `github-wrapped-${user.login}-2024.png`;
-        link.href = dataUrl;
-        link.click();
-      } catch (error) {
-        console.error('Error generating image:', error);
-        alert('Error generating image. Please try again.');
-      }
-    }
-  };
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      {/* Export Button */}
-      <div className="flex justify-center mb-4">
-        <button
-          onClick={handleExport}
-          className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
-        >
-          📷 Export as Image
-        </button>
-      </div>
-
-      {/* Wrapped Content */}
-      <div ref={exportRef} className="text-center bg-gray-900 text-white p-8 rounded-2xl shadow-2xl border border-gray-800">
+      {/* Wrapped Content - with data-export-wrapped attribute for export function */}
+      <div
+        data-export-wrapped
+        className="text-center bg-gray-900 text-white p-8 rounded-2xl shadow-2xl border border-gray-800">
         <div className="mb-6">
           <div className="flex items-center justify-center mb-2">
             <div className="text-2xl mr-2">📊</div>

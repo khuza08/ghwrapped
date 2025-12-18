@@ -5,10 +5,10 @@ import { normalizeUsername } from "@/lib/utils";
 import { ERROR_MESSAGES } from "@/lib/constants";
 import GitHubWrappedHeader from "@/components/UI/GitHubWrappedHeader";
 import UsernameForm from "@/components/UI/UsernameForm";
-import WrappedSidebar from "@/components/UI/WrappedSidebar";
 import WrappedMainContent from "@/components/UI/WrappedMainContent";
 import GitHubWrappedFooter from "@/components/UI/GitHubWrappedFooter";
 import { FaGithub } from "react-icons/fa";
+import WrappedView from "@/components/UI/WrappedView";
 
 const GitHubWrappedPage = () => {
   const [username, setUsername] = useState("");
@@ -43,21 +43,10 @@ const GitHubWrappedPage = () => {
     <div className="min-h-screen flex flex-col bg-black text-white py-6 px-4 lg:px-8 xl:px-16">
       <div className="max-w-full mx-auto w-full grow flex flex-col">
         {showWrapped ? (
-          <>
-            <GitHubWrappedHeader />
-            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
-              <div className="lg:w-1/4 xl:w-1/5 shrink-0">
-                <WrappedSidebar
-                  username={username}
-                  onBackClick={() => setShowWrapped(false)}
-                />
-              </div>
-
-              <div className="lg:w-3/4 xl:w-4/5">
-                <WrappedMainContent username={normalizeUsername(username)} />
-              </div>
-            </div>
-          </>
+          <WrappedView
+            username={username}
+            onBackClick={() => setShowWrapped(false)}
+          />
         ) : (
           <div className="flex flex-col items-center justify-center grow">
             <div className="bg-white/5 border border-white/20 rounded-2xl shadow-lg p-4 w-full max-w-2xl">

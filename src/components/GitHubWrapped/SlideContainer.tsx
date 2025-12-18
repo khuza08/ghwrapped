@@ -8,6 +8,7 @@ import LanguagesSlide from "@/components/GitHubWrapped/LanguagesSlide";
 import ReposSlide from "@/components/GitHubWrapped/ReposSlide";
 import PersonalitySlide from "@/components/GitHubWrapped/PersonalitySlide";
 import ImageExportSlide from "@/components/GitHubWrapped/ImageExportSlide";
+import GitHubWrappedBanner from "@/components/GitHubWrapped/GitHubWrappedBanner";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import ErrorDisplay from "@/components/UI/ErrorDisplay";
 import { useWrappedData } from "@/hooks/useWrappedData";
@@ -36,6 +37,11 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
       id: "image-export",
       component: ImageExportSlide,
       title: "Export Image",
+    },
+    {
+      id: "banner",
+      component: GitHubWrappedBanner,
+      title: "Shareable Banner",
     },
   ];
 
