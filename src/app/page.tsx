@@ -10,16 +10,98 @@ import GitHubWrappedFooter from "@/components/UI/GitHubWrappedFooter";
 import { FaGithub } from "react-icons/fa";
 import WrappedView from "@/components/UI/WrappedView";
 
+// Cache duration: 1 hour (3600000 ms)
+const CACHE_DURATION = 3600000;
+
 const GitHubWrappedPage = () => {
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
   const [showWrapped, setShowWrapped] = useState(false);
 
   const checkUserExists = async (username: string): Promise<boolean> => {
+    if (typeof window === 'undefined') return false;
+
+    // First check if we have a cached verification result
+    const cacheKey = `github-wrapped-verification-${username.toLowerCase()}`;
+    const cached = localStorage.getItem(cacheKey);
+
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        // Check if cache is still valid (not expired)
+        if (Date.now() - parsed.timestamp < CACHE_DURATION) {
+          if (parsed.exists) {
+            // If user was previously verified and exists, check if full data is available
+            const dataCacheKey = `github-wrapped-data-${username.toLowerCase()}`;
+            const dataCached = localStorage.getItem(dataCacheKey);
+
+            if (dataCached) {
+              const dataParsed = JSON.parse(dataCached);
+              if (Date.now() - dataParsed.timestamp < CACHE_DURATION) {
+                // Data is still fresh, no need to fetch again
+                return true;
+              }
+            }
+            // User exists but data may be stale, so we'll fetch fresh data below
+          } else {
+            // User doesn't exist - return false immediately
+            return false;
+          }
+        }
+      } catch (error) {
+        console.error('Error parsing cached verification:', error);
+      }
+    }
+
     try {
+      // Make a single request to the main API endpoint
       const response = await fetch(`/api/github/${username}`);
 
-      return response.ok;
+      if (response.ok) {
+        const data = await response.json();
+
+        // Cache the data so WrappedView can use it immediately
+        if (typeof window !== 'undefined' && data) {
+          const dataCacheKey = `github-wrapped-data-${username.toLowerCase()}`;
+          const cacheData = {
+            data,
+            timestamp: Date.now(),
+          };
+
+          try {
+            localStorage.setItem(dataCacheKey, JSON.stringify(cacheData));
+          } catch (dataCacheError) {
+            console.error('Error caching data during verification:', dataCacheError);
+          }
+        }
+
+        // Cache the verification result
+        try {
+          const verificationCache = {
+            exists: true,
+            timestamp: Date.now(),
+          };
+          localStorage.setItem(cacheKey, JSON.stringify(verificationCache));
+        } catch (verificationCacheError) {
+          console.error('Error caching verification:', verificationCacheError);
+        }
+
+        return true;
+      } else {
+        // User doesn't exist, cache this result too
+        try {
+          const verificationCache = {
+            exists: false,
+            timestamp: Date.now(),
+          };
+          localStorage.setItem(cacheKey, JSON.stringify(verificationCache));
+        } catch (verificationCacheError) {
+          console.error('Error caching negative verification:', verificationCacheError);
+        }
+
+        // If the response is not ok, it means user doesn't exist or there's an error
+        return false;
+      }
     } catch (error) {
       console.error("Error checking user:", error);
       return false;

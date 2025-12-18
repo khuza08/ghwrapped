@@ -61,13 +61,21 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
       return;
     }
     setChecking(true);
+
+    // Track API request start time
+    const startTime = Date.now();
+
     try {
       const userExists = await onCheckUser(username);
+
+      // Calculate API request duration
+      const duration = (Date.now() - startTime) / 1000; // Convert to seconds
+
       if (userExists) {
-        showNotification("User found! Redirecting...", "success");
+        showNotification(`Data loaded in ${duration.toFixed(2)}s! Unwrapping...`, "success");
         setTimeout(() => {
           onSubmit(username);
-        }, 2000);
+        }, 800);
       } else {
         showNotification("User not found on GitHub", "error");
         setTimeout(() => {
