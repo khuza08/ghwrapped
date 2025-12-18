@@ -58,17 +58,28 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
       <div className="flex flex-col items-center text-center pointer-events-auto">
-        <div className="mb-2 font-bold text-sm md:text-base text-white/80">
+        <div className="mb-2 font-bold text-sm md:text-base text-white/80 flex items-center gap-2">
           <DecryptedText
-            text={`@${data.user?.login || "elza the great"}`}
-            speed={40}
-            maxIterations={8}
+            text={`${data.user?.name || "Elza The Great"}`}
+            speed={100}
+            maxIterations={6}
+            sequential={true}
+            revealDirection="start"
+            characters="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+            animateOn="view"
+            className=""
+            encryptedClassName="text-white/80"
+          />
+          <DecryptedText
+            text={`(@${data.user?.login || "elza the great"})`}
+            speed={30}
+            maxIterations={6}
             sequential={true}
             revealDirection="start"
             characters="abcdefghijklmnopqrstuvwxyz0123456789_"
             animateOn="view"
             className=""
-            encryptedClassName="text-white/50"
+            encryptedClassName="text-white/80"
             onRevealComplete={() => setUsernameDecrypted(true)}
           />
         </div>
@@ -97,8 +108,8 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
             revealDirection="start"
             characters="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+"
             animateOn={sentenceDecrypted ? "view" : "hover"}
-            className="font-mono tracking-wider text-white/90 transition-all duration-300"
-            encryptedClassName="font-mono tracking-wider text-white/90 transition-all duration-600"
+            className="font-mono tracking-wider text-white/50 transition-all duration-300"
+            encryptedClassName="font-mono tracking-wider text-white/50 transition-all duration-600"
           />
         </div>
 
