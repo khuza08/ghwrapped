@@ -3,7 +3,7 @@
 import React from "react";
 import GitHubWrappedHeader from "@/components/UI/GitHubWrappedHeader";
 import WrappedMainContent from "@/components/UI/WrappedMainContent";
-import SidebarWithExportButtons from "@/components/UI/SidebarWithExportButtons";
+import DraggableSidebar from "@/components/UI/DraggableSidebar";
 import { useWrappedData } from "@/hooks/useWrappedData";
 import { normalizeUsername } from "@/lib/utils";
 
@@ -36,7 +36,7 @@ const WrappedView: React.FC<WrappedViewProps> = ({ username, onBackClick }) => {
 
   return (
     <>
-      <SidebarWithExportButtons
+      <DraggableSidebar
         username={username}
         data={data}
         onBackClick={onBackClick}

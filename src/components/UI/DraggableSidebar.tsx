@@ -3,13 +3,13 @@ import { GitHubWrappedData } from "@/lib/types";
 import SidebarContent from "@/components/UI/SidebarContent";
 import ExportButtons from "@/components/UI/ExportButtons";
 
-interface SidebarWithExportButtonsProps {
+interface DraggableSidebarProps {
   username: string;
   data: GitHubWrappedData;
   onBackClick: () => void;
 }
 
-const SidebarWithExportButtons: React.FC<SidebarWithExportButtonsProps> = ({
+const DraggableSidebar: React.FC<DraggableSidebarProps> = ({
   username,
   data,
   onBackClick,
@@ -18,8 +18,12 @@ const SidebarWithExportButtons: React.FC<SidebarWithExportButtonsProps> = ({
   const [smoothPosition, setSmoothPosition] = useState({ x: 16, y: 16 }); // Smoothly animated position
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationOpacity, setNotificationOpacity] = useState(0);
+  const [dragCount, setDragCount] = useState(0);
   const animationRef = useRef<number | null>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const notificationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const interpolatePosition = (
     start: { x: number; y: number },
@@ -86,17 +90,50 @@ const SidebarWithExportButtons: React.FC<SidebarWithExportButtonsProps> = ({
     });
   };
 
+  const showNotificationWithTimeout = () => {
+    setShowNotification(true);
+    setNotificationOpacity(0); // Start with 0 opacity
+
+    // Fade in the notification
+    setTimeout(() => {
+      setNotificationOpacity(1);
+    }, 10); // Small delay to allow re-render
+
+    // Clear any existing timeout before setting a new one
+    if (notificationTimeoutRef.current) {
+      clearTimeout(notificationTimeoutRef.current);
+    }
+
+    // Auto hide notification after 1 second with fade out
+    notificationTimeoutRef.current = setTimeout(() => {
+      setNotificationOpacity(0);
+      setTimeout(() => {
+        setShowNotification(false);
+      }, 300);
+    }, 5000);
+  };
+
   const handleMouseUp = () => {
     setIsDragging(false);
+
+    setDragCount((prev) => prev + 1);
+    showNotificationWithTimeout();
   };
 
   const resetPosition = () => {
     setTargetPosition({ x: 16, y: 16 });
+    showNotificationWithTimeout();
   };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "r" || e.key === "R") {
+      if (
+        (e.key === "r" || e.key === "R") &&
+        !e.ctrlKey &&
+        !e.metaKey &&
+        !e.altKey
+      ) {
+        e.preventDefault();
         resetPosition();
       }
     };
@@ -120,24 +157,53 @@ const SidebarWithExportButtons: React.FC<SidebarWithExportButtonsProps> = ({
   }, [isDragging]);
 
   return (
-    <div
-      ref={sidebarRef}
-      className="fixed z-50 flex flex-col gap-4 w-64 max-w-xs cursor-move"
-      style={{
-        left: `${smoothPosition.x}px`,
-        top: `${smoothPosition.y}px`,
-        userSelect: isDragging ? "none" : "auto",
-      }}
-      onMouseDown={handleMouseDown}
-    >
-      <div className="w-full">
-        <SidebarContent username={username} onBackClick={onBackClick} />
-      </div>
-      <div className="w-full">
-        <ExportButtons data={data} />
+    <div className="relative">
+      {/* Bubble */}
+      {showNotification && (
+        <div
+          className="fixed z-60 pointer-events-none transition-opacity duration-300"
+          style={{
+            left: `${smoothPosition.x + 128}px`,
+            top: `${smoothPosition.y + 220}px`,
+            opacity: notificationOpacity,
+            transition: "opacity 0.3s ease-in-out",
+          }}
+        >
+          <div
+            className="bg-white/5 text-white text-sm font-bold backdrop-blur-lg border border-white/20 py-3 px-6 rounded-full
+            shadow-xl flex items-center space-x-2 transform transition-all -translate-x-1/2 z-10"
+          >
+            <span>
+              PRESS{" "}
+              <kbd className="px-3 py-1 text-xs rounded-md bg-white/20 font-mono">
+                R
+              </kbd>{" "}
+              TO RESET ME!
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Draggable Sidebar */}
+      <div
+        ref={sidebarRef}
+        className="fixed z-50 flex flex-col gap-4 w-64 max-w-xs cursor-move"
+        style={{
+          left: `${smoothPosition.x}px`,
+          top: `${smoothPosition.y}px`,
+          userSelect: isDragging ? "none" : "auto",
+        }}
+        onMouseDown={handleMouseDown}
+      >
+        <div className="w-full">
+          <SidebarContent username={username} onBackClick={onBackClick} />
+        </div>
+        <div className="w-full">
+          <ExportButtons data={data} />
+        </div>
       </div>
     </div>
   );
 };
 
-export default SidebarWithExportButtons;
+export default DraggableSidebar;
