@@ -2,8 +2,8 @@
 
 import React from "react";
 import GitHubWrappedHeader from "@/components/UI/GitHubWrappedHeader";
-import WrappedSidebar from "@/components/UI/WrappedSidebar";
 import WrappedMainContent from "@/components/UI/WrappedMainContent";
+import FixedSidebar from "@/components/UI/FixedSidebar";
 import ExportButtons from "@/components/UI/ExportButtons";
 import { useWrappedData } from "@/hooks/useWrappedData";
 import { normalizeUsername } from "@/lib/utils";
@@ -15,30 +15,40 @@ interface WrappedViewProps {
 
 const WrappedView: React.FC<WrappedViewProps> = ({ username, onBackClick }) => {
   const normalizedUsername = normalizeUsername(username);
-  const { data } = useWrappedData(normalizedUsername);
+  const { data, loading, error } = useWrappedData(normalizedUsername);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <p className="text-red-500">Error loading data: {error?.message || 'Unknown error'}</p>
+      </div>
+    );
+  }
 
   return (
     <>
-      <GitHubWrappedHeader />
-      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
-        <div className="lg:w-1/4 xl:w-1/5 shrink-0 flex flex-col">
-          <WrappedSidebar
-            username={username}
-            onBackClick={onBackClick}
-          />
-          {/* Export buttons shown only on desktop/large screens */}
-          <div className="hidden lg:block mt-4">
-            {data && <ExportButtons data={data} />}
+      <FixedSidebar
+        username={username}
+        onBackClick={onBackClick}
+      />
+      <div className="relative">
+        <div className="fixed left-4 top-40 z-40"> {/* Position export buttons below sidebar */}
+          <ExportButtons data={data} />
+        </div>
+        <div className="lg:ml-72"> {/* Add left margin only on large screens to account for fixed sidebar */}
+          <GitHubWrappedHeader />
+          <div className="pt-16 lg:pt-0 lg:pl-24"> {/* Add padding-top to account for fixed sidebar on small screens and padding-left for export buttons on large screens */}
+            <WrappedMainContent username={normalizedUsername} />
           </div>
         </div>
-
-        <div className="lg:w-3/4 xl:w-4/5">
-          <WrappedMainContent username={normalizedUsername} />
-        </div>
-      </div>
-      {/* Export buttons shown on mobile below the content */}
-      <div className="lg:hidden mt-4 w-full max-w-xs mx-auto">
-        {data && <ExportButtons data={data} />}
       </div>
     </>
   );
