@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { GitHubWrappedData } from "@/lib/types";
 import DecryptedText from "@/components/UI/DecryptedText";
+import ContributionsText from "./ContributionsText";
 
 interface CommitsCounterSlideProps {
   data: GitHubWrappedData;
@@ -19,7 +20,6 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
   const totalFrames = Math.round(duration / frameDuration);
 
   useEffect(() => {
-    // Animation effect to count up to the total commits
     const increment = totalCommits / totalFrames;
     let frameCounter = 0;
     const timer = setInterval(() => {
@@ -35,25 +35,20 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
     return () => clearInterval(timer);
   }, [totalCommits, totalFrames, frameDuration]);
 
-  // Start sentence decrypt after username decrypt finishes
   useEffect(() => {
     if (usernameDecrypted) {
       const timer = setTimeout(() => {
         setSentenceDecrypted(true);
-      }, 300); // Small delay after username decrypt
+      }, 300);
       return () => clearTimeout(timer);
     }
   }, [usernameDecrypted]);
 
-  // Start contributions after sentence and counting finish
   useEffect(() => {
-    if (sentenceDecrypted && count === totalCommits) {
-      const timer = setTimeout(() => {
-        setContributionsVisible(true);
-      }, 1800); // Delay after number finishes counting
-      return () => clearTimeout(timer);
+    if (count === totalCommits) {
+      setContributionsVisible(true);
     }
-  }, [sentenceDecrypted, count, totalCommits]);
+  }, [count, totalCommits]);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
@@ -61,14 +56,14 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
         <div className="mb-2 font-bold text-sm md:text-base text-white/80 flex items-center gap-2">
           <DecryptedText
             text={`${data.user?.name || "Elza The Great"}`}
-            speed={100}
+            speed={25}
             maxIterations={6}
             sequential={true}
             revealDirection="start"
-            characters="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+            characters="ABCDEFGHIJKLMhuzaQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
             animateOn="view"
             className=""
-            encryptedClassName="text-white/80"
+            encryptedClassName="text-white/50"
           />
           <DecryptedText
             text={`(@${data.user?.login || "elza the great"})`}
@@ -76,10 +71,10 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
             maxIterations={6}
             sequential={true}
             revealDirection="start"
-            characters="abcdefghijklmnopqrstuvwxyz0123456789_"
+            characters="abcdefghijklELZAnopqrstuvwxyz0123456789_"
             animateOn="view"
             className=""
-            encryptedClassName="text-white/80"
+            encryptedClassName="text-white/50"
             onRevealComplete={() => setUsernameDecrypted(true)}
           />
         </div>
@@ -106,7 +101,7 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
             maxIterations={10}
             sequential={true}
             revealDirection="start"
-            characters="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+"
+            characters="ABCDEFGHIJKLMNOPQHUZAVWXYZ0123456789!@#$%^&*()_+"
             animateOn={sentenceDecrypted ? "view" : "hover"}
             className="font-mono tracking-wider text-white/50 transition-all duration-300"
             encryptedClassName="font-mono tracking-wider text-white/50 transition-all duration-600"
@@ -114,7 +109,7 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
         </div>
 
         <div
-          className="font-bold bg-gradient-to-r from-white/40 via-white/80 to-white/40 bg-clip-text text-transparent"
+          className="font-bold bg-linear-to-r from-white/40 via-white/80 to-white/40 bg-clip-text text-transparent"
           style={{
             fontSize: "clamp(48px, 18vw, 12rem)",
             lineHeight: 1,
@@ -125,16 +120,11 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
         </div>
 
         <div className="text-xl md:text-2xl text-white/90 font-bold">
-          <DecryptedText
-            text="CONTRIBUTIONS"
-            speed={40}
-            maxIterations={10}
-            sequential={true}
-            revealDirection="center"
-            characters="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            animateOn={contributionsVisible ? "view" : "hover"}
-            className="font-bold"
-            encryptedClassName="text-white/60"
+          <ContributionsText
+            totalCommits={totalCommits}
+            currentCount={count}
+            totalDuration={duration}
+            characters="ABCDEFGHIJKLMELZARSTUVWXYZ0123456789!@#$%^&*()_+"
           />
         </div>
 
