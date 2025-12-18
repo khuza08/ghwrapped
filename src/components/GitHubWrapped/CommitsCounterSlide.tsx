@@ -39,7 +39,7 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
       </div>
 
       <div className="mb-6 text-base md:text-lg text-white/80">
-        IN 2024, YOU MADE...
+        IN {new Date().getFullYear()}, YOU MADE...
       </div>
 
       <div className="text-6xl md:text-8xl lg:text-9xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
