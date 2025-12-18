@@ -13,8 +13,12 @@ const WrappedMainContent: React.FC<WrappedMainContentProps> = ({
   setCurrentSlide,
 }) => {
   return (
-    <main className="w-full h-screen overflow-auto">
-      <GitHubWrappedSlides username={username} currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} />
+    <main className="w-full h-fit overflow-auto">
+      <GitHubWrappedSlides
+        username={username}
+        currentSlide={currentSlide}
+        setCurrentSlide={setCurrentSlide}
+      />
     </main>
   );
 };

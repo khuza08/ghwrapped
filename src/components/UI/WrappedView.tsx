@@ -18,13 +18,13 @@ const WrappedView: React.FC<WrappedViewProps> = ({ username, onBackClick }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const goToPrevSlide = () => {
-    setCurrentSlide(prev => Math.max(0, prev - 1));
+    setCurrentSlide((prev) => Math.max(0, prev - 1));
   };
 
   const goToNextSlide = () => {
     // Define the slide count based on the same slides array in GitHubWrappedSlides
     const totalSlides = 7; // Based on the slides array in GitHubWrappedSlides
-    setCurrentSlide(prev => Math.min(totalSlides - 1, prev + 1));
+    setCurrentSlide((prev) => Math.min(totalSlides - 1, prev + 1));
   };
 
   if (loading) {
@@ -57,7 +57,7 @@ const WrappedView: React.FC<WrappedViewProps> = ({ username, onBackClick }) => {
       />
       <div className="relative">
         <div className="">
-          <div className="pt-16 lg:pt-0">
+          <div>
             <WrappedMainContent
               username={normalizedUsername}
               currentSlide={currentSlide}

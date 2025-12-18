@@ -28,7 +28,8 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
   const [localCurrentSlide, setLocalCurrentSlide] = useState(0);
 
   // Use prop if provided, otherwise use local state
-  const currentSlide = propCurrentSlide !== undefined ? propCurrentSlide : localCurrentSlide;
+  const currentSlide =
+    propCurrentSlide !== undefined ? propCurrentSlide : localCurrentSlide;
   const setCurrentSlide = propSetCurrentSlide || setLocalCurrentSlide;
 
   const slides = [
@@ -66,9 +67,9 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
   const CurrentSlideComponent = slides[currentSlide].component;
 
   return (
-    <div className="w-full h-full min-h-screen overflow-auto">
-      <div className="w-full p-4 lg:p-6">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-4 lg:mb-6 gap-2">
+    <div className="w-full h-auto max-h-fit overflow-auto">
+      <div className="w-full p-4 lg:p-4">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-2 lg:mb-4 gap-2">
           <h2 className="text-xl lg:text-2xl font-bold text-white/80">
             {slides[currentSlide].title}
           </h2>
@@ -77,13 +78,13 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-center p-2 lg:p-6 min-h-[60vh]">
+        <div className="flex items-center justify-center p-2 lg:p-4">
           <CurrentSlideComponent data={data} />
         </div>
       </div>
 
       {/* Only show the bottom navigation on larger screens, not on mobile */}
-      <div className="hidden lg:flex flex-row items-center justify-between gap-4 sticky bottom-0 bg-black/20 backdrop-blur-sm p-6">
+      <div className="hidden lg:flex flex-row items-center justify-between gap-3 sticky bottom-0 bg-black/20 backdrop-blur-sm p-4">
         <button
           onClick={() => setCurrentSlide((prev) => Math.max(0, prev - 1))}
           disabled={currentSlide === 0}
