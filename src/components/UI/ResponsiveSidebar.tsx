@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { GitHubWrappedData } from "@/lib/types";
 import DraggableSidebar from "@/components/UI/DraggableSidebar";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { GoHome } from "react-icons/go";
 
 interface ResponsiveSidebarProps {
   username: string;
@@ -79,9 +80,9 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({
           <button
             onClick={onBackClick}
             className="p-3 text-white/80 hover:text-white rounded-full transition flex items-center justify-center"
-            aria-label="Change user"
+            aria-label="Go to home"
           >
-            <IoIosArrowBack size={20} />
+            <GoHome size={20} />
           </button>
           <button
             onClick={goToNextSlide}
