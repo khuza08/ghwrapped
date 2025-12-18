@@ -23,7 +23,7 @@ const WrappedView: React.FC<WrappedViewProps> = ({ username, onBackClick }) => {
 
   const goToNextSlide = () => {
     // Define the slide count based on the same slides array in GitHubWrappedSlides
-    const totalSlides = 7; // Based on the slides array in GitHubWrappedSlides
+    const totalSlides = 8; // Based on the slides array in GitHubWrappedSlides
     setCurrentSlide((prev) => Math.min(totalSlides - 1, prev + 1));
   };
 

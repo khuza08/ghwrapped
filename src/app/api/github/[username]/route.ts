@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { fetchGitHubUser, fetchGitHubRepos, fetchRepoCommits, fetchRepoLanguages } from '@/lib/github';
+import { fetchGitHubUser, fetchGitHubRepos, fetchRepoCommits, fetchRepoLanguages, fetchGitHubContributionData } from '@/lib/github';
 import { GitHubWrappedData } from '@/lib/types';
 import { getLastYearRange, calculateStreaks, getMostActiveHour, getDeveloperScheduleType, getActivityType } from '@/utils/date';
 import { ERROR_MESSAGES, COMMIT_LOOKBACK_DAYS } from '@/lib/constants';
@@ -51,17 +51,43 @@ export async function GET(
       throw new AppError(ERROR_MESSAGES.DATA_FETCH_ERROR, 500);
     }
 
+    // Fetch contribution data using GraphQL API to get the same count as shown on GitHub profile
+    let githubContributionData = null;
+    try {
+      githubContributionData = await fetchGitHubContributionData(username, token);
+    } catch (error) {
+      console.warn('Could not fetch contribution data from GraphQL API:', error);
+    }
+
     // Prepare data containers
     const commitsByDate: Record<string, number> = {};
     const languageCount: Record<string, number> = {};
-    let totalCommits = 0;
+    // Use the total contributions from GraphQL API if available, otherwise fall back to commit count
+    let totalCommits = githubContributionData?.totalCommitContributions || 0;
     const commitDates: string[] = [];
     const commitsByHour: Record<number, number> = {};
+
+    // Use contribution calendar data from GraphQL API if available
+    if (githubContributionData && githubContributionData.contributionCalendar) {
+      // Map the contribution calendar data to our format
+      for (const week of githubContributionData.contributionCalendar.weeks) {
+        for (const day of week.contributionDays) {
+          const date = day.date;
+          const count = day.contributionCount;
+          commitsByDate[date] = count;
+
+          // Add to commitDates for streak calculation but just for days with contributions
+          for (let i = 0; i < count; i++) {
+            commitDates.push(date + 'T12:00:00Z'); // Using noon as default time
+          }
+        }
+      }
+    }
 
     // Limit the number of repos to analyze for performance
     const reposToAnalyze = repos.slice(0, 20); // Top 20 most recently updated repos
 
-    // Process each repository to get commits
+    // Process each repository to get commits (for additional data beyond contribution calendar)
     for (const repo of reposToAnalyze) {
       try {
         const repoCommits = await fetchRepoCommits(user.login, repo.name, token, sinceDate);
@@ -72,14 +98,12 @@ export async function GET(
           if (commit.author && commit.author.login === username) {
             const commitDate = new Date(commit.commit.author.date).toISOString().split('T')[0];
 
-            // Update commits by date
-            commitsByDate[commitDate] = (commitsByDate[commitDate] || 0) + 1;
-            totalCommits++;
-            commitDates.push(commit.commit.author.date);
-
-            // Update commits by hour
+            // Update commits by hour (for personality analysis)
             const hour = new Date(commit.commit.author.date).getUTCHours();
             commitsByHour[hour] = (commitsByHour[hour] || 0) + 1;
+
+            // Keep track of actual commit dates for other calculations
+            commitDates.push(commit.commit.author.date);
           }
         }
 
@@ -101,6 +125,11 @@ export async function GET(
         // If we can't fetch commits for a specific repo, continue with others
         console.warn(`Could not fetch commits for repo ${repo.name}:`, error);
       }
+    }
+
+    // Calculate total commits from the calendar if we used it
+    if (githubContributionData && githubContributionData.contributionCalendar) {
+      totalCommits = githubContributionData.contributionCalendar.totalContributions;
     }
 
     // Calculate most active hour

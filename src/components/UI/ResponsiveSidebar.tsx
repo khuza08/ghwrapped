@@ -86,9 +86,9 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({
           </button>
           <button
             onClick={goToNextSlide}
-            disabled={currentSlide === 6} // 6 is the last slide index (0-6)
+            disabled={currentSlide === 7} // 7 is the last slide index (0-7)
             className={`p-3 rounded-full transition flex items-center justify-center ${
-              currentSlide === 6
+              currentSlide === 7
                 ? "text-white/40 cursor-not-allowed"
                 : "text-white/80 hover:text-white"
             }`}

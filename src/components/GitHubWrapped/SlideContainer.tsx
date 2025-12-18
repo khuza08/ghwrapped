@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { GitHubWrappedData } from "@/lib/types";
 import SummarySlide from "@/components/GitHubWrapped/SummarySlide";
 import CommitsSlide from "@/components/GitHubWrapped/CommitsSlide";
+import CommitsCounterSlide from "@/components/GitHubWrapped/CommitsCounterSlide";
 import LanguagesSlide from "@/components/GitHubWrapped/LanguagesSlide";
 import ReposSlide from "@/components/GitHubWrapped/ReposSlide";
 import PersonalitySlide from "@/components/GitHubWrapped/PersonalitySlide";
@@ -33,7 +34,7 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
   const setCurrentSlide = propSetCurrentSlide || setLocalCurrentSlide;
 
   const slides = [
-    { id: "summary", component: SummarySlide, title: "Summary" },
+    { id: "commits-counter", component: CommitsCounterSlide, title: "Your Contributions" },
     { id: "commits", component: CommitsSlide, title: "Commits" },
     { id: "languages", component: LanguagesSlide, title: "Languages" },
     { id: "repos", component: ReposSlide, title: "Repos" },
@@ -52,6 +53,11 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
       component: GitHubWrappedBanner,
       title: "Shareable Banner",
     },
+    {
+      id: "summary",
+      component: SummarySlide,
+      title: "Summary",
+    },
   ];
 
   if (loading) {
@@ -69,7 +75,7 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
   return (
     <div className="w-full h-auto max-h-fit overflow-auto">
       <div className="w-full p-4 lg:p-4">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-2 lg:mb-4 gap-2">
+        <div className="flex flex-row justify-between items-center mb-2 lg:mb-4 gap-2">
           <h2 className="text-xl lg:text-2xl font-bold text-white/80">
             {slides[currentSlide].title}
           </h2>

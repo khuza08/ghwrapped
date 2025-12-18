@@ -102,3 +102,68 @@ export const fetchRepoLanguages = async (owner: string, repo: string, token: str
 export const fetchUserEvents = async (username: string, token: string | undefined): Promise<any[]> => {
   return makeGitHubApiRequest(`/users/${username}/events`, token);
 };
+
+/**
+ * Fetch user's contribution data using GitHub GraphQL API
+ */
+export const fetchGitHubContributionData = async (username: string, token: string | undefined): Promise<any> => {
+  const query = `
+    query($username: String!) {
+      user(login: $username) {
+        contributionsCollection {
+          contributionYears
+          totalCommitContributions
+          contributionCalendar {
+            totalContributions
+            weeks {
+              contributionDays {
+                date
+                contributionCount
+                contributionLevel
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const variables = {
+    username,
+  };
+
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    'User-Agent': 'GitHub-Wrapped-App',
+  };
+
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  try {
+    const response = await fetch('https://api.github.com/graphql', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`GraphQL API error: ${response.status} - ${response.statusText}`);
+    }
+
+    const result = await response.json();
+
+    if (result.errors) {
+      throw new Error(`GraphQL errors: ${result.errors.map((e: any) => e.message).join(', ')}`);
+    }
+
+    return result.data.user.contributionsCollection;
+  } catch (error: any) {
+    console.error('GitHub GraphQL API error:', error);
+    throw error;
+  }
+};
