@@ -122,8 +122,8 @@ const GitHubWrappedPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white py-6 px-4 lg:px-8 xl:px-16">
-      <div className="max-w-full mx-auto w-full  flex flex-col flex-grow">
+    <div className="min-h-screen flex flex-col bg-black text-white">
+      <div className="w-full flex flex-col flex-grow">
         {showWrapped ? (
           <div className="relative flex-grow">
             <WrappedView
@@ -132,7 +132,7 @@ const GitHubWrappedPage = () => {
             />
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center grow">
+          <div className="flex flex-col items-center justify-center grow p-6 px-4 lg:px-8 xl:px-16">
             <div className="bg-white/5 border border-white/20 rounded-2xl shadow-lg p-4 w-full max-w-2xl">
               <UsernameForm
                 username={username}
