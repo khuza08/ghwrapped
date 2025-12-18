@@ -40,7 +40,20 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
         </div>
 
         <div className="text-base md:text-lg text-white/50">
-          IN {new Date().getFullYear()}, YOU MADE...
+          {[
+            `IN ${new Date().getFullYear()}, YOU MADE...`,
+            `THIS YEAR, YOU CONTRIBUTED...`,
+            `YOUR ${new Date().getFullYear()} COUNT...`,
+            `CONTRIBUTIONS IN ${new Date().getFullYear()}...`,
+            `YOUR ${new Date().getFullYear()} RECAP...`,
+            `TOTAL IN ${new Date().getFullYear()}...`,
+            `YOUR EFFORT IN ${new Date().getFullYear()}...`,
+            `YOUR ${new Date().getFullYear()} IMPACT...`,
+            `YOUR ${new Date().getFullYear()} GITHUB LEGACY...`,
+            `YOUR COMMIT JOURNEY IN ${new Date().getFullYear()}...`,
+            `YOUR ${new Date().getFullYear()} GITHUB STAMPS...`,
+            `YOUR ${new Date().getFullYear()} CODE FOOTPRINT...`
+          ][Math.floor(Math.random() * 12)]}
         </div>
 
         <div
