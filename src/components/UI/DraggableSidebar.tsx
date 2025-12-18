@@ -173,7 +173,7 @@ const DraggableSidebar: React.FC<DraggableSidebarProps> = ({
           }}
         >
           <div
-            className="bg-white/5 text-white text-sm font-bold backdrop-blur-lg border border-white/20 py-3 px-6 rounded-full
+            className="bg-white/5 text-white text-sm font-bold backdrop-blur-xl border border-white/20 py-3 px-6 rounded-full
             shadow-xl flex items-center space-x-2 transform transition-all -translate-x-1/2 z-10"
           >
             <span>

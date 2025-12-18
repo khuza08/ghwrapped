@@ -41,12 +41,12 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
   const CurrentSlideComponent = slides[currentSlide].component;
 
   return (
-    <div className="w-full h-full overflow-hidden relative">
-      <div className="absolute left-0 right-0 z-10 flex flex-row justify-between items-center py-4">
-        <h2 className="text-xl lg:text-2xl font-bold text-white/80 pl-4">
+    <div className="w-full h-full overflow-hidden relative py-6">
+      <div className="absolute left-6 right-6 z-10 flex flex-row justify-between items-center">
+        <h2 className="bg-white/5 border border-white/20 py-2 px-6 rounded-full text-xl lg:text-2xl font-bold text-white/80">
           {slides[currentSlide].title}
         </h2>
-        <div className="text-sm text-white/50 pr-4">
+        <div className="bg-white/5 border border-white/20 py-2 px-6 rounded-full text-sm text-white/50">
           {currentSlide + 1} / {slides.length}
         </div>
       </div>

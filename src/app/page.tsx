@@ -19,7 +19,7 @@ const GitHubWrappedPage = () => {
   const [showWrapped, setShowWrapped] = useState(false);
 
   const checkUserExists = async (username: string): Promise<boolean> => {
-    if (typeof window === 'undefined') return false;
+    if (typeof window === "undefined") return false;
 
     // First check if we have a cached verification result
     const cacheKey = `github-wrapped-verification-${username.toLowerCase()}`;
@@ -49,7 +49,7 @@ const GitHubWrappedPage = () => {
           }
         }
       } catch (error) {
-        console.error('Error parsing cached verification:', error);
+        console.error("Error parsing cached verification:", error);
       }
     }
 
@@ -61,7 +61,7 @@ const GitHubWrappedPage = () => {
         const data = await response.json();
 
         // Cache the data so WrappedView can use it immediately
-        if (typeof window !== 'undefined' && data) {
+        if (typeof window !== "undefined" && data) {
           const dataCacheKey = `github-wrapped-data-${username.toLowerCase()}`;
           const cacheData = {
             data,
@@ -71,7 +71,10 @@ const GitHubWrappedPage = () => {
           try {
             localStorage.setItem(dataCacheKey, JSON.stringify(cacheData));
           } catch (dataCacheError) {
-            console.error('Error caching data during verification:', dataCacheError);
+            console.error(
+              "Error caching data during verification:",
+              dataCacheError,
+            );
           }
         }
 
@@ -83,7 +86,7 @@ const GitHubWrappedPage = () => {
           };
           localStorage.setItem(cacheKey, JSON.stringify(verificationCache));
         } catch (verificationCacheError) {
-          console.error('Error caching verification:', verificationCacheError);
+          console.error("Error caching verification:", verificationCacheError);
         }
 
         return true;
@@ -96,7 +99,10 @@ const GitHubWrappedPage = () => {
           };
           localStorage.setItem(cacheKey, JSON.stringify(verificationCache));
         } catch (verificationCacheError) {
-          console.error('Error caching negative verification:', verificationCacheError);
+          console.error(
+            "Error caching negative verification:",
+            verificationCacheError,
+          );
         }
 
         // If the response is not ok, it means user doesn't exist or there's an error
@@ -122,7 +128,7 @@ const GitHubWrappedPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white">
+    <div className="min-h-screen flex flex-col text-white">
       <div className="w-full flex flex-col flex-grow">
         {showWrapped ? (
           <div className="relative flex-grow">

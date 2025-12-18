@@ -11,7 +11,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
   onBackClick,
 }) => {
   return (
-    <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/20 w-64 shadow-lg max-w-xs">
+    <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-4 border border-white/20 w-64 shadow-lg max-w-xs">
       <div className="flex flex-col space-y-3">
         <div>
           <h3 className="text-md font-semibold text-white/90">
