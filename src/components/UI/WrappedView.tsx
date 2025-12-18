@@ -43,7 +43,6 @@ const WrappedView: React.FC<WrappedViewProps> = ({ username, onBackClick }) => {
       />
       <div className="relative">
         <div className="">
-          <GitHubWrappedHeader />
           <div className="pt-16 lg:pt-0">
             <WrappedMainContent username={normalizedUsername} />
           </div>
