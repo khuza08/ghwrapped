@@ -28,24 +28,24 @@ const WrappedView: React.FC<WrappedViewProps> = ({ username, onBackClick }) => {
   if (error || !data) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
-        <p className="text-red-500">Error loading data: {error?.message || 'Unknown error'}</p>
+        <p className="text-red-500">
+          Error loading data: {error?.message || "Unknown error"}
+        </p>
       </div>
     );
   }
 
   return (
     <>
-      <FixedSidebar
-        username={username}
-        onBackClick={onBackClick}
-      />
+      <FixedSidebar username={username} onBackClick={onBackClick} />
       <div className="relative">
-        <div className="fixed left-4 top-40 z-40"> {/* Position export buttons below sidebar */}
+        <div className="fixed left-4 top-40 z-40">
+          {" "}
           <ExportButtons data={data} />
         </div>
-        <div className="lg:ml-72"> {/* Add left margin only on large screens to account for fixed sidebar */}
+        <div className="">
           <GitHubWrappedHeader />
-          <div className="pt-16 lg:pt-0 lg:pl-24"> {/* Add padding-top to account for fixed sidebar on small screens and padding-left for export buttons on large screens */}
+          <div className="pt-16 lg:pt-0">
             <WrappedMainContent username={normalizedUsername} />
           </div>
         </div>
