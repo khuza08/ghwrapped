@@ -9,7 +9,7 @@ const WrappedMainContent: React.FC<WrappedMainContentProps> = ({
   username,
 }) => {
   return (
-    <main className="bg-white/5 rounded-2xl p-4 sm:p-6 grow border border-white/20">
+    <main className="w-full h-screen overflow-auto">
       <GitHubWrappedSlides username={username} />
     </main>
   );

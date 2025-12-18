@@ -15,29 +15,30 @@ const SummarySlide: React.FC<WrappedSlideProps> = ({ data }) => {
   const joinDate = formatReadableDate(user.created_at);
 
   return (
-    <div className="w-full max-w-4xl mx-auto text-center">
+    <div className="w-full max-w-6xl mx-auto text-center flex flex-col items-center justify-center">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        className="w-full"
       >
-        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white/80 mb-2">
+        <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white/80 mb-4">
           GitHub Wrapped 2024
         </h3>
-        <div className="flex items-center justify-center mb-4 md:mb-6">
+        <div className="flex items-center justify-center mb-6 md:mb-8">
           <motion.img
             src={user.avatar_url}
             alt={user.login}
-            className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-full mr-3 md:mr-4"
+            className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full mr-4 md:mr-6 border-2 border-white/20"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
           />
           <div className="text-left">
-            <h4 className="text-lg md:text-xl lg:text-2xl font-semibold text-white/80">
+            <h4 className="text-xl md:text-2xl lg:text-3xl font-semibold text-white/80">
               {user.name || user.login}
             </h4>
-            <p className="text-sm md:text-base lg:text-lg text-white/50">
+            <p className="text-lg md:text-xl lg:text-2xl text-white/50">
               @{user.login}
             </p>
           </div>
@@ -45,7 +46,7 @@ const SummarySlide: React.FC<WrappedSlideProps> = ({ data }) => {
       </motion.div>
 
       <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 w-full"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, staggerChildren: 0.1 }}
@@ -53,23 +54,27 @@ const SummarySlide: React.FC<WrappedSlideProps> = ({ data }) => {
         <StatCard
           value={summary.totalCommits}
           label="Commits"
+          className="py-6"
         />
         <StatCard
           value={summary.totalRepos}
           label="Repos"
+          className="py-6"
         />
         <StatCard
           value={summary.totalStars}
           label="Stars"
+          className="py-6"
         />
         <StatCard
           value={`${summary.yearsOnGitHub}y`}
           label="On GitHub"
+          className="py-6"
         />
       </motion.div>
 
       <motion.div
-        className="mt-4 md:mt-6 lg:mt-8 text-sm md:text-base lg:text-lg text-white/80"
+        className="mt-6 md:mt-8 lg:mt-10 text-lg md:text-xl lg:text-2xl text-white/80 w-full"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}

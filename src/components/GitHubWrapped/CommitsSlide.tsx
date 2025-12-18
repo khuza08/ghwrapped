@@ -25,19 +25,19 @@ const CommitsSlide: React.FC<WrappedSlideProps> = ({ data }) => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto text-center">
+    <div className="w-full max-w-6xl mx-auto text-center">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white/80 mb-4 md:mb-6">
+        <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white/80 mb-6 md:mb-8">
           Your Commit History
         </h3>
       </motion.div>
 
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-8 mb-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
@@ -45,6 +45,7 @@ const CommitsSlide: React.FC<WrappedSlideProps> = ({ data }) => {
         <StatCard
           value={Object.keys(commits.commitsByDate).length}
           label="Active Days"
+          className="py-6"
         />
         <StatCard
           value={commits.mostActiveDay ? commits.mostActiveDayCount : "N/A"}
@@ -54,10 +55,11 @@ const CommitsSlide: React.FC<WrappedSlideProps> = ({ data }) => {
           subtitle={
             commits.mostActiveDay ? `on ${commits.mostActiveDay}` : undefined
           }
+          className="py-6"
         />
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         <ScheduleCard
           title="Your Coding Schedule"
           time={
@@ -77,7 +79,7 @@ const CommitsSlide: React.FC<WrappedSlideProps> = ({ data }) => {
             />
           ) : (
             <motion.div
-              className="text-xs md:text-sm lg:text-base text-white/80 italic"
+              className="text-lg md:text-xl lg:text-2xl text-white/80 italic"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
@@ -89,15 +91,15 @@ const CommitsSlide: React.FC<WrappedSlideProps> = ({ data }) => {
       </div>
 
       <motion.div
-        className="mt-4 md:mt-6 lg:mt-8"
+        className="mt-6 md:mt-8 lg:mt-12"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}
       >
-        <h4 className="text-xs md:text-lg lg:text-xl font-semibold text-white/80 mb-2 md:mb-4">
+        <h4 className="text-lg md:text-xl lg:text-2xl font-semibold text-white/80 mb-4 md:mb-6">
           Commit Activity
         </h4>
-        <div className="h-24 md:h-64 lg:h-80">
+        <div className="h-40 md:h-80 lg:h-96">
           <CommitChart commitsByDate={commits.commitsByDate} />
         </div>
       </motion.div>

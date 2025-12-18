@@ -58,8 +58,8 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
   const CurrentSlideComponent = slides[currentSlide].component;
 
   return (
-    <div className="w-full max-w-full mx-auto bg-white/5 rounded-2xl shadow-xl overflow-hidden">
-      <div className="p-4 lg:p-6">
+    <div className="w-full h-full min-h-screen overflow-auto">
+      <div className="w-full p-4 lg:p-6">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-4 lg:mb-6 gap-2">
           <h2 className="text-xl lg:text-2xl font-bold text-white/80">
             {slides[currentSlide].title}
@@ -69,12 +69,12 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-center p-2 lg:p-6">
+        <div className="flex items-center justify-center p-2 lg:p-6 min-h-[60vh]">
           <CurrentSlideComponent data={data} />
         </div>
       </div>
 
-      <div className="p-4 lg:p-6 flex flex-col lg:flex-row items-center justify-between gap-4">
+      <div className="p-4 lg:p-6 flex flex-col lg:flex-row items-center justify-between gap-4 sticky bottom-0 bg-black/20 backdrop-blur-sm">
         <button
           onClick={() => setCurrentSlide((prev) => Math.max(0, prev - 1))}
           disabled={currentSlide === 0}

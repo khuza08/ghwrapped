@@ -11,7 +11,7 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
   const { summary, user, commits, repositories, personality } = data;
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center p-4 w-full h-full">
       {/* GitHub Wrapped Banner - with data-export-banner attribute for export function */}
       <div
         data-export-banner

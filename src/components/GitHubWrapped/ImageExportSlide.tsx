@@ -38,11 +38,11 @@ const ImageExportSlide: React.FC<ImageExportSlideProps> = ({ data }) => {
   const activityDetails = ACTIVITY_TYPES[personality.activityType];
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-6xl mx-auto flex items-center justify-center">
       {/* Wrapped Content - with data-export-wrapped attribute for export function */}
       <div
         data-export-wrapped
-        className="text-center bg-gray-900 text-white p-8 rounded-2xl shadow-2xl border border-gray-800">
+        className="text-center bg-gray-900 text-white p-8 rounded-2xl shadow-2xl border border-gray-800 w-full">
         <div className="mb-6">
           <div className="flex items-center justify-center mb-2">
             <div className="text-2xl mr-2">📊</div>
