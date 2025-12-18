@@ -17,8 +17,8 @@ const DraggableSidebar: React.FC<DraggableSidebarProps> = ({
   data,
   onBackClick,
 }) => {
-  const [targetPosition, setTargetPosition] = useState({ x: 16, y: 16 }); // Target position
-  const [smoothPosition, setSmoothPosition] = useState({ x: 16, y: 16 }); // Smoothly animated position
+  const [targetPosition, setTargetPosition] = useState({ x: 24, y: 90 }); // Target position
+  const [smoothPosition, setSmoothPosition] = useState({ x: 24, y: 90 }); // Smoothly animated position
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [showNotification, setShowNotification] = useState(false);
@@ -124,7 +124,7 @@ const DraggableSidebar: React.FC<DraggableSidebarProps> = ({
   };
 
   const resetPosition = () => {
-    setTargetPosition({ x: 16, y: 16 });
+    setTargetPosition({ x: 24, y: 90 });
     showNotificationWithTimeout();
   };
 
