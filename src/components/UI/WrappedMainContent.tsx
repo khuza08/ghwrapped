@@ -3,14 +3,18 @@ import GitHubWrappedSlides from "@/components/GitHubWrapped/SlideContainer";
 
 interface WrappedMainContentProps {
   username: string;
+  currentSlide: number;
+  setCurrentSlide: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const WrappedMainContent: React.FC<WrappedMainContentProps> = ({
   username,
+  currentSlide,
+  setCurrentSlide,
 }) => {
   return (
     <main className="w-full h-screen overflow-auto">
-      <GitHubWrappedSlides username={username} />
+      <GitHubWrappedSlides username={username} currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} />
     </main>
   );
 };

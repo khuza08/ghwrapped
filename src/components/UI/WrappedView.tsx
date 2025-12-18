@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import GitHubWrappedHeader from "@/components/UI/GitHubWrappedHeader";
 import WrappedMainContent from "@/components/UI/WrappedMainContent";
-import DraggableSidebar from "@/components/UI/DraggableSidebar";
+import ResponsiveSidebar from "@/components/UI/ResponsiveSidebar";
 import { useWrappedData } from "@/hooks/useWrappedData";
 import { normalizeUsername } from "@/lib/utils";
 
@@ -15,6 +15,17 @@ interface WrappedViewProps {
 const WrappedView: React.FC<WrappedViewProps> = ({ username, onBackClick }) => {
   const normalizedUsername = normalizeUsername(username);
   const { data, loading, error } = useWrappedData(normalizedUsername);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const goToPrevSlide = () => {
+    setCurrentSlide(prev => Math.max(0, prev - 1));
+  };
+
+  const goToNextSlide = () => {
+    // Define the slide count based on the same slides array in GitHubWrappedSlides
+    const totalSlides = 7; // Based on the slides array in GitHubWrappedSlides
+    setCurrentSlide(prev => Math.min(totalSlides - 1, prev + 1));
+  };
 
   if (loading) {
     return (
@@ -36,15 +47,22 @@ const WrappedView: React.FC<WrappedViewProps> = ({ username, onBackClick }) => {
 
   return (
     <>
-      <DraggableSidebar
+      <ResponsiveSidebar
         username={username}
         data={data}
         onBackClick={onBackClick}
+        currentSlide={currentSlide}
+        goToPrevSlide={goToPrevSlide}
+        goToNextSlide={goToNextSlide}
       />
       <div className="relative">
         <div className="">
           <div className="pt-16 lg:pt-0">
-            <WrappedMainContent username={normalizedUsername} />
+            <WrappedMainContent
+              username={normalizedUsername}
+              currentSlide={currentSlide}
+              setCurrentSlide={setCurrentSlide}
+            />
           </div>
         </div>
       </div>

@@ -15,13 +15,21 @@ import { useWrappedData } from "@/hooks/useWrappedData";
 
 interface GitHubWrappedSlidesProps {
   username: string;
+  currentSlide?: number;
+  setCurrentSlide?: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
   username,
+  currentSlide: propCurrentSlide,
+  setCurrentSlide: propSetCurrentSlide,
 }) => {
   const { data, loading, error } = useWrappedData(username);
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [localCurrentSlide, setLocalCurrentSlide] = useState(0);
+
+  // Use prop if provided, otherwise use local state
+  const currentSlide = propCurrentSlide !== undefined ? propCurrentSlide : localCurrentSlide;
+  const setCurrentSlide = propSetCurrentSlide || setLocalCurrentSlide;
 
   const slides = [
     { id: "summary", component: SummarySlide, title: "Summary" },
@@ -74,11 +82,12 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
         </div>
       </div>
 
-      <div className="p-4 lg:p-6 flex flex-col lg:flex-row items-center justify-between gap-4 sticky bottom-0 bg-black/20 backdrop-blur-sm">
+      {/* Only show the bottom navigation on larger screens, not on mobile */}
+      <div className="hidden lg:flex flex-row items-center justify-between gap-4 sticky bottom-0 bg-black/20 backdrop-blur-sm p-6">
         <button
           onClick={() => setCurrentSlide((prev) => Math.max(0, prev - 1))}
           disabled={currentSlide === 0}
-          className={`px-3 py-2 lg:px-4 lg:py-2 rounded-lg w-full lg:w-auto ${
+          className={`px-4 py-2 rounded-lg ${
             currentSlide === 0
               ? "bg-white/5 text-white/50 cursor-not-allowed"
               : "bg-white/10 text-white hover:bg-white/5"
@@ -87,12 +96,12 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
           Previous
         </button>
 
-        <div className="flex space-x-2 lg:space-x-3">
+        <div className="flex space-x-3">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`w-2 h-2 lg:w-3 lg:h-3 rounded-full ${
+              className={`w-3 h-3 rounded-full ${
                 index === currentSlide ? "bg-white/50" : "bg-white/20"
               }`}
               aria-label={`Go to slide ${index + 1}`}
@@ -105,7 +114,7 @@ const GitHubWrappedSlides: React.FC<GitHubWrappedSlidesProps> = ({
             setCurrentSlide((prev) => Math.min(slides.length - 1, prev + 1))
           }
           disabled={currentSlide === slides.length - 1}
-          className={`px-3 py-2 lg:px-4 lg:py-2 rounded-lg w-full lg:w-auto ${
+          className={`px-4 py-2 rounded-lg ${
             currentSlide === slides.length - 1
               ? "bg-white/20 text-white/50 cursor-not-allowed"
               : "bg-white/10 text-white hover:bg-white/5 transition"

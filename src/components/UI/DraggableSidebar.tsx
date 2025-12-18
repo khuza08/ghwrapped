@@ -7,6 +7,9 @@ interface DraggableSidebarProps {
   username: string;
   data: GitHubWrappedData;
   onBackClick: () => void;
+  currentSlide?: number;
+  goToPrevSlide?: () => void;
+  goToNextSlide?: () => void;
 }
 
 const DraggableSidebar: React.FC<DraggableSidebarProps> = ({
@@ -161,7 +164,7 @@ const DraggableSidebar: React.FC<DraggableSidebarProps> = ({
       {/* Bubble */}
       {showNotification && (
         <div
-          className="fixed z-60 pointer-events-none transition-opacity duration-300"
+          className="fixed z-60 pointer-events-none transition-all duration-300"
           style={{
             left: `${smoothPosition.x + 128}px`,
             top: `${smoothPosition.y + 220}px`,
