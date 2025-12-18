@@ -123,9 +123,9 @@ const GitHubWrappedPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-black text-white py-6 px-4 lg:px-8 xl:px-16">
-      <div className="max-w-full mx-auto w-full  flex flex-col">
+      <div className="max-w-full mx-auto w-full  flex flex-col flex-grow">
         {showWrapped ? (
-          <div className="relative">
+          <div className="relative flex-grow">
             <WrappedView
               username={username}
               onBackClick={() => setShowWrapped(false)}
@@ -159,7 +159,7 @@ const GitHubWrappedPage = () => {
         )}
       </div>
 
-      <GitHubWrappedFooter />
+      {!showWrapped && <GitHubWrappedFooter />}
     </div>
   );
 };

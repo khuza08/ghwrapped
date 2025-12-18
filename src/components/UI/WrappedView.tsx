@@ -2,10 +2,12 @@
 
 import React, { useState } from "react";
 import GitHubWrappedHeader from "@/components/UI/GitHubWrappedHeader";
-import WrappedMainContent from "@/components/UI/WrappedMainContent";
+import GitHubWrappedSlides from "@/components/GitHubWrapped/SlideContainer";
 import ResponsiveSidebar from "@/components/UI/ResponsiveSidebar";
+import SlideNavigation from "@/components/GitHubWrapped/SlideNavigation";
 import { useWrappedData } from "@/hooks/useWrappedData";
 import { normalizeUsername } from "@/lib/utils";
+import { getSlides } from "@/components/GitHubWrapped/slidesConfig";
 
 interface WrappedViewProps {
   username: string;
@@ -17,14 +19,20 @@ const WrappedView: React.FC<WrappedViewProps> = ({ username, onBackClick }) => {
   const { data, loading, error } = useWrappedData(normalizedUsername);
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Get slides from the slides config to ensure consistency
+  const slideData = getSlides();
+  const slides = slideData.map(slide => ({ id: slide.id, title: slide.title }));
+
   const goToPrevSlide = () => {
     setCurrentSlide((prev) => Math.max(0, prev - 1));
   };
 
   const goToNextSlide = () => {
-    // Define the slide count based on the same slides array in GitHubWrappedSlides
-    const totalSlides = 8; // Based on the slides array in GitHubWrappedSlides
-    setCurrentSlide((prev) => Math.min(totalSlides - 1, prev + 1));
+    setCurrentSlide((prev) => Math.min(slides.length - 1, prev + 1));
+  };
+
+  const handleSlideSelect = (index: number) => {
+    setCurrentSlide(index);
   };
 
   if (loading) {
@@ -46,27 +54,31 @@ const WrappedView: React.FC<WrappedViewProps> = ({ username, onBackClick }) => {
   }
 
   return (
-    <>
-      <ResponsiveSidebar
-        username={username}
-        data={data}
-        onBackClick={onBackClick}
-        currentSlide={currentSlide}
-        goToPrevSlide={goToPrevSlide}
-        goToNextSlide={goToNextSlide}
-      />
-      <div className="relative">
-        <div className="">
-          <div>
-            <WrappedMainContent
-              username={normalizedUsername}
-              currentSlide={currentSlide}
-              setCurrentSlide={setCurrentSlide}
-            />
-          </div>
-        </div>
+    <div className="relative flex flex-col h-full">
+      <div className="flex-1 overflow-hidden relative">
+        <GitHubWrappedSlides
+          username={normalizedUsername}
+          currentSlide={currentSlide}
+          setCurrentSlide={setCurrentSlide}
+        />
+        <ResponsiveSidebar
+          username={username}
+          data={data}
+          onBackClick={onBackClick}
+          currentSlide={currentSlide}
+          goToPrevSlide={goToPrevSlide}
+          goToNextSlide={goToNextSlide}
+        />
       </div>
-    </>
+      <SlideNavigation
+        currentSlide={currentSlide}
+        totalSlides={slides.length}
+        onPrev={goToPrevSlide}
+        onNext={goToNextSlide}
+        onSlideSelect={handleSlideSelect}
+        slides={slides}
+      />
+    </div>
   );
 };
 

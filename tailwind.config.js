@@ -42,6 +42,12 @@ module.exports = {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.5s ease-out',
       },
+      fontSize: {
+        '10xl': '7rem',     // ~112px
+        '11xl': '8rem',     // ~128px
+        '12xl': '9rem',     // ~144px
+        'huge': '10rem',    // ~160px (custom name)
+      },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
