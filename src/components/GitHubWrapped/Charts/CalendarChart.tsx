@@ -140,10 +140,10 @@ const CalendarChart: React.FC<CalendarChartProps> = ({ commitsByDate }) => {
                       return (
                         <div
                           key={`${dayIndex}-${weekIndex}`}
-                          className={`${getColorClass(day.level)} w-3 h-3 mx-0.5 my-0.5 rounded-sm border border-[#161b22] cursor-pointer relative group`}
+                          className={`${getColorClass(day.level)} w-3 h-3 mx-0.5 my-0.5 rounded-sm cursor-pointer relative group`}
                           title={`${day.commits} contributions on ${dateStr}`}
                         >
-                          <div className="absolute hidden group-hover:block -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs rounded py-1 px-2 whitespace-nowrap z-10 border border-gray-700">
+                          <div className="absolute hidden group-hover:block -top-8 left-1/2 transform -translate-x-1/2 bg-white/5 backdrop-blur-xl text-white/80 font-bold text-xs rounded-full py-2 px-4 whitespace-nowrap z-10 border border-white/20">
                             {day.date.toLocaleDateString("en-US", {
                               weekday: "long",
                               year: "numeric",
@@ -164,15 +164,23 @@ const CalendarChart: React.FC<CalendarChartProps> = ({ commitsByDate }) => {
         </div>
 
         {/* Legend */}
-        <div className="flex items-center mt-4 text-xs text-gray-400">
-          <span className="mr-2">Less</span>
-          {[0, 1, 2, 3, 4].map((level) => (
-            <div
-              key={level}
-              className={`${getColorClass(level)} w-3 h-3 mx-0.5 rounded-sm border border-[#161b22]`}
-            ></div>
-          ))}
-          <span className="ml-2">More</span>
+        <div className="flex items-center mt-4 text-xs text-white/50 justify-between w-full">
+          <div className="text-left">
+            {" "}
+            Total commits:{" "}
+            {Object.values(commitsByDate).reduce((a, b) => a + b, 0)}
+          </div>
+          <div className="flex items-center">
+            {" "}
+            <span className="mr-2">Less</span>
+            {[0, 1, 2, 3, 4].map((level) => (
+              <div
+                key={level}
+                className={`${getColorClass(level)} w-3 h-3 mx-0.5 rounded-sm`}
+              ></div>
+            ))}
+            <span className="ml-2">More</span>
+          </div>
         </div>
       </div>
     </div>
