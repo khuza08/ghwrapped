@@ -19,21 +19,38 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
   const frameDuration = 1000 / 60; // ~60fps
   const totalFrames = Math.round(duration / frameDuration);
 
+  // Use sessionStorage to persist animation state across component re-mounts
+  const animationCompletedKey = `animation_completed_${data.user?.login || 'unknown'}_${totalCommits}`;
+  const [hasCompletedAnimation, setHasCompletedAnimation] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem(animationCompletedKey) === 'true';
+    }
+    return false;
+  });
+
   useEffect(() => {
-    const increment = totalCommits / totalFrames;
-    let frameCounter = 0;
-    const timer = setInterval(() => {
-      frameCounter++;
-      setCount(Math.ceil(increment * frameCounter));
+    // Only animate if we haven't completed the animation before
+    if (!hasCompletedAnimation) {
+      const increment = totalCommits / totalFrames;
+      let frameCounter = 0;
+      const timer = setInterval(() => {
+        frameCounter++;
+        setCount(Math.ceil(increment * frameCounter));
 
-      if (frameCounter >= totalFrames) {
-        clearInterval(timer);
-        setCount(totalCommits);
-      }
-    }, frameDuration);
+        if (frameCounter >= totalFrames) {
+          clearInterval(timer);
+          setCount(totalCommits);
+          setHasCompletedAnimation(true); // Update local state
+          sessionStorage.setItem(animationCompletedKey, 'true'); // Persist in sessionStorage
+        }
+      }, frameDuration);
 
-    return () => clearInterval(timer);
-  }, [totalCommits, totalFrames, frameDuration]);
+      return () => clearInterval(timer);
+    } else {
+      // If animation was already completed, set to final value immediately
+      setCount(totalCommits);
+    }
+  }, [totalCommits, totalFrames, frameDuration, hasCompletedAnimation, animationCompletedKey]);
 
   useEffect(() => {
     if (usernameDecrypted) {
@@ -45,10 +62,10 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
   }, [usernameDecrypted]);
 
   useEffect(() => {
-    if (count === totalCommits) {
+    if (count === totalCommits && hasCompletedAnimation) {
       setContributionsVisible(true);
     }
-  }, [count, totalCommits]);
+  }, [count, totalCommits, hasCompletedAnimation]);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
