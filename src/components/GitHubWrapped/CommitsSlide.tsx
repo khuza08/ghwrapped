@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { GitHubWrappedData } from "@/lib/types";
-import MultiChart from "@/components/GitHubWrapped/MultiChart";
+import CalendarChartComponent from "@/components/GitHubWrapped/MultiChart";
 
 interface WrappedSlideProps {
   data: GitHubWrappedData;
@@ -20,7 +20,7 @@ const CommitsSlide: React.FC<WrappedSlideProps> = ({ data }) => {
           Commit Activity
         </h4>
         <div className="h-40 md:h-80 lg:h-96">
-          <MultiChart commitsByDate={data.commits.commitsByDate} />
+          <CalendarChartComponent commitsByDate={data.commits.commitsByDate} />
         </div>
       </motion.div>
     </div>
