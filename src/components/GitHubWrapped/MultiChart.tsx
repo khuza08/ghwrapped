@@ -49,20 +49,32 @@ const MultiChart: React.FC<MultiChartProps> = ({ commitsByDate }) => {
         </button>
       </div>
 
-      <div className="flex-grow overflow-hidden">
-        {chartType === "line" ? (
-          <div className="w-full h-full">
-            <LineChart commitsByDate={commitsByDate} />
-          </div>
-        ) : chartType === "bar" ? (
-          <div className="w-full h-full">
-            <BarChart commitsByDate={commitsByDate} />
-          </div>
-        ) : (
+      <div className="grow overflow-hidden relative">
+        <div
+          className={`w-full h-full absolute inset-0 transition-opacity duration-300 ${
+            chartType === "line" ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+          }`}
+        >
+          <LineChart commitsByDate={commitsByDate} />
+        </div>
+
+        <div
+          className={`w-full h-full absolute inset-0 transition-opacity duration-300 ${
+            chartType === "bar" ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+          }`}
+        >
+          <BarChart commitsByDate={commitsByDate} />
+        </div>
+
+        <div
+          className={`w-full h-full absolute inset-0 transition-opacity duration-300 ${
+            chartType === "calendar" ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+          }`}
+        >
           <div className="w-full h-full overflow-x-auto overflow-y-hidden">
             <CalendarChart commitsByDate={commitsByDate} />
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
