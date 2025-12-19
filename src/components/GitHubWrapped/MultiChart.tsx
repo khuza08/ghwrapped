@@ -59,7 +59,7 @@ const MultiChart: React.FC<MultiChartProps> = ({ commitsByDate }) => {
             <BarChart commitsByDate={commitsByDate} />
           </div>
         ) : (
-          <div className="w-fit h-full overflow-x-auto overflow-y-hidden">
+          <div className="w-full h-full overflow-x-auto overflow-y-hidden">
             <CalendarChart commitsByDate={commitsByDate} />
           </div>
         )}
