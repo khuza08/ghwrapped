@@ -85,7 +85,7 @@ const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
           </div>
 
           {/* Slide Content - Now properly centered with animations */}
-          <div className="w-full h-full flex items-center justify-center overflow-hidden relative">
+          <div className="w-full h-full flex items-center justify-center overflow-y-auto overflow-x-hidden relative">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={currentSlide}
@@ -105,7 +105,7 @@ const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
                   duration: 0.3,
                   ease: "easeInOut",
                 }}
-                className="h-full flex items-center justify-center"
+                className=" flex items-center justify-center"
               >
                 <CurrentSlideComponent data={data} />
               </motion.div>
