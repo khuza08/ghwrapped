@@ -62,6 +62,7 @@ export async function GET(
     // Prepare data containers
     const commitsByDate: Record<string, number> = {};
     const languageCount: Record<string, number> = {};
+    const languageToRepos: Record<string, Array<{repo: any, bytes: number}>> = {}; // Using any to avoid complex typing issues
     // Use the total contributions from GraphQL API if available, otherwise fall back to commit count
     let totalCommits = githubContributionData?.totalCommitContributions || 0;
     const commitDates: string[] = [];
@@ -112,12 +113,33 @@ export async function GET(
           try {
             const repoLanguages = await fetchRepoLanguages(user.login, repo.name, token);
             for (const [lang, bytes] of Object.entries(repoLanguages)) {
-              languageCount[lang] = (languageCount[lang] || 0) + (bytes as number);
+              const byteCount = bytes as number;
+
+              // Add to overall language count
+              languageCount[lang] = (languageCount[lang] || 0) + byteCount;
+
+              // Add to language to repos mapping
+              if (!languageToRepos[lang]) {
+                languageToRepos[lang] = [];
+              }
+              languageToRepos[lang].push({
+                repo: { ...repo }, // Clone to avoid reference issues
+                bytes: byteCount
+              });
             }
           } catch (error) {
             // If we can't get specific repo language data, fall back to the repo's primary language
             if (repo.language) {
               languageCount[repo.language] = (languageCount[repo.language] || 0) + 1;
+
+              // Add to language to repos mapping with fallback
+              if (!languageToRepos[repo.language]) {
+                languageToRepos[repo.language] = [];
+              }
+              languageToRepos[repo.language].push({
+                repo: { ...repo },
+                bytes: 1 // Fallback value
+              });
             }
           }
         }
@@ -208,6 +230,7 @@ export async function GET(
         topByForks,
         languages: languageCount,
         languageBreakdown,
+        languageToRepos,
       },
       personality: {
         title: 'Developer',

@@ -237,6 +237,10 @@ export interface GitHubWrappedData {
       bytes: number;
       percentage: number;
     }>;
+    languageToRepos: Record<string, Array<{
+      repo: GitHubRepo;
+      bytes: number;
+    }>>;
   };
   personality: {
     title: string;

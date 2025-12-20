@@ -15,20 +15,16 @@ const LanguagesSlide: React.FC<WrappedSlideProps> = ({ data }) => {
   const topLanguages = repositories.languageBreakdown.slice(0, 5);
 
   return (
-    <div className="w-full max-w-6xl mx-auto text-center">
-      <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-100 mb-6 md:mb-8">
-        Your Languages in 2024
-      </h3>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <div className="space-y-4 mb-6 md:mb-8">
+    <div className="w-full text-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-80">
+        <div className="space-y-4">
           {topLanguages.length > 0 ? (
             topLanguages.map((lang, index) => (
               <LanguageItem
                 key={index}
                 language={lang.language}
                 percentage={lang.percentage}
-                className="py-3"
+                className="py-3 "
               />
             ))
           ) : (
@@ -39,20 +35,51 @@ const LanguagesSlide: React.FC<WrappedSlideProps> = ({ data }) => {
         </div>
 
         {topLanguages.length > 0 && (
-          <div>
-            <h4 className="font-semibold text-gray-300 text-lg md:text-xl lg:text-2xl mb-6">
-              Language Distribution
-            </h4>
-            <div className="space-y-6">
-              {topLanguages.map((lang, index) => (
-                <LanguageBar
+          <div className="space-y-4 max-h-full overflow-y-auto pr-2 border border-white/20 p-2 rounded-xl">
+            {topLanguages.map((lang, index) => {
+              const allLanguageToRepos =
+                data.repositories.languageToRepos || {};
+              const reposWithLanguage = allLanguageToRepos[lang.language] || [];
+
+              const sortedRepos = [...reposWithLanguage].sort(
+                (a, b) => b.bytes - a.bytes,
+              );
+
+              return (
+                <div
                   key={index}
-                  language={lang.language}
-                  percentage={lang.percentage}
-                  className="h-8 md:h-10 lg:h-12"
-                />
-              ))}
-            </div>
+                  className="border border-white/20 rounded-lg p-4 bg-white/5 hover:bg-white/10 transition"
+                >
+                  <div className="flex justify-between items-center mb-2">
+                    <h5 className="font-bold text-white">{lang.language}</h5>
+                    <span className="text-sm text-gray-400">
+                      {sortedRepos.length} repos
+                    </span>
+                  </div>
+                  <div className="text-sm text-gray-300 space-y-1 max-h-32 overflow-y-auto">
+                    {sortedRepos.slice(0, 3).map((repoData, repoIndex) => (
+                      <div
+                        key={repoIndex}
+                        className="flex justify-between items-center"
+                      >
+                        <div className="flex items-center">
+                          <span className="mr-2">•</span>
+                          <span className="truncate">{repoData.repo.name}</span>
+                        </div>
+                        <span className="text-xs text-white/70 ml-2">
+                          {repoData.bytes.toLocaleString()} bytes
+                        </span>
+                      </div>
+                    ))}
+                    {sortedRepos.length > 3 && (
+                      <div className="text-gray-500">
+                        +{sortedRepos.length - 3} more
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
