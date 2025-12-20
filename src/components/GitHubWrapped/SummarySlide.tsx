@@ -45,7 +45,7 @@ const SummarySlide: React.FC<WrappedSlideProps> = ({ data }) => {
         transition={{ delay: 1.0 }}
       >
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, staggerChildren: 0.1 }}
@@ -54,7 +54,11 @@ const SummarySlide: React.FC<WrappedSlideProps> = ({ data }) => {
           <AdditionalStatCard
             title="Longest Streak"
             value={`${commits.longestStreak ? commits.longestStreak.length : 0} days`}
-            subtitle={commits.longestStreak ? `${commits.longestStreak.start} to ${commits.longestStreak.end}` : undefined}
+            subtitle={
+              commits.longestStreak
+                ? `${commits.longestStreak.start} to ${commits.longestStreak.end}`
+                : undefined
+            }
           />
 
           {/* Top Repository Card */}
