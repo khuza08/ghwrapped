@@ -1,7 +1,6 @@
 import CommitsCounterSlide from "@/components/GitHubWrapped/CommitsCounterSlide";
 import CommitsSlide from "@/components/GitHubWrapped/CommitsSlide";
 import LanguagesSlide from "@/components/GitHubWrapped/LanguagesSlide";
-import ReposSlide from "@/components/GitHubWrapped/ReposSlide";
 import PersonalitySlide from "@/components/GitHubWrapped/PersonalitySlide";
 import ImageExportSlide from "@/components/GitHubWrapped/ImageExportSlide";
 import GitHubWrappedBanner from "@/components/GitHubWrapped/GitHubWrappedBanner";
@@ -17,7 +16,6 @@ export const getSlides = (): Slide[] => [
   { id: "commits-counter", component: CommitsCounterSlide, title: "Your Contributions" },
   { id: "commits", component: CommitsSlide, title: "Commits" },
   { id: "languages", component: LanguagesSlide, title: "Languages" },
-  { id: "repos", component: ReposSlide, title: "Repos" },
   {
     id: "personality",
     component: PersonalitySlide,
