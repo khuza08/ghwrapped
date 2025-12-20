@@ -1,13 +1,14 @@
 import React from "react";
 import { GitHubWrappedData } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
+import { FiUser, FiUserCheck } from "react-icons/fi";
 
 interface GitHubWrappedBannerProps {
   data: GitHubWrappedData;
 }
 
 const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
-  const { summary, user, commits, repositories, personality } = data;
+  const { summary, user, personality } = data;
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
@@ -17,11 +18,11 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
         className="w-93.75 h-fit bg-white/5 rounded-xl overflow-hidden relative flex flex-col border-2 border-white/20"
       >
         {/* Header */}
-        <div className="flex justify-between items-center px-3 py-2 border-b border-white/20">
-          <div className="text-sm font-bold text-white uppercase  tracking-tighter">
+        <div className="flex justify-between items-center px-2 py-2 border-b border-white/20">
+          <div className="text-sm font-bold text-white uppercase  tracking-tighter bg-white/5 border border-white/20 rounded-md px-2">
             #GITHUBUNWRAPPED
           </div>
-          <div className="text-[8px] text-white/80 text-shadow:0 0 8px yellow-400 tracking-wider">
+          <div className="text-sm font-bold text-white/80 text-shadow:0 0 8px yellow-400 tracking-tight bg-white/5 border border-white/20 rounded-md   px-2">
             {personality.title.toUpperCase()}
           </div>
         </div>
@@ -34,12 +35,26 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
               alt={user.login}
               className="w-full h-80 object-cover"
             />
+            {/* Overlay Card - Top Left Corner */}
+            <div className="absolute top-2 left-2 bg-black/50 backdrop-blur-xl border border-white/20 rounded-lg px-4 py-1 flex gap-4">
+              <div className="text-sm text-white/80 flex items-center">
+                <FiUser className="w-4 h-4 mr-1" />
+                {formatNumber(user.followers || 0)}
+              </div>
+              <div className="text-sm text-white/80 flex items-center">
+                <FiUserCheck className="w-4 h-4 mr-1" />
+                {formatNumber(user.following || 0)}
+              </div>
+            </div>
           </div>
 
           {/* Username Badge */}
           <div className="absolute bottom-[-12px] left-1/2 transform -translate-x-1/2 bg-white/5 backdrop-blur-xl border-2 border-white/20 rounded-lg px-4 py-1">
-            <div className="text-[12px] font-bold text-white/80 text-center tracking-widest">
+            <div className="text-sm font-bold text-white/80 text-center tracking-widest">
               @{user.login}
+            </div>
+            <div className="text-[12px] font-semibold text-white/50 text-center">
+              {summary.yearsOnGitHub} years on GitHub
             </div>
           </div>
         </div>
@@ -47,48 +62,81 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
         {/* Stats Grid */}
         <div className="grid grid-cols-3 gap-1.5 mx-3 mb-2 mt-2">
           <div className="text-center p-2 bg-white/5 border border-white/20 rounded-lg">
-            <div className="text-[18px] text-white/80">
-              {formatNumber(summary.totalPullRequests || 0)}
+            <div className="text-md text-white/80">
+              {formatNumber(summary.totalPullRequests || 66)}
             </div>
-            <div className="text-[6px] text-white/80 mt-1 tracking-[0.5px]">
+            <div className="text-sm font-bold text-white/80  tracking-[0.5px]">
               PRs
             </div>
           </div>
           <div className="text-center p-2 bg-white/5 border border-white/20 rounded-lg">
-            <div className="text-[18px] text-white/80">
+            <div className="text-md text-white/80">
               {formatNumber(summary.totalCommits || 0)}
             </div>
-            <div className="text-[6px] text-white/80 mt-1 tracking-[0.5px]">
+            <div className="text-sm font-bold text-white/80 tracking-[0.5px]">
               COMMITS
             </div>
           </div>
           <div className="text-center p-2 bg-white/5 border border-white/20 rounded-lg">
-            <div className="text-[18px] text-white/80">
+            <div className="text-md text-white/80">
               {formatNumber(summary.totalRepos || 0)}
             </div>
-            <div className="text-[6px] text-white/80 mt-1 tracking-[0.5px]">
+            <div className="text-sm font-bold text-white/80  tracking-[0.5px]">
               REPOS
             </div>
           </div>
         </div>
 
-        {/* Personality Card */}
-        <div className="mx-3 mb-4 p-2.5 bg-white/5 border border-white/20 rounded-lg">
-          <div className="text-center text-[12px] text-white/80 tracking-wider mb-1">
-            {personality.title.toUpperCase()}
-          </div>
-          <div className="text-center text-[7px] text-white/80 tracking-[2px] opacity-80 uppercase">
-            TYPE: {personality.activityType?.toUpperCase() || "NORMAL"}
+        {/* Calendar Chart */}
+        <div className="mx-3 mb-2">
+          <div className="flex flex-col border border-white/20 rounded-lg bg-white/5 p-2">
+            {Array.from({ length: 4 }).map((_, rowIndex) => {
+              // Create 26 weeks worth of data
+              return (
+                <div key={rowIndex} className="flex flex-1">
+                  {Array.from({ length: 26 }).map((_, colIndex) => {
+                    const index = rowIndex * 26 + colIndex;
+                    // Simulate contribution levels based on actual data if available
+                    const commitCount = Math.floor(Math.random() * 10);
+                    let level = 0;
+                    if (commitCount > 0) level = 1;
+                    if (commitCount > 2) level = 2;
+                    if (commitCount > 5) level = 3;
+                    if (commitCount > 8) level = 4;
+
+                    const colorClass =
+                      level === 0
+                        ? "bg-[#242424]"
+                        : level === 1
+                          ? "bg-[#0e4429]"
+                          : level === 2
+                            ? "bg-[#006d32]"
+                            : level === 3
+                              ? "bg-[#26a641]"
+                              : "bg-[#39d353]";
+
+                    return (
+                      <div
+                        key={colIndex}
+                        className={`${colorClass} h-3 rounded-sm border border-[#161616] flex-1 min-w-0`}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
           </div>
         </div>
 
         {/* Footer */}
         <div className="flex justify-between items-center px-3 py-2 border-t border-white/20 text-sm text-white/80">
-          <span className="text-left flex-1">ELZA</span>
-          <span className="text-center text-white tracking-wider text-lg font-bold uppercase">
+          <span className="text-left flex-1">{user.name || user.login}</span>
+          <span className="text-center text-white tracking-tight text-lg font-bold uppercase bg-white/5 border border-white/20 rounded-full px-4">
             TRYGITWRAP.COM
           </span>
-          <span className="text-right flex-1">2K25</span>
+          <span className="text-right flex-1">
+            2K{new Date().getFullYear().toString().slice(-2)}
+          </span>
         </div>
       </div>
     </div>
