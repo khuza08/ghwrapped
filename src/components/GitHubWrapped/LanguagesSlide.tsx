@@ -28,7 +28,7 @@ const LanguagesSlide: React.FC<WrappedSlideProps> = ({ data }) => {
               />
             ))
           ) : (
-            <p className="text-lg md:text-xl lg:text-2xl text-gray-400">
+            <p className="text-lg md:text-xl lg:text-2xl text-white/50">
               No language data available
             </p>
           )}
@@ -52,7 +52,7 @@ const LanguagesSlide: React.FC<WrappedSlideProps> = ({ data }) => {
                 >
                   <div className="flex justify-between items-center mb-2">
                     <h5 className="font-bold text-white">{lang.language}</h5>
-                    <span className="text-sm text-gray-400">
+                    <span className="text-sm text-white/80">
                       {sortedRepos.length} repos
                     </span>
                   </div>
@@ -63,16 +63,18 @@ const LanguagesSlide: React.FC<WrappedSlideProps> = ({ data }) => {
                         className="flex justify-between items-center"
                       >
                         <div className="flex items-center">
-                          <span className="mr-2">•</span>
-                          <span className="truncate">{repoData.repo.name}</span>
+                          <span className="mr-2 text-white/80">•</span>
+                          <span className="truncate text-white/80">
+                            {repoData.repo.name}
+                          </span>
                         </div>
-                        <span className="text-xs text-white/70 ml-2">
+                        <span className="text-xs text-white/50 ml-2">
                           {repoData.bytes.toLocaleString()} bytes
                         </span>
                       </div>
                     ))}
                     {sortedRepos.length > 3 && (
-                      <div className="text-gray-500">
+                      <div className="text-white/50">
                         +{sortedRepos.length - 3} more
                       </div>
                     )}
@@ -84,9 +86,20 @@ const LanguagesSlide: React.FC<WrappedSlideProps> = ({ data }) => {
         )}
       </div>
 
-      <div className="mt-8 md:mt-12 lg:mt-16 text-center">
-        <p className="text-lg md:text-xl lg:text-2xl text-gray-400">
-          You coded in{" "}
+      <div className="mt-8 md:mt-12 text-center">
+        <p className="text-lg md:text-xl lg:text-2xl text-white/50">
+          {[
+            `Your code spans across`,
+            `You've used`,
+            `Your coding journey includes`,
+            `You've mastered`,
+            `Your projects feature`,
+            `Your development toolkit includes`,
+            `Your codebase spans`,
+            `Your language diversity:`,
+            `Your coding landscape:`,
+            `Your polyglot coding:`
+          ][Math.floor(Math.random() * 10)]}{" "}
           <span className="font-semibold text-xl md:text-2xl lg:text-3xl">
             {repositories.languageBreakdown.length}
           </span>{" "}
