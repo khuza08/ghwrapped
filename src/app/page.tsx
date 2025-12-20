@@ -5,10 +5,9 @@ import { normalizeUsername } from "@/lib/utils";
 import { ERROR_MESSAGES } from "@/lib/constants";
 import GitHubWrappedHeader from "@/components/UI/GitHubWrappedHeader";
 import UsernameForm from "@/components/UI/UsernameForm";
-import WrappedMainContent from "@/components/UI/WrappedMainContent";
 import GitHubWrappedFooter from "@/components/UI/GitHubWrappedFooter";
 import { FaGithub } from "react-icons/fa";
-import WrappedView from "@/components/UI/WrappedView";
+import SimplifiedWrappedContainer from "@/components/GitHubWrapped/SimplifiedWrappedContainer";
 
 // Cache duration: 1 hour (3600000 ms)
 const CACHE_DURATION = 3600000;
@@ -58,26 +57,6 @@ const GitHubWrappedPage = () => {
       const response = await fetch(`/api/github/${username}`);
 
       if (response.ok) {
-        const data = await response.json();
-
-        // Cache the data so WrappedView can use it immediately
-        if (typeof window !== "undefined" && data) {
-          const dataCacheKey = `github-wrapped-data-${username.toLowerCase()}`;
-          const cacheData = {
-            data,
-            timestamp: Date.now(),
-          };
-
-          try {
-            localStorage.setItem(dataCacheKey, JSON.stringify(cacheData));
-          } catch (dataCacheError) {
-            console.error(
-              "Error caching data during verification:",
-              dataCacheError,
-            );
-          }
-        }
-
         // Cache the verification result
         try {
           const verificationCache = {
@@ -114,9 +93,17 @@ const GitHubWrappedPage = () => {
     }
   };
 
-  const handleSubmit = (username: string) => {
+  const handleSubmit = async (inputUsername: string) => {
     setError("");
-    setShowWrapped(true);
+
+    // Validate user exists first
+    const userExists = await checkUserExists(inputUsername);
+    if (userExists) {
+      setUsername(inputUsername);
+      setShowWrapped(true);
+    } else {
+      setError(ERROR_MESSAGES.USER_NOT_FOUND);
+    }
   };
 
   const handleGithubClick = () => {
@@ -132,7 +119,7 @@ const GitHubWrappedPage = () => {
       <div className="w-full flex flex-col flex-grow">
         {showWrapped ? (
           <div className="relative flex-grow">
-            <WrappedView
+            <SimplifiedWrappedContainer
               username={username}
               onBackClick={() => setShowWrapped(false)}
             />
