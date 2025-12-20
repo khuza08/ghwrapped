@@ -1,28 +1,29 @@
 import React, { useState } from "react";
-import { GitHubWrappedData } from "@/lib/types";
 import { useWrappedData } from "@/hooks/useWrappedData";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import ErrorDisplay from "@/components/UI/ErrorDisplay";
 import ResponsiveSidebar from "@/components/UI/ResponsiveSidebar";
 import SlideNavigation from "@/components/GitHubWrapped/SlideNavigation";
 import { getSlides } from "./slidesConfig";
-import CommitsCounterSlide from "./CommitsCounterSlide";
 
 interface SimplifiedWrappedContainerProps {
   username: string;
   onBackClick?: () => void;
 }
 
-const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({ 
+const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
   username,
-  onBackClick
+  onBackClick,
 }) => {
   const { data, loading, error } = useWrappedData(username);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Get slides from the slides config to ensure consistency
   const slideData = getSlides();
-  const slides = slideData.map(slide => ({ id: slide.id, title: slide.title }));
+  const slides = slideData.map((slide) => ({
+    id: slide.id,
+    title: slide.title,
+  }));
 
   const goToPrevSlide = () => {
     setCurrentSlide((prev) => Math.max(0, prev - 1));
@@ -50,7 +51,7 @@ const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
   const CurrentSlideComponent = slideData[currentSlide].component;
 
   return (
-    <div className="relative flex flex-col w-full h-screen bg-[#0a0a0a]">
+    <div className="relative flex flex-col w-full h-screen">
       <div className="flex-1 overflow-hidden relative">
         <div className="w-full h-full overflow-hidden relative py-6">
           {/* Header */}
@@ -62,17 +63,15 @@ const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
               {currentSlide + 1} / {slides.length}
             </div>
           </div>
-          
-          {/* Slide Content */}
-          <div className="w-full h-full flex flex-col">
-            <div className="flex-1 flex items-center overflow-hidden">
-              <div className="w-full h-full flex items-center justify-center p-4 lg:p-8">
-                <CurrentSlideComponent data={data} />
-              </div>
+
+          {/* Slide Content - Now properly centered */}
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-full h-full flex items-center justify-center">
+              <CurrentSlideComponent data={data} />
             </div>
           </div>
         </div>
-        
+
         <ResponsiveSidebar
           username={username}
           data={data}
