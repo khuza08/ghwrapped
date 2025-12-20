@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 interface ContributionsTextProps {
   totalCommits: number;
@@ -11,27 +11,32 @@ const ContributionsText: React.FC<ContributionsTextProps> = ({
   totalCommits,
   currentCount,
   totalDuration,
-  characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+'
+  characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+",
 }) => {
-  const text = 'CONTRIBUTIONS';
+  const text = "CONTRIBUTIONS";
   const availableChars = characters;
   const [displayText, setDisplayText] = useState(text);
 
   // Initialize scrambled characters for non-revealed positions
   const [scrambledChars] = useState<string[]>(() => {
-    return text.split('').map(() =>
-      availableChars[Math.floor(Math.random() * availableChars.length)]
-    );
+    return text
+      .split("")
+      .map(
+        () => availableChars[Math.floor(Math.random() * availableChars.length)],
+      );
   });
 
   useEffect(() => {
     // Calculate display text based on progress (always runs during counting)
     const progress = totalCommits > 0 ? currentCount / totalCommits : 0;
-    const targetRevealedCount = Math.min(Math.floor(progress * text.length), text.length);
+    const targetRevealedCount = Math.min(
+      Math.floor(progress * text.length),
+      text.length,
+    );
 
     // Create revealed characters based on progress
     const newDisplayText = text
-      .split('')
+      .split("")
       .map((char, i) => {
         if (i < targetRevealedCount) {
           return char; // Show actual character
@@ -39,7 +44,7 @@ const ContributionsText: React.FC<ContributionsTextProps> = ({
           return scrambledChars[i]; // Show consistent scrambled character
         }
       })
-      .join('');
+      .join("");
 
     setDisplayText(newDisplayText);
   }, [currentCount, totalCommits, text, scrambledChars]);
