@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useWrappedData } from "@/hooks/useWrappedData";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import ErrorDisplay from "@/components/UI/ErrorDisplay";
 import ResponsiveSidebar from "@/components/UI/ResponsiveSidebar";
 import SlideNavigation from "@/components/GitHubWrapped/SlideNavigation";
 import { getSlides } from "./slidesConfig";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface SimplifiedWrappedContainerProps {
   username: string;
@@ -17,6 +18,7 @@ const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
 }) => {
   const { data, loading, error } = useWrappedData(username);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [direction, setDirection] = useState(0); // 0 for initial, 1 for next, -1 for previous
 
   // Get slides from the slides config to ensure consistency
   const slideData = getSlides();
@@ -26,16 +28,34 @@ const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
   }));
 
   const goToPrevSlide = () => {
-    setCurrentSlide((prev) => Math.max(0, prev - 1));
+    if (currentSlide > 0) {
+      setDirection(-1);
+      setCurrentSlide((prev) => prev - 1);
+    }
   };
 
   const goToNextSlide = () => {
-    setCurrentSlide((prev) => Math.min(slides.length - 1, prev + 1));
+    if (currentSlide < slides.length - 1) {
+      setDirection(1);
+      setCurrentSlide((prev) => prev + 1);
+    }
   };
 
   const handleSlideSelect = (index: number) => {
-    setCurrentSlide(index);
+    if (index !== currentSlide) {
+      setDirection(index > currentSlide ? 1 : -1);
+      setCurrentSlide(index);
+    }
   };
+
+  // Reset direction after slide change completes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDirection(0);
+    }, 300); // Match the animation duration
+
+    return () => clearTimeout(timer);
+  }, [currentSlide]);
 
   if (loading) {
     return <LoadingSpinner />;
@@ -64,11 +84,32 @@ const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
             </div>
           </div>
 
-          {/* Slide Content - Now properly centered */}
-          <div className="w-full h-full flex items-center justify-center">
-            <div>
-              <CurrentSlideComponent data={data} />
-            </div>
+          {/* Slide Content - Now properly centered with animations */}
+          <div className="w-full h-full flex items-center justify-center overflow-hidden relative">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={currentSlide}
+                initial={{
+                  x: direction > 0 ? "100%" : direction < 0 ? "-100%" : 0,
+                  opacity: 0,
+                }}
+                animate={{
+                  x: 0,
+                  opacity: 1,
+                }}
+                exit={{
+                  x: direction > 0 ? "-100%" : direction < 0 ? "100%" : 0,
+                  opacity: 0,
+                }}
+                transition={{
+                  duration: 0.3,
+                  ease: "easeInOut",
+                }}
+                className="h-full flex items-center justify-center"
+              >
+                <CurrentSlideComponent data={data} />
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
 
