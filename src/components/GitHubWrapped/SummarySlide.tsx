@@ -22,9 +22,6 @@ const SummarySlide: React.FC<WrappedSlideProps> = ({ data }) => {
         transition={{ duration: 0.5 }}
         className="w-full"
       >
-        <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white/80 mb-4">
-          GitHub Wrapped 2024
-        </h3>
         <div className="flex items-center justify-center mb-6 md:mb-8">
           <motion.img
             src={user.avatar_url}
@@ -56,16 +53,8 @@ const SummarySlide: React.FC<WrappedSlideProps> = ({ data }) => {
           label="Commits"
           className="py-6"
         />
-        <StatCard
-          value={summary.totalRepos}
-          label="Repos"
-          className="py-6"
-        />
-        <StatCard
-          value={summary.totalStars}
-          label="Stars"
-          className="py-6"
-        />
+        <StatCard value={summary.totalRepos} label="Repos" className="py-6" />
+        <StatCard value={summary.totalStars} label="Stars" className="py-6" />
         <StatCard
           value={`${summary.yearsOnGitHub}y`}
           label="On GitHub"

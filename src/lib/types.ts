@@ -249,6 +249,13 @@ export interface GitHubWrappedData {
     codingSchedule: 'morning' | 'afternoon' | 'evening' | 'night' | 'anytime';
     activityType: 'consistent' | 'weekend-warrior' | 'burst-coder' | 'steady-pace';
   };
+  achievements: Array<{
+    name: string;
+    description: string;
+    icon: string;
+    imageUrl?: string;
+    earnedDate?: string;
+  }>;
 }
 
 export interface GitHubWrappedSlide {

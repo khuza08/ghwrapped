@@ -247,7 +247,15 @@ export async function GET(
       ...enhancePersonality(wrappedData)
     };
 
-    return Response.json(wrappedData);
+    // Add GitHub-style achievements based on user's activity
+    const achievements = generateAchievements(wrappedData);
+
+    const responseWithAchievements = {
+      ...wrappedData,
+      achievements
+    };
+
+    return Response.json(responseWithAchievements);
   } catch (error: any) {
     // Handle errors with our error service
     const appError = handleApiError(error);
@@ -313,4 +321,129 @@ function enhancePersonality(wrappedData: GitHubWrappedData) {
     codingSchedule: personality.codingSchedule,
     activityType: personality.activityType,
   };
+}
+
+// Helper function to generate GitHub-style achievements based on user activity
+function generateAchievements(wrappedData: GitHubWrappedData) {
+  const achievements = [];
+  const { summary, commits, repositories } = wrappedData;
+
+  // Map of achievement names to their local image paths
+  const achievementImages: Record<string, string> = {
+    "Quick Draw": "/media/Badges/Quick-Draw/PNG/Skin-Tones/QuickDraw_SkinTone1.png",
+    "Marathon": "/media/Badges/Galaxy-Brain/PNG/GalaxyBrain.png", // Using Galaxy Brain as it represents dedication
+    "Yippee Ki-AY": "/media/Badges/YOLO/PNG/YOLO.png", // YOLO is available
+    "Heat Seeker": "/media/Badges/Galaxy-Brain/PNG/GalaxyBrain.png", // Using Galaxy Brain for streaks/intelligence
+    "Starstruck": "/media/Badges/Star-Struck/PNG/StarStruck_Bronze.png",
+    "For You": "/media/Badges/Heart-on-your-sleeve/PNG/HeartOnYourSleeve.png",
+    "Pair Extraordinaire": "/media/Badges/Pair-Extraordinaire/PNG/PairExtraordinaire.png",
+    "Pull Shark": "/media/Badges/Pull-Shark/PNG/PullShark.png",
+    "Polyglot": "/media/Badges/Galaxy-Brain/PNG/GalaxyBrain.png", // Knowledge in many areas
+    "Fork Party": "/media/Badges/Open-Sourcerer/PNG/OpenSourcerer.png", // Collaboration-related
+    "Quickdraw": "/media/Badges/Quick-Draw/PNG/Skin-Tones/QuickDraw_SkinTone1.png", // Alternative spelling
+  };
+
+  // GitHub-style achievements
+  if (summary.totalCommits > 0) {
+    achievements.push({
+      name: "Quick Draw",
+      description: "Made at least one contribution on GitHub",
+      icon: "⚡",
+      imageUrl: achievementImages["Quick Draw"]
+    });
+  }
+
+  if (summary.totalCommits > 100) {
+    achievements.push({
+      name: "Marathon",
+      description: "Contributed at least 100 times in a year",
+      icon: "🏃",
+      imageUrl: achievementImages["Marathon"]
+    });
+  }
+
+  if (summary.totalCommits > 1000) {
+    achievements.push({
+      name: "Yippee Ki-AY",
+      description: "Contributed at least 1,000 times in a year",
+      icon: "🎉",
+      imageUrl: achievementImages["Yippee Ki-AY"]
+    });
+  }
+
+  if (commits.longestStreak && commits.longestStreak.length >= 30) {
+    achievements.push({
+      name: "Heat Seeker",
+      description: "Maintained a 30+ day streak",
+      icon: "🔥",
+      imageUrl: achievementImages["Heat Seeker"]
+    });
+  }
+
+  if (repositories.topByStars.length > 0 && repositories.topByStars[0].stargazers_count >= 10) {
+    achievements.push({
+      name: "Starstruck",
+      description: "First repository reached 10+ stars",
+      icon: "🌟",
+      imageUrl: achievementImages["Starstruck"]
+    });
+  }
+
+  if (repositories.topByStars.length > 0 && repositories.topByStars[0].stargazers_count >= 100) {
+    achievements.push({
+      name: "For You",
+      description: "First repository reached 100+ stars",
+      icon: "💖",
+      imageUrl: achievementImages["For You"]
+    });
+  }
+
+  if (summary.totalRepos > 10) {
+    achievements.push({
+      name: "Pair Extraordinaire",
+      description: "Created or contributed to 10+ repositories",
+      icon: "👥",
+      imageUrl: achievementImages["Pair Extraordinaire"]
+    });
+  }
+
+  if (summary.totalRepos > 20) {
+    achievements.push({
+      name: "Pull Shark",
+      description: "Created or contributed to 20+ repositories",
+      icon: "🦈",
+      imageUrl: achievementImages["Pull Shark"]
+    });
+  }
+
+  if (repositories.languageBreakdown.length > 5) {
+    achievements.push({
+      name: "Polyglot",
+      description: "Used 5+ different languages",
+      icon: "🗣️",
+      imageUrl: achievementImages["Polyglot"]
+    });
+  }
+
+  if (summary.totalForks > 10) {
+    achievements.push({
+      name: "Fork Party",
+      description: "Forked 10+ repositories",
+      icon: "🍴",
+      imageUrl: achievementImages["Fork Party"]
+    });
+  }
+
+  // Add more achievements based on activity patterns
+  const topLanguage = repositories.languageBreakdown[0];
+  if (topLanguage && topLanguage.percentage > 70) {
+    achievements.push({
+      name: "Specialist",
+      description: `Used ${topLanguage.language} for 70%+ of code`,
+      icon: "🎯",
+      imageUrl: "" // No official image for this custom achievement
+    });
+  }
+
+  return achievements;
 }

@@ -1,10 +1,9 @@
 import CommitsCounterSlide from "@/components/GitHubWrapped/CommitsCounterSlide";
 import CommitsSlide from "@/components/GitHubWrapped/CommitsSlide";
 import LanguagesSlide from "@/components/GitHubWrapped/LanguagesSlide";
-import PersonalitySlide from "@/components/GitHubWrapped/PersonalitySlide";
+import SummarySlide from "@/components/GitHubWrapped/SummarySlide";
 import ImageExportSlide from "@/components/GitHubWrapped/ImageExportSlide";
 import GitHubWrappedBanner from "@/components/GitHubWrapped/GitHubWrappedBanner";
-import SummarySlide from "@/components/GitHubWrapped/SummarySlide";
 
 export interface Slide {
   id: string;
@@ -16,11 +15,7 @@ export const getSlides = (): Slide[] => [
   { id: "commits-counter", component: CommitsCounterSlide, title: "Your Contributions" },
   { id: "commits", component: CommitsSlide, title: "Commits" },
   { id: "languages", component: LanguagesSlide, title: "Languages" },
-  {
-    id: "personality",
-    component: PersonalitySlide,
-    title: "Your Coding Style",
-  },
+  { id: "summary", component: SummarySlide, title: "Summary" },
   {
     id: "image-export",
     component: ImageExportSlide,
@@ -30,10 +25,5 @@ export const getSlides = (): Slide[] => [
     id: "banner",
     component: GitHubWrappedBanner,
     title: "Shareable Banner",
-  },
-  {
-    id: "summary",
-    component: SummarySlide,
-    title: "Summary",
   },
 ];
