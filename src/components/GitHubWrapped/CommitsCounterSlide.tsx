@@ -20,10 +20,10 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
   const totalFrames = Math.round(duration / frameDuration);
 
   // Use sessionStorage to persist animation state across component re-mounts
-  const animationCompletedKey = `animation_completed_${data.user?.login || 'unknown'}_${totalCommits}`;
+  const animationCompletedKey = `animation_completed_${data.user?.login || "unknown"}_${totalCommits}`;
   const [hasCompletedAnimation, setHasCompletedAnimation] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return sessionStorage.getItem(animationCompletedKey) === 'true';
+    if (typeof window !== "undefined") {
+      return sessionStorage.getItem(animationCompletedKey) === "true";
     }
     return false;
   });
@@ -41,7 +41,7 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
           clearInterval(timer);
           setCount(totalCommits);
           setHasCompletedAnimation(true); // Update local state
-          sessionStorage.setItem(animationCompletedKey, 'true'); // Persist in sessionStorage
+          sessionStorage.setItem(animationCompletedKey, "true"); // Persist in sessionStorage
         }
       }, frameDuration);
 
@@ -50,7 +50,13 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
       // If animation was already completed, set to final value immediately
       setCount(totalCommits);
     }
-  }, [totalCommits, totalFrames, frameDuration, hasCompletedAnimation, animationCompletedKey]);
+  }, [
+    totalCommits,
+    totalFrames,
+    frameDuration,
+    hasCompletedAnimation,
+    animationCompletedKey,
+  ]);
 
   useEffect(() => {
     if (usernameDecrypted) {
@@ -68,7 +74,7 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
   }, [count, totalCommits, hasCompletedAnimation]);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
+    <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 mb-6">
       <div className="flex flex-col items-center text-center pointer-events-auto">
         <div className="mb-2 font-bold text-sm md:text-base text-white/80 flex items-center gap-2">
           <DecryptedText

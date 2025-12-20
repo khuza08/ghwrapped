@@ -66,7 +66,7 @@ const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
 
           {/* Slide Content - Now properly centered */}
           <div className="w-full h-full flex items-center justify-center">
-            <div className="w-full h-full flex items-center justify-center">
+            <div>
               <CurrentSlideComponent data={data} />
             </div>
           </div>

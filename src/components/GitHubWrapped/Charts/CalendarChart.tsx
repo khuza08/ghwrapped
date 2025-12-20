@@ -15,7 +15,7 @@ const getContributionLevel = (commits: number): number => {
 const getColorClass = (level: number): string => {
   switch (level) {
     case 0:
-      return "bg-[#161b22]"; // No contributions - dark gray
+      return "bg-[#242424]";
     case 1:
       return "bg-[#0e4429]"; // Low contributions - dark green
     case 2:
@@ -95,14 +95,21 @@ const CalendarChart: React.FC<CalendarChartProps> = ({ commitsByDate }) => {
     );
   }
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center p-4 overflow-x-auto overflow-y-hidden">
-      <div className="min-w-max">
+    <div className="w-full h-full flex flex-col items-center justify-center overflow-x-auto overflow-y-hidden mb-6">
+      <div className="text-center mb-4 bg-white/5">
+        <h3 className="text-lg font-bold text-white/80">
+          Contribution Calendar
+        </h3>
+        <p className="text-sm text-white/50">{year}</p>
+      </div>
+
+      <div className="min-w-max border border-white/20 bg-white/5 rounded-xl p-4 backdrop-blur-xl">
         {/* Month labels row */}
         <div className="flex mb-1 h-6 ml-14 relative">
           {monthLabels.map((label, index) => (
             <div
               key={index}
-              className="text-[10px] text-gray-500 absolute"
+              className="text-[10px] text-white/50 absolute"
               style={{ left: `${label.weekIndex * 13}px` }}
             >
               {label.month}
@@ -118,7 +125,7 @@ const CalendarChart: React.FC<CalendarChartProps> = ({ commitsByDate }) => {
               (day, index) => (
                 <div
                   key={day}
-                  className="text-[10px] text-gray-500 h-[15px] flex items-center justify-end pr-1"
+                  className="text-[10px] text-white/50 h-[15px] flex items-center justify-end pr-1"
                 >
                   {index % 2 === 0 ? day : ""}
                 </div>
@@ -127,7 +134,7 @@ const CalendarChart: React.FC<CalendarChartProps> = ({ commitsByDate }) => {
           </div>
 
           {/* Calendar grid container */}
-          <div className="min-w-[728px] overflow-visible">
+          <div className="min-w-[728px] overflow-visible bg-[#161616]">
             {" "}
             {/* 52 weeks * 14px per week = 728px */}
             <div className="flex flex-col">
@@ -143,7 +150,7 @@ const CalendarChart: React.FC<CalendarChartProps> = ({ commitsByDate }) => {
                           className={`${getColorClass(day.level)} w-3 h-3 mx-0.5 my-0.5 rounded-sm cursor-pointer relative group`}
                           title={`${day.commits} contributions on ${dateStr}`}
                         >
-                          <div className="absolute hidden group-hover:block -top-8 left-1/2 transform -translate-x-1/2 bg-white/5 backdrop-blur-xl text-white/80 font-bold text-xs rounded-full py-2 px-4 whitespace-nowrap z-10 border border-white/20">
+                          <div className="absolute hidden group-hover:block -top-8 left-1/2 transform -translate-x-1/2 bg-black/5 backdrop-blur-xl text-white font-bold text-xs rounded-lg py-2 px-3 whitespace-nowrap z-50 border border-white/30 shadow-lg shadow-black/50">
                             {day.date.toLocaleDateString("en-US", {
                               weekday: "long",
                               year: "numeric",
@@ -151,7 +158,7 @@ const CalendarChart: React.FC<CalendarChartProps> = ({ commitsByDate }) => {
                               day: "numeric",
                             })}
                             : {day.commits} contributions
-                            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-900"></div>
+                            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-white/10"></div>
                           </div>
                         </div>
                       );
