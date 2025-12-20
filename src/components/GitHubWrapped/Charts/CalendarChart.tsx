@@ -95,8 +95,8 @@ const CalendarChart: React.FC<CalendarChartProps> = ({ commitsByDate }) => {
     );
   }
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center overflow-x-auto overflow-y-hidden mb-6">
-      <div className="text-center mb-4 bg-white/5">
+    <div className="w-full h-full flex flex-col items-center justify-center overflow-x-auto overflow-y-hidden">
+      <div className="text-center mb-4">
         <h3 className="text-lg font-bold text-white/80">
           Contribution Calendar
         </h3>
@@ -169,25 +169,25 @@ const CalendarChart: React.FC<CalendarChartProps> = ({ commitsByDate }) => {
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Legend */}
-        <div className="flex items-center mt-4 text-xs text-white/50 justify-between w-full">
-          <div className="text-left">
-            {" "}
-            Total commits:{" "}
-            {Object.values(commitsByDate).reduce((a, b) => a + b, 0)}
-          </div>
-          <div className="flex items-center">
-            {" "}
-            <span className="mr-2">Less</span>
-            {[0, 1, 2, 3, 4].map((level) => (
-              <div
-                key={level}
-                className={`${getColorClass(level)} w-3 h-3 mx-0.5 rounded-sm`}
-              ></div>
-            ))}
-            <span className="ml-2">More</span>
-          </div>
+      {/* Legends */}
+      <div className="mt-2 mb-6 flex items-center text-xs text-white/80 justify-between w-full max-w-4xl">
+        <div className="text-left font-bold border border-white/20 py-2 px-4 rounded-full bg-white/5">
+          {" "}
+          Total commits:{" "}
+          {Object.values(commitsByDate).reduce((a, b) => a + b, 0)}
+        </div>
+        <div className="flex items-center">
+          {" "}
+          <span className="mr-2">Less</span>
+          {[0, 1, 2, 3, 4].map((level) => (
+            <div
+              key={level}
+              className={`${getColorClass(level)} w-3 h-3 mx-0.5 rounded-sm`}
+            ></div>
+          ))}
+          <span className="ml-2">More</span>
         </div>
       </div>
     </div>
