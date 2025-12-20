@@ -14,8 +14,31 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({ data }) => {
     const element = document.querySelector(selector) as HTMLElement;
     if (element) {
       try {
+        // Temporarily change bg-black/5 to bg-[#222222] for export
+        const elementsToChange = element.querySelectorAll('[class*="bg-black/5"]');
+        const originalClasses: { element: Element; originalClass: string }[] = [];
+
+        elementsToChange.forEach(el => {
+          const classList = Array.from(el.classList);
+          if (classList.includes('bg-black/5')) {
+            originalClasses.push({
+              element: el,
+              originalClass: el.className
+            });
+            // Replace bg-black/5 with bg-[#222222]
+            el.className = el.className.replace('bg-black/5', 'bg-[#222222]');
+          }
+        });
+
         const dataUrl = await toPng(element, {
           skipFonts: true,
+          cacheBust: true,
+          pixelRatio: window.devicePixelRatio || 2, // Better quality for high DPI screens
+        });
+
+        // Restore original classes after export
+        originalClasses.forEach(({ element, originalClass }) => {
+          element.className = originalClass;
         });
 
         const link = document.createElement("a");

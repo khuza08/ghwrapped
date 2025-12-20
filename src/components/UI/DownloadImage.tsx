@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { toPng } from 'html-to-image';
-import { RefObject } from 'react';
+import React from "react";
+import { toJpeg } from "html-to-image";
+import { RefObject } from "react";
 
 interface DownloadImageProps {
   elementRef: RefObject<HTMLDivElement>;
@@ -10,26 +10,35 @@ interface DownloadImageProps {
   children: React.ReactNode;
 }
 
-const DownloadImage: React.FC<DownloadImageProps> = ({ elementRef, filename, children }) => {
+const DownloadImage: React.FC<DownloadImageProps> = ({
+  elementRef,
+  filename,
+  children,
+}) => {
   const downloadImage = async () => {
     if (!elementRef.current) {
-      console.error('No element to capture');
+      console.error("No element to capture");
       return;
     }
 
     try {
-      const dataUrl = await toPng(elementRef.current, { 
+      const dataUrl = await toJpeg(elementRef.current, {
         cacheBust: true,
-        backgroundColor: '#ffffff',
+        quality: 1,
       });
-      
-      const link = document.createElement('a');
-      link.download = filename;
+
+      const link = document.createElement("a");
+      // Ensure the filename has a .jpg extension
+      const jpgFilename =
+        filename.endsWith(".jpg") || filename.endsWith(".jpeg")
+          ? filename
+          : filename.replace(/\.[^/.]+$/, "") + ".jpg";
+      link.download = jpgFilename;
       link.href = dataUrl;
       link.click();
     } catch (error) {
-      console.error('Error generating image:', error);
-      alert('Failed to download image. Please try again.');
+      console.error("Error generating image:", error);
+      alert("Failed to download image. Please try again.");
     }
   };
 
