@@ -1,7 +1,6 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { GitHubWrappedData } from "@/lib/types";
-import StatCard from "@/components/UI/reusable/StatCard";
+import { formatNumber } from "@/lib/utils";
 import AdditionalStatCard from "@/components/UI/reusable/AdditionalStatCard";
 
 interface WrappedSlideProps {
@@ -17,39 +16,48 @@ const SummarySlide: React.FC<WrappedSlideProps> = ({ data }) => {
 
   return (
     <div className="w-full max-w-6xl mx-auto text-center flex flex-col items-center justify-center">
-      <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4, staggerChildren: 0.1 }}
-      >
-        <StatCard
-          value={summary.totalCommits}
-          label="Commits"
-          className="py-6"
-        />
-        <StatCard value={summary.totalRepos} label="Repos" className="py-6" />
-        <StatCard value={summary.totalStars} label="Stars" className="py-6" />
-        <StatCard
-          value={`${summary.yearsOnGitHub}y`}
-          label="On GitHub"
-          className="py-6"
-        />
-      </motion.div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+        {/* Stat cards without animation */}
+        <div className="bg-white/5 border border-white/20 p-3 md:p-4 lg:p-6 rounded-lg py-6 hover:scale-103 transition-transform duration-200 cursor-pointer">
+          <div className="text-xl md:text-2xl lg:text-3xl font-bold text-white/80">
+            {formatNumber(summary.totalCommits)}
+          </div>
+          <div className="text-xs md:text-sm lg:text-base text-white/50">
+            Commits
+          </div>
+        </div>
+
+        <div className="bg-white/5 border border-white/20 p-3 md:p-4 lg:p-6 rounded-lg py-6 hover:scale-103 transition-transform duration-200 cursor-pointer">
+          <div className="text-xl md:text-2xl lg:text-3xl font-bold text-white/80">
+            {formatNumber(summary.totalRepos)}
+          </div>
+          <div className="text-xs md:text-sm lg:text-base text-white/50">
+            Repos
+          </div>
+        </div>
+
+        <div className="bg-white/5 border border-white/20 p-3 md:p-4 lg:p-6 rounded-lg py-6 hover:scale-103 transition-transform duration-200 cursor-pointer">
+          <div className="text-xl md:text-2xl lg:text-3xl font-bold text-white/80">
+            {formatNumber(summary.totalStars)}
+          </div>
+          <div className="text-xs md:text-sm lg:text-base text-white/50">
+            Stars
+          </div>
+        </div>
+
+        <div className="bg-white/5 border border-white/20 p-3 md:p-4 lg:p-6 rounded-lg py-6 hover:scale-103 transition-transform duration-200 cursor-pointer">
+          <div className="text-xl md:text-2xl lg:text-3xl font-bold text-white/80">
+            {summary.yearsOnGitHub}y
+          </div>
+          <div className="text-xs md:text-sm lg:text-base text-white/50">
+            On GitHub
+          </div>
+        </div>
+      </div>
 
       {/* Additional Stats Section */}
-      <motion.div
-        className="mt-4 w-full"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.0 }}
-      >
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, staggerChildren: 0.1 }}
-        >
+      <div className="mt-4 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
           {/* Streak Card */}
           <AdditionalStatCard
             title="Longest Streak"
@@ -74,8 +82,8 @@ const SummarySlide: React.FC<WrappedSlideProps> = ({ data }) => {
             value={personality.title}
             subtitle={personality.description}
           />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   );
 };

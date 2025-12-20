@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import AnimatedCounter from "../AnimatedCounter";
 import { formatNumber } from "@/lib/utils";
 
@@ -21,10 +20,8 @@ const StatCard: React.FC<StatCardProps> = ({
   const borderClass = hasBorder ? "border border-white/20" : "";
 
   return (
-    <motion.div
-      className={`bg-white/5 p-3 md:p-4 lg:p-6 rounded-lg ${borderClass}`}
-      whileHover={{ scale: 1.03 }}
-      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+    <div
+      className={`bg-white/5 p-3 md:p-4 lg:p-6 rounded-lg ${borderClass} hover:scale-103 transition-transform duration-200 cursor-pointer`}
     >
       <div className="text-xl md:text-2xl lg:text-3xl font-bold text-white/80">
         {isLoading ? (
@@ -43,7 +40,7 @@ const StatCard: React.FC<StatCardProps> = ({
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 };
 
