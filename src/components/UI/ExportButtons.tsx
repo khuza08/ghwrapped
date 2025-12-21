@@ -49,30 +49,20 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
           const hasBlackClass = element.classList.contains("bg-black/5");
           const hasWhiteClass = element.classList.contains("bg-white/5");
 
-          let newClassName = element.className;
-
+          // Remove the original Tailwind classes and add the solid colors
+          // Also disable transitions to ensure immediate color change
           if (hasBlackClass) {
-            newClassName = newClassName.replaceAll(
-              "bg-black/5",
-              "bg-[#222222]",
-            );
+            element.classList.remove("bg-black/5");
+            element.classList.add("bg-[#222222]");
+            element.style.setProperty("background-color", "#222222", "important");
+            element.style.setProperty("transition", "none", "important");
           }
 
           if (hasWhiteClass) {
-            newClassName = newClassName.replaceAll(
-              "bg-white/5",
-              "bg-[#242424]",
-            );
-          }
-
-          element.className = newClassName;
-
-          if (hasBlackClass || hasWhiteClass) {
-            element.style.setProperty(
-              "background-color",
-              hasBlackClass ? "#222222" : "#242424",
-              "important",
-            );
+            element.classList.remove("bg-white/5");
+            element.classList.add("bg-[#242424]");
+            element.style.setProperty("background-color", "#242424", "important");
+            element.style.setProperty("transition", "none", "important");
           }
         });
 
@@ -91,43 +81,31 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
               });
             }
 
-            bannerElement.className = bannerElement.className.replaceAll(
-              "bg-white/5",
-              "bg-[#242424]",
-            );
+            bannerElement.classList.remove("bg-white/5");
+            bannerElement.classList.add("bg-[#242424]");
             bannerElement.style.setProperty(
               "background-color",
               "#242424",
               "important",
             );
+            bannerElement.style.setProperty(
+              "transition",
+              "none",
+              "important",
+            );
           }
         }
 
-        const bannerDataUrl = await toPng(element, {
-          skipFonts: true,
-          cacheBust: true,
-          pixelRatio: window.devicePixelRatio || 5,
-        });
-
-        originalData.forEach(
-          ({ element, originalClass, originalStyle, originalBackground }) => {
-            element.className = originalClass;
-            if (originalStyle !== undefined) {
-              if (originalStyle) {
-                element.setAttribute("style", originalStyle);
-              } else {
-                element.removeAttribute("style");
-              }
-            } else {
-              element.removeAttribute("style");
-            }
-            if (originalBackground !== undefined) {
-              element.style.background = originalBackground;
-            }
-          },
-        );
-
         if (isBannerExport && background !== "none") {
+          // Wait a bit to ensure DOM changes are applied before capturing image
+          await new Promise(resolve => setTimeout(resolve, 100));
+
+          const bannerDataUrl = await toPng(element, {
+            skipFonts: true,
+            cacheBust: true,
+            pixelRatio: window.devicePixelRatio || 5,
+          });
+
           const canvas = document.createElement("canvas");
           canvas.width = 1080;
           canvas.height = 1920;
@@ -234,6 +212,30 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
                   link.href = compositeDataUrl;
                   link.click();
 
+                  // Restore original styles after everything is done
+                  originalData.forEach(
+                    ({ element, originalClass, originalStyle, originalBackground }) => {
+                      // Get the original classes and restore them
+                      element.className = originalClass;
+
+                      // Restore original style attributes
+                      if (originalStyle !== undefined) {
+                        if (originalStyle) {
+                          element.setAttribute("style", originalStyle);
+                        } else {
+                          element.removeAttribute("style");
+                        }
+                      } else {
+                        element.removeAttribute("style");
+                      }
+
+                      // Restore original background if it existed
+                      if (originalBackground !== undefined) {
+                        element.style.background = originalBackground;
+                      }
+                    },
+                  );
+
                   resolve(null);
                 };
                 bannerImg.onerror = reject;
@@ -242,9 +244,66 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
             } catch (error) {
               console.error("Error loading banner image:", error);
               alert("Error loading banner image for export. Please try again.");
+
+              // Restore original styles even if there's an error
+              originalData.forEach(
+                ({ element, originalClass, originalStyle, originalBackground }) => {
+                  // Get the original classes and restore them
+                  element.className = originalClass;
+
+                  // Restore original style attributes
+                  if (originalStyle !== undefined) {
+                    if (originalStyle) {
+                      element.setAttribute("style", originalStyle);
+                    } else {
+                      element.removeAttribute("style");
+                    }
+                  } else {
+                    element.removeAttribute("style");
+                  }
+
+                  // Restore original background if it existed
+                  if (originalBackground !== undefined) {
+                    element.style.background = originalBackground;
+                  }
+                },
+              );
             }
           }
         } else {
+          // Wait a bit to ensure DOM changes are applied before capturing image
+          await new Promise(resolve => setTimeout(resolve, 100));
+
+          const bannerDataUrl = await toPng(element, {
+            skipFonts: true,
+            cacheBust: true,
+            pixelRatio: window.devicePixelRatio || 5,
+          });
+
+          // Restore original styles after getting the image
+          originalData.forEach(
+            ({ element, originalClass, originalStyle, originalBackground }) => {
+              // Get the original classes and restore them
+              element.className = originalClass;
+
+              // Restore original style attributes
+              if (originalStyle !== undefined) {
+                if (originalStyle) {
+                  element.setAttribute("style", originalStyle);
+                } else {
+                  element.removeAttribute("style");
+                }
+              } else {
+                element.removeAttribute("style");
+              }
+
+              // Restore original background if it existed
+              if (originalBackground !== undefined) {
+                element.style.background = originalBackground;
+              }
+            },
+          );
+
           const link = document.createElement("a");
           link.download = filename;
           link.href = bannerDataUrl;
