@@ -1,7 +1,7 @@
 # GitHub Wrapped
 
 This project is inspired by Spotify Wrapped and [github-unwrapped by remotion-dev](https://github.com/remotion-dev/github-unwrapped).
-I built a simpler version using Next.js App Router,
+I built a simpler version using Next.js App Router, currently not supported on mobile because it has lot of a complex layout.
 
 ## ✨ Features
 
