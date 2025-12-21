@@ -9,15 +9,23 @@ import GitHubWrappedFooter from "@/components/UI/GitHubWrappedFooter";
 import { FaGithub } from "react-icons/fa";
 import SimplifiedWrappedContainer from "@/components/GitHubWrapped/SimplifiedWrappedContainer";
 import { BackgroundProvider } from "@/components/UI/BackgroundContext";
+import MobileWarning from "@/components/UI/MobileWarning";
+import useMobileDetection from "@/hooks/useMobileDetection";
 
 // Cache duration: 1 hour (3600000 ms)
-const CACHE_DURATION = 3600000;
+const CACHE_DURATION = 600000;
 
 const GitHubWrappedPage = () => {
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
   const [showWrapped, setShowWrapped] = useState(false);
   const [wrappedData, setWrappedData] = useState<any>(null);
+  const isMobile = useMobileDetection();
+
+  // Show mobile warning if detected
+  if (isMobile.isMobile) {
+    return <MobileWarning deviceName={isMobile.deviceName} />;
+  }
 
   const checkUserExists = async (username: string): Promise<boolean> => {
     if (typeof window === "undefined") return false;
