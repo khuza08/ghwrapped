@@ -1,7 +1,7 @@
 import React from "react";
 import { GitHubWrappedData } from "@/lib/types";
 import { toPng } from "html-to-image";
-import { FiDownload, FiMonitor } from "react-icons/fi";
+import { FiArrowDown } from "react-icons/fi";
 import { useBackground } from "./BackgroundContext";
 
 interface ExportButtonsProps {
@@ -272,7 +272,7 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
           className="px-4 py-2 border border-white/20 bg-white/5 hover:bg-blue-900/50 hover:border-blue-600 text-white font-bold rounded-full shadow backdrop-blur-xl transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-sm w-full flex items-center justify-center gap-2"
           title="Export Banner"
         >
-          <FiMonitor size={16} />
+          <FiArrowDown size={16} />
         </button>
       )}
     </div>
