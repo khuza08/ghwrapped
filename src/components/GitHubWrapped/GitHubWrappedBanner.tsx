@@ -36,7 +36,7 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
               className="w-full h-80 object-cover"
             />
             {/* Overlay Card - Top Left Corner */}
-            <div className="absolute top-2 left-2 bg-black/50 backdrop-blur-xl border border-white/20 rounded-lg px-4 py-1 flex gap-4">
+            <div className="absolute top-2 left-2 bg-black/5 backdrop-blur-xl border border-white/20 rounded-lg px-4 py-1 flex gap-4">
               <div className="text-sm text-white/80 flex items-center text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
                 <FiUser className="w-4 h-4 mr-1" />
                 {formatNumber(user.followers || 0)}
@@ -61,7 +61,7 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-3 gap-1.5 mx-3 mb-2 mt-2">
-          <div className="text-center p-2 bg-white/5 border border-white/20 rounded-lg">
+          <div className="text-center p-2 bg-black/5 border border-white/20 rounded-lg">
             <div className="text-md text-white/80 text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
               {formatNumber(summary.totalPullRequests || 66)}
             </div>
@@ -69,7 +69,7 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
               PRs
             </div>
           </div>
-          <div className="text-center p-2 bg-white/5 border border-white/20 rounded-lg">
+          <div className="text-center p-2 bg-black/5 border border-white/20 rounded-lg">
             <div className="text-md text-white/80 text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
               {formatNumber(summary.totalCommits || 0)}
             </div>
@@ -77,7 +77,7 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
               COMMITS
             </div>
           </div>
-          <div className="text-center p-2 bg-white/5 border border-white/20 rounded-lg">
+          <div className="text-center p-2 bg-black/5 border border-white/20 rounded-lg">
             <div className="text-md text-white/80 text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
               {formatNumber(summary.totalRepos || 0)}
             </div>
@@ -89,7 +89,7 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
 
         {/* Calendar Chart */}
         <div className="mx-3 mb-2">
-          <div className="flex flex-col border border-white/20 rounded-lg bg-white/5 p-2">
+          <div className="flex flex-col border border-white/20 rounded-lg bg-black/5 p-2">
             {Array.from({ length: 4 }).map((_, rowIndex) => {
               // Create 26 weeks worth of data
               return (

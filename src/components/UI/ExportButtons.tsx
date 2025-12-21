@@ -14,31 +14,99 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({ data }) => {
     const element = document.querySelector(selector) as HTMLElement;
     if (element) {
       try {
-        // Temporarily change bg-black/5 to bg-[#222222] for export
-        const elementsToChange = element.querySelectorAll('[class*="bg-black/5"]');
-        const originalClasses: { element: Element; originalClass: string }[] = [];
+        // Store original classes and styles to restore later
+        const originalData: Array<{
+          element: Element;
+          originalClass: string;
+          originalStyle?: string;
+        }> = [];
 
-        elementsToChange.forEach(el => {
-          const classList = Array.from(el.classList);
-          if (classList.includes('bg-black/5')) {
-            originalClasses.push({
+        // Check if we're exporting the banner specifically
+        const isBannerExport = selector.includes('data-export-banner');
+
+        // Find all elements that need color changes
+        const allElements = element.querySelectorAll('*');
+
+        // First pass: identify and store all elements with bg-black/5 or bg-white/5
+        allElements.forEach((el) => {
+          const hasBlackClass = el.classList.contains('bg-black/5');
+          const hasWhiteClass = el.classList.contains('bg-white/5');
+
+          if (hasBlackClass || hasWhiteClass) {
+            // Store original class and style
+            originalData.push({
               element: el,
-              originalClass: el.className
+              originalClass: el.className,
+              originalStyle: el.getAttribute('style') || undefined,
             });
-            // Replace bg-black/5 with bg-[#222222]
-            el.className = el.className.replace('bg-black/5', 'bg-[#222222]');
           }
         });
+
+        // Second pass: apply all changes at once to prevent conflicts
+        originalData.forEach(({ element }) => {
+          const hasBlackClass = element.classList.contains('bg-black/5');
+          const hasWhiteClass = element.classList.contains('bg-white/5');
+
+          let newClassName = element.className;
+
+          // Replace bg-black/5 with bg-[#222222]
+          if (hasBlackClass) {
+            newClassName = newClassName.replaceAll('bg-black/5', 'bg-[#222222]');
+          }
+
+          // Replace bg-white/5 with bg-[#242424]
+          if (hasWhiteClass) {
+            newClassName = newClassName.replaceAll('bg-white/5', 'bg-[#242424]');
+          }
+
+          // Apply modified class names
+          element.className = newClassName;
+
+          // Add inline styles with high specificity as backup
+          if (hasBlackClass || hasWhiteClass) {
+            element.style.setProperty('background-color', hasBlackClass ? '#222222' : '#242424', 'important');
+          }
+        });
+
+        // Special handling for banner export - ensure main container is properly handled
+        if (isBannerExport) {
+          // The main banner element itself (with data-export-banner attribute)
+          const bannerElement = element; // The element itself is the banner container
+          if (bannerElement.classList.contains('bg-white/5')) {
+            // Make sure main banner container gets the color change too
+            const existingOriginal = originalData.find(item => item.element === bannerElement);
+            if (!existingOriginal) {
+              originalData.push({
+                element: bannerElement,
+                originalClass: bannerElement.className,
+                originalStyle: bannerElement.getAttribute('style') || undefined,
+              });
+            }
+
+            // Apply the change to main banner container
+            bannerElement.className = bannerElement.className.replaceAll('bg-white/5', 'bg-[#242424]');
+            bannerElement.style.setProperty('background-color', '#242424', 'important');
+          }
+        }
 
         const dataUrl = await toPng(element, {
           skipFonts: true,
           cacheBust: true,
-          pixelRatio: window.devicePixelRatio || 2, // Better quality for high DPI screens
+          pixelRatio: window.devicePixelRatio || 5, // Better quality for high DPI screens
         });
 
-        // Restore original classes after export
-        originalClasses.forEach(({ element, originalClass }) => {
+        // Restore original classes and styles after export
+        originalData.forEach(({ element, originalClass, originalStyle }) => {
           element.className = originalClass;
+          if (originalStyle !== undefined) {
+            if (originalStyle) {
+              element.setAttribute('style', originalStyle);
+            } else {
+              element.removeAttribute('style');
+            }
+          } else {
+            element.removeAttribute('style');
+          }
         });
 
         const link = document.createElement("a");
