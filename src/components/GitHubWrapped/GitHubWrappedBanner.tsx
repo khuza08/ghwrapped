@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { GitHubWrappedData } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 import { FiUser, FiUserCheck } from "react-icons/fi";
@@ -9,6 +9,14 @@ interface GitHubWrappedBannerProps {
 
 const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
   const { summary, user, personality } = data;
+  const [customText, setCustomText] = useState<string>("MOMSAIDNOHOES!");
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= 15) {
+      setCustomText(value);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full mb-16 ">
@@ -132,9 +140,14 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
           <span className="text-left flex-1 text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
             {user.name || user.login}
           </span>
-          <span className="text-center text-white tracking-tight text-lg font-bold uppercase bg-white/5 border border-white/20 rounded-full px-4 text-shadow-[0_0_8px_rgba(255,255,255,1)]">
-            MOMSAIDNOHOES!
-          </span>
+          <input
+            type="text"
+            value={customText}
+            onChange={handleTextChange}
+            maxLength={10}
+            placeholder="INPUT HERE"
+            className="text-center text-white tracking-tight text-lg font-bold uppercase bg-white/5 border border-white/20 rounded-full px-4 text-shadow-[0_0_8px_rgba(255,255,255,1)] outline-none w-40 max-w-[180px] truncate placeholder:text-white/50"
+          />
           <span className="text-right flex-1 text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
             2K{new Date().getFullYear().toString().slice(-2)}
           </span>
