@@ -5,11 +5,10 @@ I built a simpler version using Next.js App Router,
 
 ## ✨ Features
 
-* 📊 **Detailed commit analysis** (total commits, most active days, productive hours, longest streak)
-* 🌐 **Repository statistics** (total repositories, stars, forks)
+* 📊 **Detailed commit analysis** 
+* 🌐 **Repository statistics** 
 * 💻 **Most-used programming languages** profile
-* 👤 **Developer personality profile** (coding schedule type, activity style)
-* 📱 **Fully responsive** across devices (maybe xD)
+* 👤 **Developer personality profile** 
 * 🖼️ **Download results as images**
 
 ## 🚀 Getting Started
