@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useWrappedData } from "@/hooks/useWrappedData";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import ErrorDisplay from "@/components/UI/ErrorDisplay";
 import ResponsiveSidebar from "@/components/UI/ResponsiveSidebar";
@@ -9,14 +8,15 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface SimplifiedWrappedContainerProps {
   username: string;
+  data: any; // Pass data as prop instead of fetching
   onBackClick?: () => void;
 }
 
 const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
   username,
+  data,
   onBackClick,
 }) => {
-  const { data, loading, error } = useWrappedData(username);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(0); // 0 for initial, 1 for next, -1 for previous
 
@@ -57,14 +57,9 @@ const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
     return () => clearTimeout(timer);
   }, [currentSlide]);
 
-  if (loading) {
+  // Show loading if no data is provided
+  if (!data) {
     return <LoadingSpinner />;
-  }
-
-  if (error || !data) {
-    return (
-      <ErrorDisplay error={error} onRetry={() => window.location.reload()} />
-    );
   }
 
   // Get the current slide component

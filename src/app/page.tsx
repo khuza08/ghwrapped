@@ -16,6 +16,7 @@ const GitHubWrappedPage = () => {
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
   const [showWrapped, setShowWrapped] = useState(false);
+  const [wrappedData, setWrappedData] = useState<any>(null);
 
   const checkUserExists = async (username: string): Promise<boolean> => {
     if (typeof window === "undefined") return false;
@@ -30,18 +31,7 @@ const GitHubWrappedPage = () => {
         // Check if cache is still valid (not expired)
         if (Date.now() - parsed.timestamp < CACHE_DURATION) {
           if (parsed.exists) {
-            // If user was previously verified and exists, check if full data is available
-            const dataCacheKey = `github-wrapped-data-${username.toLowerCase()}`;
-            const dataCached = localStorage.getItem(dataCacheKey);
-
-            if (dataCached) {
-              const dataParsed = JSON.parse(dataCached);
-              if (Date.now() - dataParsed.timestamp < CACHE_DURATION) {
-                // Data is still fresh, no need to fetch again
-                return true;
-              }
-            }
-            // User exists but data may be stale, so we'll fetch fresh data below
+            return true; // User exists
           } else {
             // User doesn't exist - return false immediately
             return false;
@@ -53,8 +43,8 @@ const GitHubWrappedPage = () => {
     }
 
     try {
-      // Make a single request to the main API endpoint
-      const response = await fetch(`/api/github/${username}`);
+      // Make a request to the verification API endpoint (only checks if user exists)
+      const response = await fetch(`/api/github/${username}/verify`);
 
       if (response.ok) {
         // Cache the verification result
@@ -84,7 +74,6 @@ const GitHubWrappedPage = () => {
           );
         }
 
-        // If the response is not ok, it means user doesn't exist or there's an error
         return false;
       }
     } catch (error) {
@@ -93,17 +82,13 @@ const GitHubWrappedPage = () => {
     }
   };
 
-  const handleSubmit = async (inputUsername: string) => {
+  const handleSubmit = async (inputUsername: string, data: any) => {
     setError("");
 
-    // Validate user exists first
-    const userExists = await checkUserExists(inputUsername);
-    if (userExists) {
-      setUsername(inputUsername);
-      setShowWrapped(true);
-    } else {
-      setError(ERROR_MESSAGES.USER_NOT_FOUND);
-    }
+    // Set the username and data, then show wrapped
+    setUsername(inputUsername);
+    setWrappedData(data);
+    setShowWrapped(true);
   };
 
   const handleGithubClick = () => {
@@ -120,7 +105,9 @@ const GitHubWrappedPage = () => {
         {showWrapped ? (
           <div className="relative flex-grow">
             <SimplifiedWrappedContainer
+              key={username} // Add key to force re-mount when username changes
               username={username}
+              data={wrappedData}
               onBackClick={() => setShowWrapped(false)}
             />
           </div>

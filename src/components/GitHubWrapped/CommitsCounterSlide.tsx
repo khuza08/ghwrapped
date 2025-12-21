@@ -21,41 +21,35 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
 
   // Use sessionStorage to persist animation state across component re-mounts
   const animationCompletedKey = `animation_completed_${data.user?.login || "unknown"}_${totalCommits}`;
-  const [hasCompletedAnimation, setHasCompletedAnimation] = useState(() => {
-    if (typeof window !== "undefined") {
-      return sessionStorage.getItem(animationCompletedKey) === "true";
-    }
-    return false;
-  });
+  const [hasCompletedAnimation, setHasCompletedAnimation] = useState(false);
 
   useEffect(() => {
-    // Only animate if we haven't completed the animation before
-    if (!hasCompletedAnimation) {
-      const increment = totalCommits / totalFrames;
-      let frameCounter = 0;
-      const timer = setInterval(() => {
-        frameCounter++;
-        setCount(Math.ceil(increment * frameCounter));
+    // For now, always reset and animate regardless of sessionStorage
+    // Reset the count to 0 to start animation from the beginning
+    setCount(0);
 
-        if (frameCounter >= totalFrames) {
-          clearInterval(timer);
-          setCount(totalCommits);
-          setHasCompletedAnimation(true); // Update local state
-          sessionStorage.setItem(animationCompletedKey, "true"); // Persist in sessionStorage
-        }
-      }, frameDuration);
+    // Always animate since we're using key prop to force re-mount
+    const increment = totalCommits / totalFrames;
+    let frameCounter = 0;
+    const timer = setInterval(() => {
+      frameCounter++;
+      setCount(Math.ceil(increment * frameCounter));
 
-      return () => clearInterval(timer);
-    } else {
-      // If animation was already completed, set to final value immediately
-      setCount(totalCommits);
-    }
+      if (frameCounter >= totalFrames) {
+        clearInterval(timer);
+        setCount(totalCommits);
+        setHasCompletedAnimation(true); // Update local state
+        // Optionally store in sessionStorage if needed later
+        // sessionStorage.setItem(animationCompletedKey, "true");
+      }
+    }, frameDuration);
+
+    return () => clearInterval(timer);
   }, [
     totalCommits,
     totalFrames,
     frameDuration,
-    hasCompletedAnimation,
-    animationCompletedKey,
+    // Remove other dependencies to ensure animation runs on mount
   ]);
 
   useEffect(() => {

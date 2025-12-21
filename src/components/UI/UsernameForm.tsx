@@ -8,7 +8,7 @@ interface UsernameFormProps {
   username: string;
   error: string;
   setUsername: (username: string) => void;
-  onSubmit: (username: string) => void;
+  onSubmit: (username: string, data: any) => void; // Accept data parameter
   setError: (error: string) => void;
   onCheckUser: (username: string) => Promise<boolean>;
 }
@@ -62,20 +62,29 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
     }
     setChecking(true);
 
-    // Track API request start time
-    const startTime = Date.now();
-
     try {
       const userExists = await onCheckUser(username);
 
-      // Calculate API request duration
-      const duration = (Date.now() - startTime) / 1000; // Convert to seconds
-
       if (userExists) {
-        showNotification(`Data loaded in ${duration.toFixed(2)}s! Unwrapping...`, "success");
-        setTimeout(() => {
-          onSubmit(username);
-        }, 800);
+        // Now fetch the full data since user exists
+        const startTime = Date.now();
+        const response = await fetch(`/api/github/${username}`);
+
+        if (response.ok) {
+          const data = await response.json();
+          const duration = (Date.now() - startTime) / 1000; // Convert to seconds
+
+          showNotification(`Data loaded in ${duration.toFixed(2)}s! Unwrapping...`, "success");
+          setTimeout(() => {
+            onSubmit(username, data); // Pass both username and data
+          }, 800);
+        } else {
+          const errorData = await response.json();
+          showNotification(errorData.message || "Error fetching data", "error");
+          setTimeout(() => {
+            setError(errorData.message || "Error fetching data");
+          }, 2000);
+        }
       } else {
         showNotification("User not found on GitHub", "error");
         setTimeout(() => {
