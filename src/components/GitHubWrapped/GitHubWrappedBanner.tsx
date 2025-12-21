@@ -9,7 +9,7 @@ interface GitHubWrappedBannerProps {
 
 const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
   const { summary, user, personality } = data;
-  const [customText, setCustomText] = useState<string>("MOMSAIDNOHOES!");
+  const [customText, setCustomText] = useState<string>("");
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
