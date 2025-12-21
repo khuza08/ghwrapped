@@ -17,7 +17,7 @@ const ContributionsText: React.FC<ContributionsTextProps> = ({
   const availableChars = characters;
   const [displayText, setDisplayText] = useState(text);
 
-  // Initialize scrambled characters for non-revealed positions
+  // scrambled characters for non-revealed positions
   const [scrambledChars] = useState<string[]>(() => {
     return text
       .split("")
@@ -27,21 +27,21 @@ const ContributionsText: React.FC<ContributionsTextProps> = ({
   });
 
   useEffect(() => {
-    // Calculate display text based on progress (always runs during counting)
+    // cal display text based on progress (always runs during counting)
     const progress = totalCommits > 0 ? currentCount / totalCommits : 0;
     const targetRevealedCount = Math.min(
       Math.floor(progress * text.length),
       text.length,
     );
 
-    // Create revealed characters based on progress
+    // create revealed characters based on progress
     const newDisplayText = text
       .split("")
       .map((char, i) => {
         if (i < targetRevealedCount) {
-          return char; // Show actual character
+          return char;
         } else {
-          return scrambledChars[i]; // Show consistent scrambled character
+          return scrambledChars[i];
         }
       })
       .join("");
@@ -49,7 +49,7 @@ const ContributionsText: React.FC<ContributionsTextProps> = ({
     setDisplayText(newDisplayText);
   }, [currentCount, totalCommits, text, scrambledChars]);
 
-  // Always show the calculated display text based on progress
+  // show the calculated display text based on progress
   return <span>{displayText}</span>;
 };
 

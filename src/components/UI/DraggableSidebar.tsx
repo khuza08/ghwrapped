@@ -10,12 +10,14 @@ interface DraggableSidebarProps {
   currentSlide?: number;
   goToPrevSlide?: () => void;
   goToNextSlide?: () => void;
+  isBannerSlide?: boolean;
 }
 
 const DraggableSidebar: React.FC<DraggableSidebarProps> = ({
   username,
   data,
   onBackClick,
+  isBannerSlide = false,
 }) => {
   const [targetPosition, setTargetPosition] = useState({ x: 24, y: 90 }); // Target position
   const [smoothPosition, setSmoothPosition] = useState({ x: 24, y: 90 }); // Smoothly animated position
@@ -202,7 +204,7 @@ const DraggableSidebar: React.FC<DraggableSidebarProps> = ({
           <SidebarContent username={username} onBackClick={onBackClick} />
         </div>
         <div className="w-full">
-          <ExportButtons data={data} />
+          <ExportButtons data={data} isBannerSlide={isBannerSlide} />
         </div>
       </div>
     </div>

@@ -19,16 +19,14 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
   const frameDuration = 1000 / 60; // ~60fps
   const totalFrames = Math.round(duration / frameDuration);
 
-  // Use sessionStorage to persist animation state across component re-mounts
+  // sessionStorage to persist animation state across component re-mounts
   const animationCompletedKey = `animation_completed_${data.user?.login || "unknown"}_${totalCommits}`;
   const [hasCompletedAnimation, setHasCompletedAnimation] = useState(false);
 
   useEffect(() => {
-    // For now, always reset and animate regardless of sessionStorage
-    // Reset the count to 0 to start animation from the beginning
+    //  always reset and animate regardless of sessionStorage
     setCount(0);
 
-    // Always animate since we're using key prop to force re-mount
     const increment = totalCommits / totalFrames;
     let frameCounter = 0;
     const timer = setInterval(() => {
@@ -39,8 +37,6 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
         clearInterval(timer);
         setCount(totalCommits);
         setHasCompletedAnimation(true); // Update local state
-        // Optionally store in sessionStorage if needed later
-        // sessionStorage.setItem(animationCompletedKey, "true");
       }
     }, frameDuration);
 
@@ -49,7 +45,7 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
     totalCommits,
     totalFrames,
     frameDuration,
-    // Remove other dependencies to ensure animation runs on mount
+    // eemove other dependencies to ensure animation runs on mount
   ]);
 
   useEffect(() => {

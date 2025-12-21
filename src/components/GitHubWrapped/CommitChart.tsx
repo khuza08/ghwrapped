@@ -15,17 +15,14 @@ interface CommitChartProps {
 }
 
 const CommitChart: React.FC<CommitChartProps> = ({ commitsByDate }) => {
-  // Convert the commitsByDate object to an array of objects for Recharts
   const commitData = Object.entries(commitsByDate)
     .map(([date, count]) => ({ date, count }))
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-  // Get max commit count for color scaling
   const maxCount = Math.max(...Object.values(commitsByDate), 1);
 
-  // Only show every nth tick to prevent overcrowding
   const totalDataPoints = commitData.length;
-  const interval = Math.max(1, Math.ceil(totalDataPoints / 5)); // Show max 5 labels
+  const interval = Math.max(1, Math.ceil(totalDataPoints / 5));
 
   return (
     <div className="h-24 md:h-64 lg:h-80 w-full">
@@ -35,18 +32,14 @@ const CommitChart: React.FC<CommitChartProps> = ({ commitsByDate }) => {
           <XAxis
             dataKey="date"
             tick={{ fontSize: 8, angle: -45, dx: -10, dy: 5 }}
-            interval={interval} // Only show every nth tick
+            interval={interval}
             tickFormatter={(value) => {
-              // Show only month and day to keep it readable
               const date = new Date(value);
               return `${date.getMonth() + 1}/${date.getDate()}`;
             }}
             height={60}
           />
-          <YAxis
-            hide={true} // Hide Y axis to save space
-            domain={[0, maxCount]}
-          />
+          <YAxis hide={true} domain={[0, maxCount]} />
           <Tooltip
             formatter={(value) => [`${value}`, "Commits"]}
             labelFormatter={(value) => `Date: ${value}`}
@@ -66,15 +59,12 @@ const CommitChart: React.FC<CommitChartProps> = ({ commitsByDate }) => {
   );
 };
 
-// Helper function to get color based on commit count for dark theme
 const getCommitColor = (count: number, maxCount: number) => {
-  // Create a gradient from dark gray to lighter gray based on commit count
-  if (maxCount === 0) return '#374151'; // Default gray if no commits
+  if (maxCount === 0) return "#374151"; // Default gray if no commits
 
   const intensity = count / maxCount;
-  // Use darker base values for dark theme and adjust range accordingly
-  const baseValue = 40 + Math.floor(intensity * 100); // Range from dark to medium-light gray
-  const hexValue = baseValue.toString(16).padStart(2, '0');
+  const baseValue = 40 + Math.floor(intensity * 100);
+  const hexValue = baseValue.toString(16).padStart(2, "0");
   return `#${hexValue}${hexValue}${hexValue}`;
 };
 

@@ -11,6 +11,7 @@ interface ResponsiveSidebarProps {
   currentSlide?: number;
   goToPrevSlide?: () => void;
   goToNextSlide?: () => void;
+  isBannerSlide?: boolean;
 }
 
 const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({
@@ -20,38 +21,39 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({
   currentSlide,
   goToPrevSlide,
   goToNextSlide,
+  isBannerSlide = false,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Ensure we're running on the client
+    // make sure we're running on the client
     setIsClient(true);
 
     const checkIfMobile = () => {
-      // Check for mobile/tablet using window.innerWidth
+      // check for mobile/tablet using window.innerWidth
       setIsMobile(window.innerWidth < 1024); // lg breakpoint
     };
 
-    // Run on initial render
+    // run on initial render
     checkIfMobile();
 
-    // Add event listener for window resize
+    // add event listener for window resize
     const handleResize = () => {
       checkIfMobile();
     };
 
     window.addEventListener("resize", handleResize);
 
-    // Cleanup
+    // cleanup
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  // Render mobile/tablet navigation arrows
+  // render mobile/tablet navigation arrows
   if (!isClient) {
-    // On the server, default to desktop until client-side detection is complete
+    // on the server, default to desktop until client-side detection is complete
     return (
       <DraggableSidebar
         username={username}
@@ -101,12 +103,16 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({
     );
   }
 
-  // Render desktop draggable sidebar
+  // render desktop draggable sidebar
   return (
     <DraggableSidebar
       username={username}
       data={data}
       onBackClick={onBackClick}
+      currentSlide={currentSlide}
+      goToPrevSlide={goToPrevSlide}
+      goToNextSlide={goToNextSlide}
+      isBannerSlide={isBannerSlide}
     />
   );
 };

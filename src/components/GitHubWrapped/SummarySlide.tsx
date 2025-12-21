@@ -10,7 +10,7 @@ interface WrappedSlideProps {
 const SummarySlide: React.FC<WrappedSlideProps> = ({ data }) => {
   const { summary, commits, repositories, personality } = data;
 
-  // Get top repository by stars
+  // top repository by stars
   const topRepo =
     repositories.topByStars.length > 0 ? repositories.topByStars[0] : null;
 

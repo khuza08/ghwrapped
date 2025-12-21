@@ -12,7 +12,6 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full mb-12 ">
-      {/* GitHub Wrapped Banner - with data-export-banner attribute for export function */}
       <div
         data-export-banner
         className="w-93.75 h-fit bg-white/5 backdrop-blur-xl rounded-xl overflow-hidden relative flex flex-col border-2 border-white/20"
@@ -35,7 +34,7 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
               alt={user.login}
               className="w-full h-80 object-cover"
             />
-            {/* Overlay Card - Top Left Corner */}
+            {/* follower card */}
             <div className="absolute top-2 left-2 bg-black/5 backdrop-blur-xl border border-white/20 rounded-lg px-4 py-1 flex gap-4">
               <div className="text-sm text-white/80 flex items-center text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
                 <FiUser className="w-4 h-4 mr-1" />
@@ -48,7 +47,7 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
             </div>
           </div>
 
-          {/* Username Badge */}
+          {/* username */}
           <div className="absolute bottom-[-12px] left-1/2 transform -translate-x-1/2 bg-black/5 backdrop-blur-sm border-2 border-white/20 rounded-lg px-4 py-1">
             <div className="text-sm font-bold text-white/80 text-center tracking-widest text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
               @{user.login}
@@ -59,7 +58,7 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
           </div>
         </div>
 
-        {/* Stats Grid */}
+        {/* grid */}
         <div className="grid grid-cols-3 gap-1.5 mx-3 mb-2 mt-2">
           <div className="text-center p-2 bg-black/5 border border-white/20 rounded-lg">
             <div className="text-md text-white/80 text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
@@ -87,16 +86,16 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
           </div>
         </div>
 
-        {/* Calendar Chart */}
+        {/* chart */}
         <div className="mx-3 mb-2">
           <div className="flex flex-col border border-white/20 rounded-lg bg-black/5 p-2">
             {Array.from({ length: 4 }).map((_, rowIndex) => {
-              // Create 26 weeks worth of data
+              //  26 weeks worth of data
               return (
                 <div key={rowIndex} className="flex flex-1">
                   {Array.from({ length: 26 }).map((_, colIndex) => {
                     const index = rowIndex * 26 + colIndex;
-                    // Simulate contribution levels based on actual data if available
+                    // simulate contribution levels based on actual data if available
                     const commitCount = Math.floor(Math.random() * 10);
                     let level = 0;
                     if (commitCount > 0) level = 1;
@@ -128,7 +127,7 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
           </div>
         </div>
 
-        {/* Footer */}
+        {/* footer */}
         <div className="flex justify-between items-center px-3 py-2 border-t border-white/20 text-sm text-white/80">
           <span className="text-left flex-1 text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
             {user.name || user.login}

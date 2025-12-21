@@ -66,7 +66,7 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
       const userExists = await onCheckUser(username);
 
       if (userExists) {
-        // Now fetch the full data since user exists
+        // fetch the full data since user exists
         const startTime = Date.now();
         const response = await fetch(`/api/github/${username}`);
 
@@ -74,9 +74,12 @@ const UsernameForm: React.FC<UsernameFormProps> = ({
           const data = await response.json();
           const duration = (Date.now() - startTime) / 1000; // Convert to seconds
 
-          showNotification(`Data loaded in ${duration.toFixed(2)}s! Unwrapping...`, "success");
+          showNotification(
+            `Data loaded in ${duration.toFixed(2)}s! Unwrapping...`,
+            "success",
+          );
           setTimeout(() => {
-            onSubmit(username, data); // Pass both username and data
+            onSubmit(username, data);
           }, 800);
         } else {
           const errorData = await response.json();
