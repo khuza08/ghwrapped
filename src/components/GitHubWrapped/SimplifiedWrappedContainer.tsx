@@ -5,6 +5,8 @@ import ResponsiveSidebar from "@/components/UI/ResponsiveSidebar";
 import SlideNavigation from "@/components/GitHubWrapped/SlideNavigation";
 import { getSlides } from "./slidesConfig";
 import { motion, AnimatePresence } from "framer-motion";
+import BackgroundSelector from "@/components/UI/BackgroundSelector";
+import { useBackground } from "@/components/UI/BackgroundContext";
 
 interface SimplifiedWrappedContainerProps {
   username: string;
@@ -19,6 +21,7 @@ const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(0); // 0 for initial, 1 for next, -1 for previous
+  const { background, isBackgroundSelectorOpen, toggleBackgroundSelector } = useBackground();
 
   // Get slides from the slides config to ensure consistency
   const slideData = getSlides();
@@ -66,7 +69,18 @@ const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
   const CurrentSlideComponent = slideData[currentSlide].component;
 
   return (
-    <div className="relative flex flex-col w-full h-screen">
+    <div
+      className="relative flex flex-col w-full h-screen"
+      style={{
+        backgroundImage: background !== 'none' && (background.startsWith('linear-gradient') || background.startsWith('url') || background.startsWith('data:image') || background.startsWith('http')) ?
+                         background.startsWith('data:image') ? `url(${background})` : // For data URLs, wrap in url()
+                         background : undefined,
+        backgroundColor: background !== 'none' && !background.startsWith('linear-gradient') && !background.startsWith('url') && !background.startsWith('data:image') && !background.startsWith('http') ? background : undefined,
+        backgroundSize: background !== 'none' && (background.startsWith('url') || background.startsWith('data:image') || background.startsWith('http')) ? 'cover' : undefined,
+        backgroundPosition: background !== 'none' && (background.startsWith('url') || background.startsWith('data:image') || background.startsWith('http')) ? 'center' : undefined,
+        backgroundRepeat: background !== 'none' && (background.startsWith('url') || background.startsWith('data:image') || background.startsWith('http')) ? 'no-repeat' : undefined,
+      }}
+    >
       <div className="flex-1 overflow-hidden relative">
         <div className="w-full h-full overflow-hidden relative py-6">
           {/* Header */}
@@ -74,8 +88,15 @@ const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
             <h2 className="bg-white/5 border border-white/20 py-2 px-6 rounded-full text-xl lg:text-2xl font-bold text-white/80">
               {slides[currentSlide].title}
             </h2>
-            <div className="bg-white/5 border border-white/20 py-2 px-6 rounded-full text-sm text-white/50">
+            <div className="bg-white/5 border border-white/20 py-2 px-6 rounded-full text-sm text-white/50 flex items-center gap-2">
               {currentSlide + 1} / {slides.length}
+              <button
+                onClick={toggleBackgroundSelector}
+                className="ml-2 p-1 bg-white/10 rounded border border-white/20 text-white/80 hover:bg-white/20"
+                title="Background Selector"
+              >
+                🎨
+              </button>
             </div>
           </div>
 
@@ -125,6 +146,12 @@ const SimplifiedWrappedContainer: React.FC<SimplifiedWrappedContainerProps> = ({
         onSlideSelect={handleSlideSelect}
         slides={slides}
       />
+
+      {isBackgroundSelectorOpen && (
+        <BackgroundSelector
+          onClose={toggleBackgroundSelector}
+        />
+      )}
     </div>
   );
 };

@@ -8,6 +8,7 @@ import UsernameForm from "@/components/UI/UsernameForm";
 import GitHubWrappedFooter from "@/components/UI/GitHubWrappedFooter";
 import { FaGithub } from "react-icons/fa";
 import SimplifiedWrappedContainer from "@/components/GitHubWrapped/SimplifiedWrappedContainer";
+import { BackgroundProvider } from "@/components/UI/BackgroundContext";
 
 // Cache duration: 1 hour (3600000 ms)
 const CACHE_DURATION = 3600000;
@@ -104,12 +105,14 @@ const GitHubWrappedPage = () => {
       <div className="w-full flex flex-col flex-grow">
         {showWrapped ? (
           <div className="relative flex-grow">
-            <SimplifiedWrappedContainer
-              key={username} // Add key to force re-mount when username changes
-              username={username}
-              data={wrappedData}
-              onBackClick={() => setShowWrapped(false)}
-            />
+            <BackgroundProvider>
+              <SimplifiedWrappedContainer
+                key={username} // Add key to force re-mount when username changes
+                username={username}
+                data={wrappedData}
+                onBackClick={() => setShowWrapped(false)}
+              />
+            </BackgroundProvider>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center grow p-6 px-4 lg:px-8 xl:px-16">

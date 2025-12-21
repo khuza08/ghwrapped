@@ -15,7 +15,7 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
       {/* GitHub Wrapped Banner - with data-export-banner attribute for export function */}
       <div
         data-export-banner
-        className="w-93.75 h-fit bg-white/5 rounded-xl overflow-hidden relative flex flex-col border-2 border-white/20"
+        className="w-93.75 h-fit bg-white/5 backdrop-blur-xl rounded-xl overflow-hidden relative flex flex-col border-2 border-white/20"
       >
         {/* Header */}
         <div className="flex justify-between items-center px-2 py-2 border-b border-white/20">
@@ -118,7 +118,7 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
                     return (
                       <div
                         key={colIndex}
-                        className={`${colorClass} h-3 rounded-sm border border-[#222222] flex-1 min-w-0`}
+                        className={`${colorClass} h-3 rounded-sm m-[1px] flex-1 min-w-0`}
                       />
                     );
                   })}
