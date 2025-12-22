@@ -19,6 +19,7 @@
     "@nivo/line": "^0.99.0",
     "@nivo/scales": "^0.99.0",
     "@nivo/tooltip": "^0.99.0",
+    "@vercel/analytics": "^1.6.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.23.26",
     "html-to-image": "^1.11.13",
