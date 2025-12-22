@@ -75,6 +75,12 @@ Contributions are welcome! 🚀
    ```
 5. Open a Pull Request
 
+## Thanks to
+* remotion.dev for ideas and motivation
+* trygitwrap.com for reference
+* massiebn for snowfall.js
+* vercel
+
 ## 📄 License
 
 This project is licensed under the **MIT License**. <br>
