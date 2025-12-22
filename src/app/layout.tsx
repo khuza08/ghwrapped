@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import SnowfallComponent from "@/components/Snowfall/SnowfallComponent";
+import { isChristmasSeason } from "@/utils/dateUtils";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,12 +25,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Determine if we should show snowfall based on the date
+  const showSnowfall = isChristmasSeason();
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {showSnowfall && <Script src="/snowfall.js" strategy="afterInteractive" />}
         {children}
+        {showSnowfall && <SnowfallComponent isActive={true} />}
       </body>
     </html>
   );
