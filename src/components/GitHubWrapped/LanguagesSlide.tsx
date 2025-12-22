@@ -24,7 +24,6 @@ const LanguagesSlide: React.FC<WrappedSlideProps> = ({ data }) => {
                 key={index}
                 language={lang.language}
                 percentage={lang.percentage}
-                className="py-3 "
               />
             ))
           ) : (

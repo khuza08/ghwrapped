@@ -70,14 +70,6 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
         <div className="grid grid-cols-3 gap-1.5 mx-3 mb-2 mt-2">
           <div className="text-center p-2 bg-black/5 border border-white/20 rounded-lg">
             <div className="text-md text-white/80 text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
-              {formatNumber(summary.totalPullRequests || 66)}
-            </div>
-            <div className="text-sm font-bold text-white/80 tracking-[0.5px] text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
-              PRs
-            </div>
-          </div>
-          <div className="text-center p-2 bg-black/5 border border-white/20 rounded-lg">
-            <div className="text-md text-white/80 text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
               {formatNumber(summary.totalCommits || 0)}
             </div>
             <div className="text-sm font-bold text-white/80 tracking-[0.5px] text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
@@ -90,6 +82,14 @@ const GitHubWrappedBanner: React.FC<GitHubWrappedBannerProps> = ({ data }) => {
             </div>
             <div className="text-sm font-bold text-white/80 tracking-[0.5px] text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
               REPOS
+            </div>
+          </div>
+          <div className="text-center p-2 bg-black/5 border border-white/20 rounded-lg">
+            <div className="text-md text-white/80 text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
+              {formatNumber(summary.totalStars || 0)}
+            </div>
+            <div className="text-sm font-bold text-white/80 tracking-[0.5px] text-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
+              STARS
             </div>
           </div>
         </div>

@@ -6,8 +6,11 @@ interface LanguageItemProps {
   percentage: number;
 }
 
+// Type the languageColors import properly
+const typedLanguageColors: { [key: string]: string } = languageColors;
+
 const getLanguageColor = (language: string): string => {
-  return languageColors[language] || "#888888"; // Default gray if language not found
+  return typedLanguageColors[language] || "#888888"; // Default gray if language not found
 };
 
 const LanguageItem: React.FC<LanguageItemProps> = ({

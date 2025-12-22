@@ -77,6 +77,7 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
             animateOn="view"
             className=""
             encryptedClassName="text-white/50"
+            onRevealComplete={() => {}} // Provide empty function to satisfy type checker
           />
           <DecryptedText
             text={`(@${data.user?.login || "elza the great"})`}
@@ -118,6 +119,7 @@ const CommitsCounterSlide: React.FC<CommitsCounterSlideProps> = ({ data }) => {
             animateOn={sentenceDecrypted ? "view" : "hover"}
             className="font-mono tracking-wider text-white/50 transition-all duration-300"
             encryptedClassName="font-mono tracking-wider text-white/50 transition-all duration-600"
+            onRevealComplete={() => {}} // Provide empty function to satisfy type checker
           />
         </div>
 

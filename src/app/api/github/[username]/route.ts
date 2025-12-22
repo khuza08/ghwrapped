@@ -202,7 +202,50 @@ export async function GET(
     // Get years on GitHub
     const yearsOnGitHub = new Date().getFullYear() - new Date(user.created_at).getFullYear();
 
-    // Create the wrapped data object
+    // Create a temporary object for generating achievements
+    const tempWrappedData: GitHubWrappedData = {
+      user,
+      summary: {
+        totalCommits,
+        totalRepos: repos.length,
+        totalStars: repos.reduce((sum, repo) => sum + repo.stargazers_count, 0),
+        totalForks: repos.reduce((sum, repo) => sum + repo.forks_count, 0),
+        totalIssues: repos.reduce((sum, repo) => sum + (repo.open_issues_count || 0), 0),
+        yearsOnGitHub,
+        joinDate: user.created_at,
+      },
+      commits: {
+        commitsByDate,
+        mostActiveDay,
+        mostActiveDayCount,
+        mostActiveHour,
+        mostActiveHourCount,
+        longestStreak: streak,
+        firstCommitDate: commitDates.length > 0 ? new Date(Math.min(...commitDates.map(d => new Date(d).getTime()))).toISOString() : null,
+        lastCommitDate: commitDates.length > 0 ? new Date(Math.max(...commitDates.map(d => new Date(d).getTime()))).toISOString() : null,
+      },
+      repositories: {
+        topByCommits: [], // We'll calculate this if needed, but it requires more API calls
+        topByStars,
+        topByForks,
+        languages: languageCount,
+        languageBreakdown,
+        languageToRepos,
+      },
+      personality: {
+        title: 'Developer',
+        description: 'A passionate GitHub user',
+        badges: [],
+        codingSchedule: getDeveloperScheduleType(mostActiveHour),
+        activityType: getActivityType(commitsByDate),
+      },
+      achievements: [] // Temporary empty array for type compatibility
+    };
+
+    // Generate achievements based on the temporary data
+    const achievements = generateAchievements(tempWrappedData);
+
+    // Create the wrapped data object with achievements
     const wrappedData: GitHubWrappedData = {
       user,
       summary: {
@@ -239,6 +282,7 @@ export async function GET(
         codingSchedule: getDeveloperScheduleType(mostActiveHour),
         activityType: getActivityType(commitsByDate),
       },
+      achievements
     };
 
     // Enhance personality based on data
@@ -247,15 +291,7 @@ export async function GET(
       ...enhancePersonality(wrappedData)
     };
 
-    // Add GitHub-style achievements based on user's activity
-    const achievements = generateAchievements(wrappedData);
-
-    const responseWithAchievements = {
-      ...wrappedData,
-      achievements
-    };
-
-    return Response.json(responseWithAchievements);
+    return Response.json(wrappedData);
   } catch (error: any) {
     // Handle errors with our error service
     const appError = handleApiError(error);

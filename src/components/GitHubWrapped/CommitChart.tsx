@@ -14,6 +14,27 @@ interface CommitChartProps {
   commitsByDate: Record<string, number>;
 }
 
+// Custom tick component to rotate labels
+const CustomizedTick = (props: any) => {
+  const { x, y, payload } = props;
+
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text
+        x={0}
+        y={0}
+        dy={16}
+        textAnchor="end"
+        fill="#666"
+        fontSize={8}
+        transform="rotate(-45)"
+      >
+        {payload.value}
+      </text>
+    </g>
+  );
+};
+
 const CommitChart: React.FC<CommitChartProps> = ({ commitsByDate }) => {
   const commitData = Object.entries(commitsByDate)
     .map(([date, count]) => ({ date, count }))
@@ -31,12 +52,8 @@ const CommitChart: React.FC<CommitChartProps> = ({ commitsByDate }) => {
           <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
           <XAxis
             dataKey="date"
-            tick={{ fontSize: 8, angle: -45, dx: -10, dy: 5 }}
             interval={interval}
-            tickFormatter={(value) => {
-              const date = new Date(value);
-              return `${date.getMonth() + 1}/${date.getDate()}`;
-            }}
+            tick={<CustomizedTick />}
             height={60}
           />
           <YAxis hide={true} domain={[0, maxCount]} />

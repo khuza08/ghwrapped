@@ -40,7 +40,7 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
               element: el,
               originalClass: el.className,
               originalStyle: el.getAttribute("style") || undefined,
-              originalBackground: el.style.background,
+              originalBackground: (el as HTMLElement).style?.background,
             });
           }
         });
@@ -54,15 +54,15 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
           if (hasBlackClass) {
             element.classList.remove("bg-black/5");
             element.classList.add("bg-[#222222]");
-            element.style.setProperty("background-color", "#222222", "important");
-            element.style.setProperty("transition", "none", "important");
+            (element as HTMLElement).style.setProperty("background-color", "#222222", "important");
+            (element as HTMLElement).style.setProperty("transition", "none", "important");
           }
 
           if (hasWhiteClass) {
             element.classList.remove("bg-white/5");
             element.classList.add("bg-[#242424]");
-            element.style.setProperty("background-color", "#242424", "important");
-            element.style.setProperty("transition", "none", "important");
+            (element as HTMLElement).style.setProperty("background-color", "#242424", "important");
+            (element as HTMLElement).style.setProperty("transition", "none", "important");
           }
         });
 
@@ -77,18 +77,18 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
                 element: bannerElement,
                 originalClass: bannerElement.className,
                 originalStyle: bannerElement.getAttribute("style") || undefined,
-                originalBackground: bannerElement.style.background,
+                originalBackground: (bannerElement as HTMLElement).style?.background,
               });
             }
 
             bannerElement.classList.remove("bg-white/5");
             bannerElement.classList.add("bg-[#242424]");
-            bannerElement.style.setProperty(
+            (bannerElement as HTMLElement).style.setProperty(
               "background-color",
               "#242424",
               "important",
             );
-            bannerElement.style.setProperty(
+            (bannerElement as HTMLElement).style.setProperty(
               "transition",
               "none",
               "important",
@@ -231,7 +231,7 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
 
                       // Restore original background if it existed
                       if (originalBackground !== undefined) {
-                        element.style.background = originalBackground;
+                        (element as HTMLElement).style.background = originalBackground;
                       }
                     },
                   );
@@ -264,7 +264,7 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
 
                   // Restore original background if it existed
                   if (originalBackground !== undefined) {
-                    element.style.background = originalBackground;
+                    (element as HTMLElement).style.background = originalBackground;
                   }
                 },
               );
@@ -299,7 +299,7 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
 
               // Restore original background if it existed
               if (originalBackground !== undefined) {
-                element.style.background = originalBackground;
+                (element as HTMLElement).style.background = originalBackground;
               }
             },
           );

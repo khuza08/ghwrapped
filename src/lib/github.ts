@@ -26,13 +26,9 @@ export const makeGitHubApiRequest = async (
   const headers: HeadersInit = {
     'User-Agent': 'GitHub-Wrapped-App',
     'Accept': 'application/vnd.github.v3+json',
+    ...(token && { 'Authorization': `Bearer ${token}` }),
     ...options.headers,
   };
-
-  // Add authorization header if token is provided
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
 
   try {
     const response = await fetch(`${GITHUB_API_BASE_URL}${endpoint}`, {
@@ -135,11 +131,8 @@ export const fetchGitHubContributionData = async (username: string, token: strin
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     'User-Agent': 'GitHub-Wrapped-App',
+    ...(token && { 'Authorization': `Bearer ${token}` }),
   };
-
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
 
   try {
     const response = await fetch('https://api.github.com/graphql', {
