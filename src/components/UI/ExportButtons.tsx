@@ -54,15 +54,31 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
           if (hasBlackClass) {
             element.classList.remove("bg-black/5");
             element.classList.add("bg-[#222222]");
-            (element as HTMLElement).style.setProperty("background-color", "#222222", "important");
-            (element as HTMLElement).style.setProperty("transition", "none", "important");
+            (element as HTMLElement).style.setProperty(
+              "background-color",
+              "#222222",
+              "important",
+            );
+            (element as HTMLElement).style.setProperty(
+              "transition",
+              "none",
+              "important",
+            );
           }
 
           if (hasWhiteClass) {
             element.classList.remove("bg-white/5");
             element.classList.add("bg-[#242424]");
-            (element as HTMLElement).style.setProperty("background-color", "#242424", "important");
-            (element as HTMLElement).style.setProperty("transition", "none", "important");
+            (element as HTMLElement).style.setProperty(
+              "background-color",
+              "#242424",
+              "important",
+            );
+            (element as HTMLElement).style.setProperty(
+              "transition",
+              "none",
+              "important",
+            );
           }
         });
 
@@ -77,7 +93,8 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
                 element: bannerElement,
                 originalClass: bannerElement.className,
                 originalStyle: bannerElement.getAttribute("style") || undefined,
-                originalBackground: (bannerElement as HTMLElement).style?.background,
+                originalBackground: (bannerElement as HTMLElement).style
+                  ?.background,
               });
             }
 
@@ -98,7 +115,7 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
 
         if (isBannerExport && background !== "none") {
           // Wait a bit to ensure DOM changes are applied before capturing image
-          await new Promise(resolve => setTimeout(resolve, 100));
+          await new Promise((resolve) => setTimeout(resolve, 100));
 
           const bannerDataUrl = await toPng(element, {
             skipFonts: true,
@@ -214,7 +231,12 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
 
                   // Restore original styles after everything is done
                   originalData.forEach(
-                    ({ element, originalClass, originalStyle, originalBackground }) => {
+                    ({
+                      element,
+                      originalClass,
+                      originalStyle,
+                      originalBackground,
+                    }) => {
                       // Get the original classes and restore them
                       element.className = originalClass;
 
@@ -231,7 +253,8 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
 
                       // Restore original background if it existed
                       if (originalBackground !== undefined) {
-                        (element as HTMLElement).style.background = originalBackground;
+                        (element as HTMLElement).style.background =
+                          originalBackground;
                       }
                     },
                   );
@@ -247,7 +270,12 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
 
               // Restore original styles even if there's an error
               originalData.forEach(
-                ({ element, originalClass, originalStyle, originalBackground }) => {
+                ({
+                  element,
+                  originalClass,
+                  originalStyle,
+                  originalBackground,
+                }) => {
                   // Get the original classes and restore them
                   element.className = originalClass;
 
@@ -264,7 +292,8 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
 
                   // Restore original background if it existed
                   if (originalBackground !== undefined) {
-                    (element as HTMLElement).style.background = originalBackground;
+                    (element as HTMLElement).style.background =
+                      originalBackground;
                   }
                 },
               );
@@ -272,7 +301,7 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
           }
         } else {
           // Wait a bit to ensure DOM changes are applied before capturing image
-          await new Promise(resolve => setTimeout(resolve, 100));
+          await new Promise((resolve) => setTimeout(resolve, 100));
 
           const bannerDataUrl = await toPng(element, {
             skipFonts: true,
@@ -319,7 +348,7 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({
   const handleExportBanner = () => {
     handleExportImage(
       "[data-export-banner]",
-      `github-wrapped-${user.login}-2024-banner.png`,
+      `${user.login}-github-wrapped-2025.png`,
     );
   };
 
