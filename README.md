@@ -3,13 +3,16 @@
 This project is inspired by Spotify Wrapped and [github-unwrapped by remotion-dev](https://github.com/remotion-dev/github-unwrapped).
 I built a simpler version using Next.js App Router, currently not supported on mobile because it has lot of a complex layout.
 
+Live at https://githubwrapped-nine.vercel.app/
+
 ## ✨ Features
 
-* 📊 **Detailed commit analysis** 
-* 🌐 **Repository statistics** 
-* 💻 **Most-used programming languages** profile
-* 👤 **Developer personality profile** 
-* 🖼️ **Download results as images**
+* **Detailed commit analysis** 
+* **Repository statistics** 
+* **Most-used programming languages**
+* **Developer personality profile**
+* **Custom Background and Label**
+* **Download results as images**
 
 ## 🚀 Getting Started
 
